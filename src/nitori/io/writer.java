@@ -9,14 +9,13 @@ import java.util.ArrayList;
 
 public class writer {
   public static void cpu_setFrequencies(int min_clock_speed, int max_clock_speed, CPUInfo cpu_info) {
-    String cpu_base_path = cpu_getBasePath();
-    String[] cpus = new File(cpu_base_path).list();
+    final String cpu_base_path = cpu_getBasePath();
     
     //set minimum
     if (min_clock_speed > 0) {
       if (min_clock_speed < cpu_info.hardware_min_frequency) {min_clock_speed = cpu_info.hardware_min_frequency;}
-      for (int i = 0; i < cpus.length; i++) {
-        String path = cpu_base_path + cpus[i] + "/cpufreq/scaling_min_freq";
+      for (String core : cpu_info.cpu_dirs) {
+        String path = cpu_base_path + core + "/cpufreq/scaling_min_freq";
         writeValue(path, ""+min_clock_speed);
       }
     }
@@ -24,8 +23,8 @@ public class writer {
     //set maxmimum
     if (max_clock_speed > 0) {
       if (max_clock_speed > cpu_info.hardware_max_frequency) {max_clock_speed = cpu_info.hardware_max_frequency;}
-      for (int i = 0; i < cpus.length; i++) {
-        String path = cpu_base_path + cpus[i] + "/cpufreq/scaling_max_freq";
+      for (String core : cpu_info.cpu_dirs) {
+        String path = cpu_base_path + core + "/cpufreq/scaling_max_freq";
         writeValue(path, ""+max_clock_speed);
       }
     }

@@ -11,12 +11,14 @@ public class CPUInfo {
   public String[] available_governors;
   
   public String[] cpu_dirs;
+  public int core_count;
   
   public CPUInfo(int core_count, String[] cpu_dirs) {
     if (core_count < 1) {return;}
     this.min_frequency = new int[core_count];
     this.max_frequency = new int[core_count];
     this.governor = new String[core_count];
+    this.core_count = core_count;
     this.cpu_dirs = cpu_dirs;
   }
 }
