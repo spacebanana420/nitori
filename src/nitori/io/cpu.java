@@ -13,7 +13,7 @@ public class cpu {
     if (min_clock_speed > 0) {
       setMinimum = true;
       if (min_clock_speed < cpu_info.hardware_min_frequency) {min_clock_speed = cpu_info.hardware_min_frequency;}
-      for (String core : cpu_info.cpu_dirs) {
+      for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_min_freq";
         writer.writeValue(path, ""+min_clock_speed);
       }
@@ -23,7 +23,7 @@ public class cpu {
     if (max_clock_speed > 0) {
       setMaximum = true;
       if (max_clock_speed > cpu_info.hardware_max_frequency) {max_clock_speed = cpu_info.hardware_max_frequency;}
-      for (String core : cpu_info.cpu_dirs) {
+      for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_max_freq";
         writer.writeValue(path, ""+max_clock_speed);
       }
@@ -35,7 +35,7 @@ public class cpu {
     if (!cpu_info.supportedGovernor(governor)) {return false;}
     
     final String cpu_base_path = getBasePath();
-    for (String core : cpu_info.cpu_dirs) {
+    for (String core : cpu_info.cores) {
       String path = cpu_base_path + core + "/cpufreq/scaling_governor";
       writer.writeValue(path, governor);
     }

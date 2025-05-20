@@ -10,7 +10,7 @@ public class CPUInfo { //add energy_performance_preference and available prefere
   public int hardware_max_frequency;
   public String[] available_governors;
   
-  public String[] cpu_dirs;
+  public String[] cores;
   public int core_count;
   
   public CPUInfo(int core_count, String[] cpu_dirs) {
@@ -19,7 +19,7 @@ public class CPUInfo { //add energy_performance_preference and available prefere
     this.max_frequency = new int[core_count];
     this.governor = new String[core_count];
     this.core_count = core_count;
-    this.cpu_dirs = cpu_dirs;
+    this.cores = cpu_dirs;
   }
   
   public boolean supportedGovernor(String governor) {
