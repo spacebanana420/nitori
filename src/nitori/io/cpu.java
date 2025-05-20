@@ -78,7 +78,7 @@ public class cpu {
     return cpu_info;
   }
   
-  private static String getBasePath() {return "/sys/devices/system/cpu";}
+  private static String getBasePath() {return "/sys/devices/system/cpu/";}
   
   private static String[] getCPUPaths(String base_path) {
     String[] paths = new File(base_path).list();
