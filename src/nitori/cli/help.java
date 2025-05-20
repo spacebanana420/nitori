@@ -1,11 +1,11 @@
 package nitori.cli;
 
 public class help {
-  private static final String VERSION = "0.1";
+  private static String title() {return "Nitori version 0.1";}
   
   public static void printHelp() {
     System.out.println(
-      "Nitori version " + VERSION
+      title()
       + "\nUsage: nitori <arguments>"
       
       + "\n\nList of arguments:"
@@ -29,7 +29,7 @@ public class help {
   
   public static void printSmallHelp() {
     System.out.println(
-      "Nitori version " + VERSION
+      title()
       + "\nUsage: nitori <arguments>"
       
       + "\n\nRun \"nitori -h\" to see what you can do"
