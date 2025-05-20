@@ -3,6 +3,8 @@ package nitori.io;
 import java.io.File;
 
 public class battery {
+  public static boolean hasBattery() {return new File(getBasePath()).isDirectory();}
+  
   public static BatInfo getInfo() {
     String base_path = getBasePath();
     BatInfo bat = new BatInfo();
@@ -26,8 +28,6 @@ public class battery {
     writer.writeValue(base_path+"charge_control_end_threshold", ""+limit);
     return true;
   }
-  
-  
   
   private static String getBasePath() {return "/sys/class/power_supply/BAT0/";}
 }
