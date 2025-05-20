@@ -1,6 +1,7 @@
 package nitori.cli;
 
 public class cli {
+  public static boolean askedForHelp(String[] args) {return parser.hasArgument(args, "-h") || parser.hasArgument(args, "--help");}
 }
 
 class parser {

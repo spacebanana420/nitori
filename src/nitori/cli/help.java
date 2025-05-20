@@ -5,7 +5,7 @@ public class help {
   
   public static void printHelp() {
     System.out.println(
-      "Nitori version " + VERSION;
+      "Nitori version " + VERSION
       + "\nUsage: nitori <arguments>"
       
       + "\n\nList of arguments:"
