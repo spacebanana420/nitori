@@ -1,6 +1,6 @@
 package nitori.io;
 
-public class CPUInfo {
+public class CPUInfo { //add energy_performance_preference and available preferences later
   public int[] min_frequency;
   public int[] max_frequency;
   public String[] governor;
@@ -20,5 +20,12 @@ public class CPUInfo {
     this.governor = new String[core_count];
     this.core_count = core_count;
     this.cpu_dirs = cpu_dirs;
+  }
+  
+  public boolean supportedGovernor(String governor) {
+    for (String available_g : available_governors) {
+      if (governor.equals(available_g)) {return true;}
+    }
+    return false;
   }
 }

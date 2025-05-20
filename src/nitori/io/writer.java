@@ -8,11 +8,14 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class writer {
-  public static void cpu_setFrequencies(int min_clock_speed, int max_clock_speed, CPUInfo cpu_info) {
+  public static boolean cpu_setFrequencies(int min_clock_speed, int max_clock_speed, CPUInfo cpu_info) {
     final String cpu_base_path = cpu_getBasePath();
+    boolean setMinimum = false;
+    boolean setMaximum = false;
     
     //set minimum
     if (min_clock_speed > 0) {
+      setMinimum = true;
       if (min_clock_speed < cpu_info.hardware_min_frequency) {min_clock_speed = cpu_info.hardware_min_frequency;}
       for (String core : cpu_info.cpu_dirs) {
         String path = cpu_base_path + core + "/cpufreq/scaling_min_freq";
@@ -22,15 +25,28 @@ public class writer {
     
     //set maxmimum
     if (max_clock_speed > 0) {
+      setMaximum = true;
       if (max_clock_speed > cpu_info.hardware_max_frequency) {max_clock_speed = cpu_info.hardware_max_frequency;}
       for (String core : cpu_info.cpu_dirs) {
         String path = cpu_base_path + core + "/cpufreq/scaling_max_freq";
         writeValue(path, ""+max_clock_speed);
       }
     }
+    return setMinimum || setMaximum;
   }
   
-  public static CPUInfo cpu_getInfo() { //some settings are not implemented yet
+  public static boolean cpu_setGovernor(String governor, CPUInfo cpu_info) {
+    if (!cpu_info.supportedGovernor(governor)) {return false;}
+    
+    final String cpu_base_path = cpu_getBasePath();
+    for (String core : cpu_info.cpu_dirs) {
+      String path = cpu_base_path + core + "/cpufreq/scaling_governor";
+      writeValue(path, governor);
+    }
+    return true;
+  }
+  
+  public static CPUInfo cpu_getInfo() {
     final String base_path = cpu_getBasePath();
     String[] cpu_paths = cpu_getCPUPaths(cpu_getBasePath());
     int core_count = cpu_paths.length;
