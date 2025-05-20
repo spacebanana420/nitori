@@ -1,6 +1,6 @@
 package nitori;
 
-import nitori.cli.help;
+import nitori.cli.*;
 
 public class main {
   public static void main(String[] args) {
