@@ -6,13 +6,14 @@ import nitori.io.*;
 public class main {
   public static void main(String[] args) {
     if (cli.askedForHelp(args)) {help.printHelp(); return;}
-    if (!supportedOS()) {stdout.print("Unsupported OS! Nitori only works on Linux-based operating systems!");}
+    if (args.length == 0) {help.printSmallHelp(); return;}
     
     boolean ran_task = runTasks(args);
     if (!ran_task) {help.printSmallHelp();}
   }
   
   private static boolean runTasks(String[] args) {
+    if (!supportedOS()) {stdout.print("Unsupported OS! Nitori only works on Linux-based operating systems!"); return true;}
     boolean root = isRoot();
     boolean ran_cpu = runCPUTasks(args, root);
     boolean ran_bat = runBatteryTasks(args, root);
@@ -37,7 +38,7 @@ public class main {
     CPUInfo info = cpu.getInfo();
     if (set_freqs) {cpu.setFrequencies(cpu_freq[0], cpu_freq[1], info); ran_task = true;}
     if (set_gov) {
-      int result = cpu.setGovernor(gov, info);
+      boolean result = cpu.setGovernor(gov, info);
       if (!result) {stdout.error("The provided cpu governor \""+gov+"\" is not supported!");}
       ran_task = true;
     }
