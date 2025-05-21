@@ -82,7 +82,7 @@ public class main {
         + "\n * Manufacturer: " + info.manufacturer
         + "\n * Model: " + info.model
         + "\n * Energy capacity: " + info.energy_full
-        + "\n * Original energy capacity  : " + info.energy_full_design
+        + "\n * Original energy capacity: " + info.energy_full_design
         + "\n * Current charge: " + info.energy_now
         + "\n * Current charge percentage: " + info.charge_percentage + "%"
         + "\n * Power usage: " + info.power_usage
