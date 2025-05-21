@@ -7,8 +7,8 @@ public class backlight {
   
   public static float getBrightness() {
     String base_path = getBasePath();
-    int brightness = writer.valueToInt(writer.readValue(base_path + "brightness"));
-    int max_brightness = writer.valueToInt(writer.readValue(base_path + "max_brightness"));
+    float brightness = (float)writer.valueToInt(writer.readValue(base_path + "brightness"));
+    float max_brightness = (float)writer.valueToInt(writer.readValue(base_path + "max_brightness"));
     return brightness/max_brightness*100;
   }
   
@@ -16,7 +16,7 @@ public class backlight {
     if (percentage < 1 || percentage > 100) {return false;}
     
     String base_path = getBasePath();
-    float factor = percentage/100;
+    float factor = (float)percentage/100;
     int max_brightness = writer.valueToInt(writer.readValue(base_path + "max_brightness")); //replace with a backlightinfo class later
     int brightness = (int)(max_brightness * factor);
     writer.writeValue(base_path + "brightness", ""+brightness);

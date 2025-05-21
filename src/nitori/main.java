@@ -85,7 +85,7 @@ public class main {
         + "\n * Original energy capacity: " + ((float)info.energy_full_design / 1000000) + "Wh"
         + "\n * Current charge: " + ((float)info.energy_now / 1000000) + "Wh"
         + "\n * Current charge percentage: " + info.charge_percentage + "%"
-        + "\n * Power usage: " + (info.power_usage == 0 ? "N/A" : info.power_usage)
+        + "\n * Power usage: " + (info.power_usage == 0 ? "N/A" : (float)info.power_usage/1000000 + "W")
       );
     }
     return true;
