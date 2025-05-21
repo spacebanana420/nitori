@@ -1,7 +1,17 @@
 package nitori.cli;
 
 public class cli {
-  public static boolean askedForHelp(String[] args) {return parser.hasArgument(args, "-h") || parser.hasArgument(args, "--help");}
+  public static boolean askedForHelp(String[] args) {return parser.hasArgument(args, "-h", "--help");}
+  
+  public static int[] cpuFrequencies(String[] args) {
+    int min = parser.getArgumentInt(args, "-cmin", "--cpu-min");
+    int max = parser.getArgumentInt(args, "-cmax", "--cpu-max");
+    return new int[]{min, max};
+  }
+  
+  public static String cpuGovernor(String[] args) {return parser.getArgumentValue(args, "-cg", "--cpu-governor");}
+  
+  public static boolean cpuInfo(String[] args) {return parser.hasArgument(args, "-ci", "--cpu-info");}
 }
 
 class parser {
@@ -12,13 +22,29 @@ class parser {
     return -1;
   }
   
-  static boolean hasArgument(String[] args, String find_arg) {return findArgumentIndex(args, find_arg) != -1;}
+  static boolean hasArgument(String[] args, String... find_arg) {
+    for (String arg : find_arg) {
+      int i = findArgumentIndex(args, arg);
+      if (i != -1) {return true;}
+    }
+    return false;
+  }
   
-  static String getArgumentValue(String[] args, String find_arg) {
-    int i = findArgumentIndex(args, find_arg);
-    if (i == -1 || i == args.length-1) {return null;}
-    String value = args[i+1].trim();
-    if (value.length() == 0) {return null;}
-    return value;
+  static String getArgumentValue(String[] args, String... find_arg) {
+    for (String arg : find_arg) {
+      int i = findArgumentIndex(args, arg);
+      if (i == -1 || i == args.length-1) {return null;}
+      String value = args[i+1].trim();
+      if (value.length() == 0) {return null;}
+      return value;
+    }
+    return null;
+  }
+  
+  static int getArgumentInt(String[] args, String... find_arg) {
+    String value = getArgumentValue(args, find_arg);
+    if (value == null) {return -1;}
+    try {return Integer.parseInt(value);}
+    catch(NumberFormatException e) {return -1;}
   }
 }
