@@ -12,7 +12,7 @@ public class backlight {
     return brightness/max_brightness*100;
   }
   
-  public static boolean setBrightness(float percentage) {
+  public static boolean setBrightness(byte percentage) {
     if (percentage < 1 || percentage > 100) {return false;}
     
     String base_path = getBasePath();
