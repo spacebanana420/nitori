@@ -84,6 +84,8 @@ public class cpu {
     return cpu_info;
   }
   
+  public static float speedToMHz(int clock_speed) {return (float)clock_speed / 1000;}
+  
   private static String getBasePath() {return "/sys/devices/system/cpu/";}
   
   private static String[] getCPUPaths(String base_path) {

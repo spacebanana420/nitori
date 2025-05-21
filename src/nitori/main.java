@@ -43,15 +43,22 @@ public class main {
       ran_task = true;
     }
     if (display_info) {
-      float min_freq = info.hardware_min_frequency / 1000;
-      float max_freq = info.hardware_max_frequency / 1000;
-      float base_freq = info.hardware_base_frequency / 1000;
+      String governors_str = "\n * Available governors: ";
+      for (int i = 0; i < info.available_governors.length-1; i++) {
+        governors_str += info.available_governors[i] + " ";
+      }
+      governors_str += info.available_governors[info.available_governors.length-1]; //no space for last element
       stdout.print(
         "[CPU Specifications]"
-        + "\n * Minimum supported clock speed: " + min_freq + " MHz"
-        + "\n * Maximum supported clock speed: " + max_freq + " MHz"
-        + "\n * Base clock speed: " + base_freq + " MHz"
+        + "\n * Minimum supported clock speed: " + cpu.speedToMHz(info.hardware_min_frequency) + " MHz"
+        + "\n * Maximum supported clock speed: " + cpu.speedToMHz(info.hardware_max_frequency) + " MHz"
+        + "\n * Base clock speed: " + cpu.speedToMHz(info.hardware_base_frequency) + " MHz"
         + "\n * Number of threads: " + info.core_count
+        + governors_str
+        + "\n"
+        + "\n * Current minimum clock speed: " + cpu.speedToMHz(info.min_frequency[0]) + " MHz"
+        + "\n * Current maximum clock speed: " + cpu.speedToMHz(info.max_frequency[0]) + " MHz"
+        + "\n * Current governor: " + info.governor[0]
       );
       ran_task = true;
     }
