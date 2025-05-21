@@ -36,7 +36,11 @@ public class main {
     
     CPUInfo info = cpu.getInfo();
     if (set_freqs) {cpu.setFrequencies(cpu_freq[0], cpu_freq[1], info); ran_task = true;}
-    if (set_gov) {cpu.setGovernor(gov, info); ran_task = true;}
+    if (set_gov) {
+      int result = cpu.setGovernor(gov, info);
+      if (!result) {stdout.error("The provided cpu governor \""+gov+"\" is not supported!");}
+      ran_task = true;
+    }
     if (display_info) {
       float min_freq = info.hardware_min_frequency / 1000;
       float max_freq = info.hardware_max_frequency / 1000;
