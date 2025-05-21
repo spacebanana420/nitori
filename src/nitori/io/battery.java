@@ -25,6 +25,7 @@ public class battery {
   public static boolean setChargeLimit(byte limit) {
     if (limit < 1 || limit > 100) {return false;}
     String base_path = getBasePath();
+    stdout.print("Setting battery charge limit to "+ limit + "%");
     writer.writeValue(base_path+"charge_control_end_threshold", ""+limit);
     return true;
   }

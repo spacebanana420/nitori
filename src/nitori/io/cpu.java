@@ -54,7 +54,7 @@ public class cpu {
     int core_count = cpu_paths.length;
     
     CPUInfo cpu_info = new CPUInfo(core_count, cpu_paths);
-    for (int i = 0; i < cpu_paths.length; i++) {
+    for (int i = 0; i < core_count; i++) {
       String full_path = base_path + cpu_paths[i];
       String min_freq = writer.readValue(full_path+"/cpufreq/scaling_min_freq");
       String max_freq = writer.readValue(full_path+"/cpufreq/scaling_max_freq");
