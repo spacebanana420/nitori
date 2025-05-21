@@ -61,7 +61,7 @@ public class cpu {
     cpu_info.hardware_min_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"));
     cpu_info.hardware_max_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
     
-    String governors_file = writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/");
+    String governors_file = writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors");
     var governors = new ArrayList<String>();
     String buffer = "";
     for (int i = 0; i < governors_file.length(); i++) {
