@@ -20,7 +20,7 @@ class writer {
   static String readValue(String path) {
     try {
       byte[] data = Files.readAllBytes(Path.of(path));
-      return new String(data);
+      return new String(data).trim();
     } catch(IOException e) {return null;}
   }
   

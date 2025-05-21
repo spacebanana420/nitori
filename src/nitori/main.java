@@ -29,12 +29,14 @@ public class main {
     if (set_freqs) {cpu.setFrequencies(cpu_freq[0], cpu_freq[1], info);}
     if (set_gov) {cpu.setGovernor(gov, info);}
     if (display_info) {
+      float min_freq = info.hardware_min_frequency / 1000;
+      float max_freq = info.hardware_max_frequency / 1000;
+      float base_freq = info.hardware_base_frequency / 1000;
       stdout.print(
         "[CPU Specifications]"
-        + "\n"
-        + "\n * Minimum supported clock speed: " + info.hardware_min_frequency
-        + "\n * Maximum supported clock speed: " + info.hardware_max_frequency
-        + "\n * Base clock speed: " + info.hardware_base_frequency
+        + "\n * Minimum supported clock speed: " + min_freq + " MHz"
+        + "\n * Maximum supported clock speed: " + max_freq + " MHz"
+        + "\n * Base clock speed: " + base_freq + " MHz"
         + "\n * Number of threads: " + info.core_count
       );
     }

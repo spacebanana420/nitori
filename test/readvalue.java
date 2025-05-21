@@ -4,10 +4,14 @@ import java.io.IOException;
 
 public class readvalue {
   public static void main(String[] args) {
-    try {
-      byte[] data = Files.readAllBytes(Path.of("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"));
-      String value = new String(data);
-      System.out.println(value);
-    } catch(IOException e) {e.printStackTrace();}
+    String value = new String(readFile("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"));
+    System.out.println(value);
+    value = new String(readFile("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency"));
+    System.out.println(value);
+  }
+  
+  static byte[] readFile(String path) {
+    try {return Files.readAllBytes(Path.of(path));}
+    catch(IOException e) {e.printStackTrace(); return null;}
   }
 }
