@@ -1,7 +1,4 @@
 ## Nitori
-
-#### This project is in very early development
-
 Nitori is a CLI tool for controlling and monitoring the system's CPU, battery and screen backlight on Linux-based operating systems.
 
 ### Supported features
@@ -14,3 +11,17 @@ Nitori is a CLI tool for controlling and monitoring the system's CPU, battery an
 * Java 11 or newer
 
 Nitori is only tested on x86_64 CPUs, but it might also work on other CPU architectures. Battery support is only tested with lithium-ion batteries.
+
+## Download
+
+You can download Nitori from the [releases page](https://github.com/spacebanana420/nitori/releases).
+
+You can run `java -jar nitori.jar` and open the help screen to see what you can do.
+
+## Build from source (using [Yuuka](https://github.com/spacebanana420/yuuka))
+
+### Build a JAR
+`yuuka package`
+
+### Install on your system (with root)
+`yuuka install`

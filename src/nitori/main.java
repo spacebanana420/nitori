@@ -52,7 +52,7 @@ public class main {
         "[CPU Specifications]"
         + "\n * Minimum supported clock speed: " + cpu.speedToMHz(info.hardware_min_frequency) + " MHz"
         + "\n * Maximum supported clock speed: " + cpu.speedToMHz(info.hardware_max_frequency) + " MHz"
-        + "\n * Base clock speed: " + cpu.speedToMHz(info.hardware_base_frequency) + " MHz"
+        + "\n * Base clock speed: " +  (info.hardware_base_frequency != -1 ? cpu.speedToMHz(info.hardware_base_frequency) + " MHz" : "N/A")
         + "\n * Number of threads: " + info.core_count
         + governors_str
         + "\n"
