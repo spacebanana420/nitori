@@ -9,6 +9,5 @@ public class main {
   }
   
   private static boolean supportedOS() {return System.getProperty("os.name").equals("Linux");}
-  
   private static boolean isRoot() {return System.getProperty("user.home").equals("/root");}
 }

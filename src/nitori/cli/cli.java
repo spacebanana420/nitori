@@ -12,6 +12,12 @@ public class cli {
   public static String cpuGovernor(String[] args) {return parser.getArgumentValue(args, "-cg", "--cpu-governor");}
   
   public static boolean cpuInfo(String[] args) {return parser.hasArgument(args, "-ci", "--cpu-info");}
+  
+  public static byte batteryPercentage(String[] args) {return parser.getArgumentByte(args, "-b", "--battery-set");}
+  public static boolean batteryInfo(String[] args) {return parser.hasArgument(args, "-bi", "--battery-info");}
+  
+  public static byte backlightPercentage(String[] args) {return parser.getArgumentByte(args, "-l", "--backlight-set");}
+  public static boolean backlightInfo(String[] args) {return parser.hasArgument(args, "-li", "--backlight-info");}
 }
 
 class parser {
@@ -41,10 +47,18 @@ class parser {
     return null;
   }
   
+  //duplicate code with writer.java
   static int getArgumentInt(String[] args, String... find_arg) {
     String value = getArgumentValue(args, find_arg);
     if (value == null) {return -1;}
     try {return Integer.parseInt(value);}
+    catch(NumberFormatException e) {return -1;}
+  }
+  
+  static byte getArgumentByte(String[] args, String... find_arg) {
+    String value = getArgumentValue(args, find_arg);
+    if (value == null) {return -1;}
+    try {return Byte.parseByte(value);}
     catch(NumberFormatException e) {return -1;}
   }
 }
