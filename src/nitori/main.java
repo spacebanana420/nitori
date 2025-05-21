@@ -81,11 +81,11 @@ public class main {
         + "\n * Technology: " + info.technology
         + "\n * Manufacturer: " + info.manufacturer
         + "\n * Model: " + info.model
-        + "\n * Energy capacity: " + info.energy_full
-        + "\n * Original energy capacity: " + info.energy_full_design
-        + "\n * Current charge: " + info.energy_now
+        + "\n * Energy capacity: " + ((float)info.energy_full / 1000000) + "Wh"
+        + "\n * Original energy capacity: " + ((float)info.energy_full_design / 1000000) + "Wh"
+        + "\n * Current charge: " + ((float)info.energy_now / 1000000) + "Wh"
         + "\n * Current charge percentage: " + info.charge_percentage + "%"
-        + "\n * Power usage: " + info.power_usage
+        + "\n * Power usage: " + (info.power_usage == 0 ? "N/A" : info.power_usage)
       );
     }
     return true;
