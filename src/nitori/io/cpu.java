@@ -8,24 +8,30 @@ public class cpu {
     final String cpu_base_path = getBasePath();
     boolean setMinimum = false;
     boolean setMaximum = false;
+    int min_speed = min_clock_speed * 1000; //conversion from MHz (user input) to KHz as it's measured in the system files
+    int max_speed = max_clock_speed * 1000;
     
     //set minimum
     if (min_clock_speed > 0) {
       setMinimum = true;
-      if (min_clock_speed < cpu_info.hardware_min_frequency) {min_clock_speed = cpu_info.hardware_min_frequency;}
+      if (min_speed < cpu_info.hardware_min_frequency) {min_speed = cpu_info.hardware_min_frequency;}
+      stdout.print("Setting minimum clock speed " + min_clock_speed + "MHz for all cores");
+      
       for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_min_freq";
-        writer.writeValue(path, ""+min_clock_speed);
+        writer.writeValue(path, ""+min_speed);
       }
     }
     
     //set maxmimum
     if (max_clock_speed > 0) {
       setMaximum = true;
-      if (max_clock_speed > cpu_info.hardware_max_frequency) {max_clock_speed = cpu_info.hardware_max_frequency;}
+      if (max_speed > cpu_info.hardware_max_frequency) {max_speed = cpu_info.hardware_max_frequency;}
+      stdout.print("Setting maximum clock speed " + max_clock_speed + "MHz for all cores");
+      
       for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_max_freq";
-        writer.writeValue(path, ""+max_clock_speed);
+        writer.writeValue(path, ""+max_speed);
       }
     }
     return setMinimum || setMaximum;

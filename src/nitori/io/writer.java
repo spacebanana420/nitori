@@ -14,14 +14,21 @@ class writer {
       var output = new FileOutputStream(path);
       output.write(string_data);
       return true;
-    } catch(IOException e) {return false;}
+    } catch(IOException e) {
+      stdout.error("Failed to write file at path " + path + " with value " + content);
+      return false;
+    }
   }
   
   static String readValue(String path) {
     try {
       byte[] data = Files.readAllBytes(Path.of(path));
       return new String(data).trim();
-    } catch(IOException e) {return null;}
+    }
+    catch(IOException e) {
+      stdout.error("Failed to write read file at path " + path);
+      return null;
+    }
   }
   
   static int valueToInt(String value) {

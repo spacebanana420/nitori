@@ -6,6 +6,8 @@ import nitori.io.*;
 public class main {
   public static void main(String[] args) {
     if (cli.askedForHelp(args)) {help.printHelp(); return;}
+    if (!supportedOS()) {stdout.print("Unsupported OS! Nitori only works on Linux-based operating systems!");}
+    
     boolean ran_task = runTasks(args);
     if (!ran_task) {help.printSmallHelp();}
   }
