@@ -28,7 +28,7 @@ public class main {
     
     boolean set_freqs = cpu_freq[0] != -1 || cpu_freq[1] != -1;
     boolean set_gov = gov != null;
-    boolean ran_task = false;
+    if (!set_freqs && !set_gov && !display_info) {return false;}
     
     if ((set_gov || set_freqs) && !root) {
       stdout.error("You must be root to be able to modify CPU clock speeds and governor!");
@@ -36,11 +36,10 @@ public class main {
     }
     
     CPUInfo info = cpu.getInfo();
-    if (set_freqs) {cpu.setFrequencies(cpu_freq[0], cpu_freq[1], info); ran_task = true;}
+    if (set_freqs) {cpu.setFrequencies(cpu_freq[0], cpu_freq[1], info);}
     if (set_gov) {
       boolean result = cpu.setGovernor(gov, info);
       if (!result) {stdout.error("The provided cpu governor \""+gov+"\" is not supported!");}
-      ran_task = true;
     }
     if (display_info) {
       String governors_str = "\n * Available governors: ";
@@ -60,9 +59,8 @@ public class main {
         + "\n * Current maximum clock speed: " + cpu.speedToMHz(info.max_frequency[0]) + " MHz"
         + "\n * Current governor: " + info.governor[0]
       );
-      ran_task = true;
     }
-    return ran_task;
+    return true;
   }
   
   private static boolean runBatteryTasks(String[] args, boolean root) {
@@ -90,6 +88,7 @@ public class main {
         + "\n * Model: " + info.model
         + "\n * Energy capacity: " + ((float)info.energy_full / 1000000) + "Wh"
         + "\n * Original energy capacity: " + ((float)info.energy_full_design / 1000000) + "Wh"
+        + "\n * Battery health: " + (int)((float)info.energy_full/(float)info.energy_full_design*100) + "%"
         + "\n * Current charge: " + ((float)info.energy_now / 1000000) + "Wh"
         + "\n * Current charge percentage: " + info.charge_percentage + "%"
         + "\n * Power usage: " + (info.power_usage == 0 ? "N/A" : (float)info.power_usage/1000000 + "W")
@@ -114,7 +113,7 @@ public class main {
       if (!result) {stdout.error("The screen brightness must be a percentage value between 1% and 100%!");}
     }
     if (display_info) {
-      stdout.print("Current backlight percentage: " + backlight.getBrightness());
+      stdout.print("Current backlight percentage: " + backlight.getBrightness() + "%");
     }
     return true;
   }
