@@ -21,7 +21,11 @@ You can run `java -jar nitori.jar` and open the help screen to see what you can 
 ## Build from source (using [Yuuka](https://github.com/spacebanana420/yuuka))
 
 ### Build a JAR
-`yuuka package`
+```
+yuuka package
+```
 
-### Install on your system (with root)
-`yuuka install`
+### Install on your system (requires root)
+```
+yuuka install
+```
