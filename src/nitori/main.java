@@ -16,10 +16,19 @@ public class main {
   private static boolean runTasks(String[] args) {
     if (!supportedOS()) {stdout.print("Unsupported OS! Nitori only works on Linux-based operating systems!"); return true;}
     boolean root = isRoot();
-    boolean ran_cpu = runCPUTasks(args, root);
-    boolean ran_bat = runBatteryTasks(args, root);
-    boolean ran_light = runBacklightTasks(args, root);
-    return ran_cpu || ran_bat || ran_light;
+    final boolean[] ran_tasks = new boolean[3];
+    
+    Thread[] t = new Thread[3];
+    t[0] = new Thread(() -> {ran_tasks[0] = runCPUTasks(args, root);});
+    t[1] = new Thread(() -> {ran_tasks[1] = runBatteryTasks(args, root);});
+    t[2] = new Thread(() -> {ran_tasks[2] = runBacklightTasks(args, root);});
+    for (Thread thread : t) {thread.start();}
+    for (Thread thread : t) {
+      try{thread.join();}
+      catch(InterruptedException e) {e.printStackTrace(); return false;}
+    }
+    
+    return ran_tasks[0] || ran_tasks[1] || ran_tasks[2];
   }
   
   private static boolean runCPUTasks(String[] args, boolean root) {    
