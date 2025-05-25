@@ -1,9 +1,16 @@
 package nitori.io;
 
+import nitori.cli.cli;
 import java.util.ArrayList;
 
 public class stdout {
   public static byte PRINT_LEVEL = 1;
+  
+  public static byte getPrintLevel(String[] args) {
+    if (cli.quietOutput(args)) {return 0;}
+    if (cli.verboseOutput(args)) {return 2;}
+    return 1;
+  }
   
   public static void print(String message) {
     if (PRINT_LEVEL > 0) {System.out.println(message);}
@@ -26,10 +33,6 @@ public class stdout {
   }
 
   public static void print_debug(String title, String[] contents) {
-    if (PRINT_LEVEL > 2) {printSeq(title, contents);}
-  }
-  
-  public static void print_debug(String title, ArrayList<String> contents) {
     if (PRINT_LEVEL > 2) {printSeq(title, contents);}
   }
   

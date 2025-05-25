@@ -24,6 +24,10 @@ public class help {
       + "\n\n[Backlight-related arguments]"
       + "\n  * -l (--backlight-set) <percentage>        Sets the screen backlight brightness percentage"
       + "\n  * -li (--backlight-info)                   Displays the current backlight percentage"
+      
+      + "\n\n[Other arguments]"
+      + "\n  * -q (--quiet)                             Disables printing to standard output"
+      + "\n  * -v (--verbose)                           Displays more status messages on standard output"
     );
   }
   

@@ -18,6 +18,9 @@ public class cli {
   
   public static byte backlightPercentage(String[] args) {return parser.getArgumentByte(args, "-l", "--backlight-set");}
   public static boolean backlightInfo(String[] args) {return parser.hasArgument(args, "-li", "--backlight-info");}
+  
+  public static boolean quietOutput(String[] args) {return parser.hasArgument(args, "-q", "--quiet");}
+  public static boolean verboseOutput(String[] args) {return parser.hasArgument(args, "-v", "--verbose");}
 }
 
 class parser {

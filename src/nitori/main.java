@@ -7,6 +7,7 @@ public class main {
   public static void main(String[] args) {
     if (cli.askedForHelp(args)) {help.printHelp(); return;}
     if (args.length == 0) {help.printSmallHelp(); return;}
+    stdout.PRINT_LEVEL = stdout.getPrintLevel(args);
     
     boolean ran_task = runTasks(args);
     if (!ran_task) {help.printSmallHelp();}
