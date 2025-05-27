@@ -63,7 +63,10 @@ public class cpu {
       cpu_info.max_frequency[i] = writer.valueToInt(max_freq);
       cpu_info.governor[i] = governor;
     }
-    cpu_info.hardware_base_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency"));
+    if (new File("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency").isFile()) {
+      cpu_info.hardware_base_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency"));
+    }
+    else {cpu_info.hardware_base_frequency = -1;}
     cpu_info.hardware_min_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"));
     cpu_info.hardware_max_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
     
