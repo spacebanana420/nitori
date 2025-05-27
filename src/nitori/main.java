@@ -85,6 +85,7 @@ public class main {
     }
     
     if (set_charge) {
+      if (!battery.chargeLimitSupported()) {stdout.error("Your system's battery does not support setting charge limits at the OS level!\nMaybe it's available in BIOS/UEFI?"); return true;}
       if (!root) {stdout.error("You must be root to be able to modify battery charge limits!"); return true;}
       boolean result = battery.setChargeLimit(charge_percentage);
       if (!result) {stdout.error("The battery charge limit must be a percentage value between 1% and 100%!");}

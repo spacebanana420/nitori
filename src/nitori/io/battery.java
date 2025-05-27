@@ -30,5 +30,7 @@ public class battery {
     return true;
   }
   
+  public static boolean chargeLimitSupported() {return new File(getBasePath()+"charge_control_end_threshold").isFile();}
+  
   private static String getBasePath() {return "/sys/class/power_supply/BAT0/";}
 }
