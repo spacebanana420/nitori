@@ -15,7 +15,7 @@ public class main {
   
   private static boolean runTasks(String[] args) {
     if (!supportedOS()) {stdout.print("Unsupported OS! Nitori only works on Linux-based operating systems!"); return true;}
-    boolean root = isRoot();
+    final boolean root = isRoot();
     final boolean[] ran_tasks = new boolean[3];
     
     Thread[] t = new Thread[3];
@@ -108,22 +108,23 @@ public class main {
   }
   
   private static boolean runBacklightTasks(String[] args, boolean root) {
+    String base_path = backlight.getBasePath();
+    if (!backlight.hasBacklight(base_path)) {
+      stdout.error("No built-in screen was found with available backlight control!");
+      return true;
+    }
     byte percentage = cli.backlightPercentage(args);
     boolean display_info = cli.backlightInfo(args);
     boolean set_percentage = percentage != -1;
     if (!display_info && !set_percentage) {return false;}
-    if (!backlight.hasBacklight()) {
-      stdout.error("No built-in screen was found with available backlight control!");
-      return true;
-    }
     
     if (set_percentage) {
       if (!root) {stdout.error("You must be root to be able to modify the screen's backlight brightness!"); return true;}
-      boolean result = backlight.setBrightness(percentage);
+      boolean result = backlight.setBrightness(base_path, percentage);
       if (!result) {stdout.error("The screen brightness must be a percentage value between 1% and 100%!");}
     }
     if (display_info) {
-      stdout.print("Current backlight percentage: " + backlight.getBrightness() + "%");
+      stdout.print("Current backlight percentage: " + backlight.getBrightness(base_path) + "%");
     }
     return true;
   }
