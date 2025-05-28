@@ -10,15 +10,28 @@ public class battery {
     BatInfo bat = new BatInfo();
     if (!new File(base_path).isDirectory()) {return bat;}
     
-    bat.power_usage = writer.valueToInt(writer.readValue(base_path + "power_now"));
-    bat.charge_percentage = writer.valueToByte(writer.readValue(base_path + "capacity"));
-    bat.energy_full = writer.valueToInt(writer.readValue(base_path + "energy_full"));
-    bat.energy_full_design = writer.valueToInt(writer.readValue(base_path + "energy_full_design"));
-    bat.energy_now = writer.valueToInt(writer.readValue(base_path + "energy_now"));
     bat.technology = writer.readValue(base_path + "technology");
     bat.manufacturer = writer.readValue(base_path + "manufacturer");
     bat.model = writer.readValue(base_path + "model_name");
+    bat.charge_percentage = writer.valueToByte(writer.readValue(base_path + "capacity"));
     
+    bat.uses_power_info = new File("/sys/class/power_supply/BAT0/energy_now").isFile();
+    if (bat.uses_power_info) {
+      PowerInfo pinfo = new PowerInfo();
+      pinfo.energy_full = writer.valueToInt(writer.readValue(base_path + "energy_full"));
+      pinfo.energy_full_design = writer.valueToInt(writer.readValue(base_path + "energy_full_design"));
+      pinfo.energy_now = writer.valueToInt(writer.readValue(base_path + "energy_now"));
+      pinfo.power_usage = writer.valueToInt(writer.readValue(base_path + "power_now"));
+      bat.power = pinfo;
+    }
+    else {
+      CurrentInfo cinfo = new CurrentInfo();
+      cinfo.charge_full = writer.valueToInt(writer.readValue(base_path + "charge_full"));
+      cinfo.charge_full_design = writer.valueToInt(writer.readValue(base_path + "charge_full_design"));
+      cinfo.charge_now = writer.valueToInt(writer.readValue(base_path + "charge_now"));
+      cinfo.voltage_now = writer.valueToInt(writer.readValue(base_path + "voltage_now"));
+      bat.current = cinfo;
+    }
     return bat;
   }
   

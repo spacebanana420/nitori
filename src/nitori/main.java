@@ -97,12 +97,12 @@ public class main {
         + "\n * Technology: " + info.technology
         + "\n * Manufacturer: " + info.manufacturer
         + "\n * Model: " + info.model
-        + "\n * Energy capacity: " + ((float)info.energy_full / 1000000) + "Wh"
-        + "\n * Original energy capacity: " + ((float)info.energy_full_design / 1000000) + "Wh"
-        + "\n * Battery health: " + (int)((float)info.energy_full/(float)info.energy_full_design*100) + "%"
-        + "\n * Current charge: " + ((float)info.energy_now / 1000000) + "Wh"
+        + "\n * Energy capacity: " + info.getFullEnergy()
+        + "\n * Original energy capacity: " + info.getFullEnergyDesign()
+        + "\n * Battery health: " + info.getBatteryHealth()
+        + "\n * Current charge: " + info.getEnergyNow()
         + "\n * Current charge percentage: " + info.charge_percentage + "%"
-        + "\n * Power usage: " + (info.power_usage == 0 ? "N/A" : (float)info.power_usage/1000000 + "W")
+        + "\n * Power usage: " + info.getPowerUsage()
       );
     }
     return true;
