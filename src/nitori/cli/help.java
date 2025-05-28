@@ -28,6 +28,15 @@ public class help {
       + "\n\n[Other arguments]"
       + "\n  * -q (--quiet)                             Disables printing to standard output"
       + "\n  * -v (--verbose)                           Displays more status messages on standard output"
+      
+      + "\n\n[Symbol definitions]"
+      + "\n Hz  Hertz"
+      + "\n MHz Megahertz"
+      + "\n W   Watt"
+      + "\n Wh  Watt-hour"
+      + "\n A   Ampere"
+      + "\n Ah  Ampere-hour"
+      + "\n V   Volt"
     );
   }
   
