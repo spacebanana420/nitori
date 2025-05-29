@@ -110,14 +110,14 @@ public class main {
   
   private static boolean runBacklightTasks(String[] args, boolean root) {
     String base_path = backlight.getBasePath();
-    if (!backlight.hasBacklight(base_path)) {
-      stdout.error("No built-in screen was found with available backlight control!");
-      return true;
-    }
     byte percentage = cli.backlightPercentage(args);
     boolean display_info = cli.backlightInfo(args);
     boolean set_percentage = percentage != -1;
     if (!display_info && !set_percentage) {return false;}
+    if (!backlight.hasBacklight(base_path)) {
+      stdout.error("No built-in screen was found with available backlight control!");
+      return true;
+    }
     
     if (set_percentage) {
       if (!root) {stdout.error("You must be root to be able to modify the screen's backlight brightness!"); return true;}
