@@ -16,6 +16,7 @@ public class help {
       + "\n  * -cmax (--cpu-min) <clock speed>          Sets the maximum CPU clock speed in megahertz (MHz)"
       + "\n  * -cg (--cpu-governor) <governor>          Sets the CPU kernel governor"
       + "\n  * -ci (--cpu-info)                         Displays info about the system's CPU and supported speeds and governors"
+      + "\n  * -cr (--cpu-reset)                        Sets the minimum and maximum clock speeds"
       
       + "\n\n[Battery-related arguments]"
       + "\n  * -b (--battery-set) <percentage>          Sets the battery charge limit percentage if supported"

@@ -10,8 +10,8 @@ public class cli {
   }
   
   public static String cpuGovernor(String[] args) {return parser.getArgumentValue(args, "-cg", "--cpu-governor");}
-  
   public static boolean cpuInfo(String[] args) {return parser.hasArgument(args, "-ci", "--cpu-info");}
+  public static boolean cpuReset(String[] args) {return parser.hasArgument(args, "-cr", "--cpu-reset");}
   
   public static byte batteryPercentage(String[] args) {return parser.getArgumentByte(args, "-b", "--battery-set");}
   public static boolean batteryInfo(String[] args) {return parser.hasArgument(args, "-bi", "--battery-info");}

@@ -35,18 +35,20 @@ public class main {
     int[] cpu_freq = cli.cpuFrequencies(args);
     String gov = cli.cpuGovernor(args);
     boolean display_info = cli.cpuInfo(args);
+    boolean reset = cli.cpuReset(args);
     
     boolean set_freqs = cpu_freq[0] != -1 || cpu_freq[1] != -1;
     boolean set_gov = gov != null;
-    if (!set_freqs && !set_gov && !display_info) {return false;}
+    if (!set_freqs && !set_gov && !display_info && !reset) {return false;}
     
-    if ((set_gov || set_freqs) && !root) {
+    if ((set_gov || set_freqs || reset) && !root) {
       stdout.error("You must be root to be able to modify CPU clock speeds and governor!");
       return true;
     }
     
     CPUInfo info = cpu.getInfo();
     if (set_freqs) {cpu.setFrequencies(cpu_freq[0], cpu_freq[1], info);}
+    else if (reset) {cpu.setFrequencies(info.hardware_min_frequency/1000, info.hardware_max_frequency/1000, info);}
     if (set_gov) {
       boolean result = cpu.setGovernor(gov, info);
       if (!result) {stdout.error("The provided cpu governor \""+gov+"\" is not supported!");}
