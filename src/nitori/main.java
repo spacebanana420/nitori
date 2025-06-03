@@ -102,6 +102,7 @@ public class main {
         + "\n * Battery health: " + info.getBatteryHealth()
         + "\n * Current charge: " + info.getEnergyNow()
         + "\n * Current charge percentage: " + info.charge_percentage + "%"
+        + "\n * Charge cycle count: " + info.getCycleCount()
         + "\n * Power usage: " + info.getPowerUsage()
       );
     }

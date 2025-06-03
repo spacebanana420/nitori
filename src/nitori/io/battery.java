@@ -14,6 +14,7 @@ public class battery {
     bat.manufacturer = writer.readValue(base_path + "manufacturer");
     bat.model = writer.readValue(base_path + "model_name");
     bat.charge_percentage = writer.valueToByte(writer.readValue(base_path + "capacity"));
+    bat.cycle_count = writer.valueToInt(writer.readValue(base_path + "cycle_count"));
     
     bat.uses_power_info = new File("/sys/class/power_supply/BAT0/energy_now").isFile();
     if (bat.uses_power_info) {

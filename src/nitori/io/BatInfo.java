@@ -5,10 +5,16 @@ public class BatInfo {
   public String technology;
   public String manufacturer;
   public String model;
+  public int cycle_count;
   
   boolean uses_power_info;
   public PowerInfo power; //Some batteries provide power information in watts and watt-hour
   public CurrentInfo current; //Others provide information in ampere-hour and volts
+  
+  public String getCycleCount() {
+    if (cycle_count == -1) {return "N/A";}
+    return ""+cycle_count;
+  }
   
   public String getFullEnergy() {
     if (uses_power_info) {
