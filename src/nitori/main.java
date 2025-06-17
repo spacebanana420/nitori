@@ -44,7 +44,7 @@ public class main {
     if (!set_freqs && !set_gov && !display_info && !reset && !set_energy) {return false;}
     
     if ((set_gov || set_freqs || reset || set_energy) && !root) {
-      stdout.error("You must be root to be able to modify CPU clock speeds and governor!");
+      stdout.error("You must be root to be able to modify CPU configurations!");
       return true;
     }
     
