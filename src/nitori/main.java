@@ -34,14 +34,16 @@ public class main {
   private static boolean runCPUTasks(String[] args, boolean root) {    
     int[] cpu_freq = cli.cpuFrequencies(args);
     String gov = cli.cpuGovernor(args);
+    String energy_pref = cli.cpuEnergy(args);
     boolean display_info = cli.cpuInfo(args);
     boolean reset = cli.cpuReset(args);
     
     boolean set_freqs = cpu_freq[0] != -1 || cpu_freq[1] != -1;
     boolean set_gov = gov != null;
-    if (!set_freqs && !set_gov && !display_info && !reset) {return false;}
+    boolean set_energy = energy_pref != null;
+    if (!set_freqs && !set_gov && !display_info && !reset && !set_energy) {return false;}
     
-    if ((set_gov || set_freqs || reset) && !root) {
+    if ((set_gov || set_freqs || reset || set_energy) && !root) {
       stdout.error("You must be root to be able to modify CPU clock speeds and governor!");
       return true;
     }
@@ -53,6 +55,7 @@ public class main {
       boolean result = cpu.setGovernor(gov, info);
       if (!result) {stdout.error("The provided cpu governor \""+gov+"\" is not supported!");}
     }
+    if (set_energy) {cpu.setEnergyControl(energy_pref, info);}
     if (display_info) {
       String governors_str = "\n * Available governors: ";
       for (int i = 0; i < info.available_governors.length-1; i++) {
@@ -65,11 +68,13 @@ public class main {
         + "\n * Maximum supported clock speed: " + cpu.speedToMHz(info.hardware_max_frequency) + " MHz"
         + "\n * Base clock speed: " +  (info.hardware_base_frequency != -1 ? cpu.speedToMHz(info.hardware_base_frequency) + " MHz" : "N/A")
         + "\n * Number of threads: " + info.core_count
-        + governors_str
+        + "\n * Available governors: " + info.governor_raw
+        + "\n * Available energy preferences: " + info.str_energyPrefs()
         + "\n"
         + "\n * Current minimum clock speed: " + cpu.speedToMHz(info.min_frequency[0]) + " MHz"
         + "\n * Current maximum clock speed: " + cpu.speedToMHz(info.max_frequency[0]) + " MHz"
         + "\n * Current governor: " + info.governor[0]
+        + "\n * Current energy mode: " + info.str_currentEnergyPref()
       );
     }
     return true;

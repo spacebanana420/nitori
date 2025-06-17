@@ -1,7 +1,7 @@
 package nitori.cli;
 
 public class help {
-  private static String title() {return "Nitori version 0.3";}
+  private static String title() {return "Nitori version 0.4";}
   
   public static void printHelp() {
     System.out.println(
@@ -15,6 +15,7 @@ public class help {
       + "\n  * -cmin (--cpu-min) <clock speed>          Sets the minimum CPU clock speed in megahertz (MHz)"
       + "\n  * -cmax (--cpu-min) <clock speed>          Sets the maximum CPU clock speed in megahertz (MHz)"
       + "\n  * -cg (--cpu-governor) <governor>          Sets the CPU kernel governor"
+      + "\n  * -ce (--cpu-energy-preference) <mode>     Sets the CPU energy balance preference if available"
       + "\n  * -ci (--cpu-info)                         Displays info about the system's CPU and supported speeds and governors"
       + "\n  * -cr (--cpu-reset)                        Sets the minimum and maximum clock speeds"
       

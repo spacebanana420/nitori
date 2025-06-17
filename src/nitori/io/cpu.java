@@ -48,6 +48,24 @@ public class cpu {
     return true;
   }
   
+  public static boolean setEnergyControl(String energy_mode, CPUInfo cpu_info) {
+    if (!cpu_info.cpuSupportsEnergyControl()) {
+      stdout.error("Energy preference control is not available for this CPU!");
+      return false;
+    }
+    if (!cpu_info.supportedEnergyControl(energy_mode)) {
+      stdout.error("The provided energy control mode \""+energy_mode+"\" is not supported!");
+      return false;
+    }
+    
+    final String cpu_base_path = getBasePath();
+    for (String core : cpu_info.cores) {
+      String path = cpu_base_path + core + "/cpufreq/energy_performance_preference";
+      writer.writeValue(path, energy_mode);
+    }
+    return true;
+  }
+  
   public static CPUInfo getInfo() {
     final String base_path = getBasePath();
     String[] cpu_paths = getCPUPaths(getBasePath());
@@ -59,9 +77,11 @@ public class cpu {
       String min_freq = writer.readValue(full_path+"/cpufreq/scaling_min_freq");
       String max_freq = writer.readValue(full_path+"/cpufreq/scaling_max_freq");
       String governor = writer.readValue(full_path+"/cpufreq/scaling_governor");
+      String energy_pref = writer.readValue(full_path+"/cpufreq/energy_performance_preference");
       cpu_info.min_frequency[i] = writer.valueToInt(min_freq);
       cpu_info.max_frequency[i] = writer.valueToInt(max_freq);
       cpu_info.governor[i] = governor;
+      cpu_info.energy_pref[i] = energy_pref;
     }
     if (new File("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency").isFile()) {
       cpu_info.hardware_base_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency"));
@@ -71,23 +91,33 @@ public class cpu {
     cpu_info.hardware_max_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
     
     String governors_file = writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors");
-    var governors = new ArrayList<String>();
-    String buffer = "";
-    for (int i = 0; i < governors_file.length(); i++) {
-      char c = governors_file.charAt(i);
-      if (c == ' ' && buffer.length() > 0) {
-        governors.add(buffer);
-        buffer = "";
-      }
-      else {buffer += c;}
+    cpu_info.governor_raw = governors_file;
+    cpu_info.available_governors = extractWords(governors_file);
+    if (new File("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences").isFile()) {
+      String preferences_file = writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences");
+      cpu_info.energy_pref_raw = preferences_file;
+      cpu_info.energy_preferences = extractWords(preferences_file);
     }
-    if (buffer.length() > 0) {governors.add(buffer);}
-    cpu_info.available_governors = governors.toArray(new String[0]);
     
     return cpu_info;
   }
   
   public static float speedToMHz(int clock_speed) {return (float)clock_speed / 1000;}
+  
+  private static String[] extractWords(String line) {
+    var words = new ArrayList<String>();
+    String buffer = "";
+    for (int i = 0; i < line.length(); i++) {
+      char c = line.charAt(i);
+      if (c == ' ' && buffer.length() > 0) {
+        words.add(buffer);
+        buffer = "";
+      }
+      else {buffer += c;}
+    }
+    if (buffer.length() > 0) {words.add(buffer);}
+    return words.toArray(new String[0]);
+  }
   
   private static String getBasePath() {return "/sys/devices/system/cpu/";}
   
