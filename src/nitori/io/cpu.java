@@ -38,7 +38,10 @@ public class cpu {
   }
   
   public static boolean setGovernor(String governor, CPUInfo cpu_info) {
-    if (!cpu_info.supportedGovernor(governor)) {return false;}
+    if (!cpu_info.supportedGovernor(governor)) {
+      stdout.error("The provided cpu governor \""+governor+"\" is not supported!");
+      return false;
+    }
     
     final String cpu_base_path = getBasePath();
     for (String core : cpu_info.cores) {
@@ -72,7 +75,7 @@ public class cpu {
     int core_count = cpu_paths.length;
     
     CPUInfo cpu_info = new CPUInfo(core_count, cpu_paths);
-    for (int i = 0; i < core_count; i++) {
+    for (int i = 0; i < core_count; i++) { //Get CPU information and current configuration
       String full_path = base_path + cpu_paths[i];
       String min_freq = writer.readValue(full_path+"/cpufreq/scaling_min_freq");
       String max_freq = writer.readValue(full_path+"/cpufreq/scaling_max_freq");
@@ -83,13 +86,17 @@ public class cpu {
       cpu_info.governor[i] = governor;
       cpu_info.energy_pref[i] = energy_pref;
     }
+    //Base frequency information if available
     if (new File("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency").isFile()) {
       cpu_info.hardware_base_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency"));
     }
     else {cpu_info.hardware_base_frequency = -1;}
+    
+    //CPU clock speed limits
     cpu_info.hardware_min_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"));
     cpu_info.hardware_max_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
     
+    //Available governors and available energy modes if available
     String governors_file = writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors");
     cpu_info.governor_raw = governors_file;
     cpu_info.available_governors = extractWords(governors_file);
@@ -104,6 +111,8 @@ public class cpu {
   
   public static float speedToMHz(int clock_speed) {return (float)clock_speed / 1000;}
   
+  //Governor and energy mode files list the available modes separated by spaces
+  //For example: performance powersave
   private static String[] extractWords(String line) {
     var words = new ArrayList<String>();
     String buffer = "";
@@ -127,6 +136,7 @@ public class cpu {
     var cpu_paths = new ArrayList<String>();
     int ascii_min = (int)'0';
     int ascii_max = (int)'9';
+    
     for (String dir : paths) {
       if (dir.length() < 4) {continue;}
       if (dir.charAt(0) != 'c' || dir.charAt(1) != 'p' || dir.charAt(2) != 'u') {continue;}

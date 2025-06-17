@@ -1,6 +1,7 @@
 package nitori.io;
 
 public class CPUInfo {
+  //Frequency values are in KHz
   public int[] min_frequency;
   public int[] max_frequency;
   public String[] governor;

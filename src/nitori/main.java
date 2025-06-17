@@ -51,17 +51,9 @@ public class main {
     CPUInfo info = cpu.getInfo();
     if (set_freqs) {cpu.setFrequencies(cpu_freq[0], cpu_freq[1], info);}
     else if (reset) {cpu.setFrequencies(info.hardware_min_frequency/1000, info.hardware_max_frequency/1000, info);}
-    if (set_gov) {
-      boolean result = cpu.setGovernor(gov, info);
-      if (!result) {stdout.error("The provided cpu governor \""+gov+"\" is not supported!");}
-    }
+    if (set_gov) {cpu.setGovernor(gov, info);}
     if (set_energy) {cpu.setEnergyControl(energy_pref, info);}
     if (display_info) {
-      String governors_str = "\n * Available governors: ";
-      for (int i = 0; i < info.available_governors.length-1; i++) {
-        governors_str += info.available_governors[i] + " ";
-      }
-      governors_str += info.available_governors[info.available_governors.length-1]; //no space for last element
       stdout.print(
         "[CPU Specifications]"
         + "\n * Minimum supported clock speed: " + cpu.speedToMHz(info.hardware_min_frequency) + " MHz"
