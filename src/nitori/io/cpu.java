@@ -121,6 +121,7 @@ public class cpu {
   
   private static String getBasePath() {return "/sys/devices/system/cpu/";}
   
+  //From the base CPU path, get the paths that follow the pattern of cpu0, cpu1, cpu2, cpu3, etc
   private static String[] getCPUPaths(String base_path) {
     String[] paths = new File(base_path).list();
     var cpu_paths = new ArrayList<String>();
