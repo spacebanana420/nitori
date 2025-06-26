@@ -6,8 +6,8 @@ public class backlight {
   public static boolean hasBacklight(String base_path) {return base_path != null;}
   
   public static float getBrightness(String base_path) {
-    float brightness = (float)writer.valueToInt(writer.readValue(base_path + "brightness"));
-    float max_brightness = (float)writer.valueToInt(writer.readValue(base_path + "max_brightness"));
+    float brightness = (float)fileio.valueToInt(fileio.readValue(base_path + "brightness"));
+    float max_brightness = (float)fileio.valueToInt(fileio.readValue(base_path + "max_brightness"));
     return brightness/max_brightness*100;
   }
   
@@ -15,9 +15,9 @@ public class backlight {
     if (percentage < 1 || percentage > 100) {return false;}
     
     float factor = (float)percentage/100;
-    int max_brightness = writer.valueToInt(writer.readValue(base_path + "max_brightness")); //replace with a backlightinfo class later
+    int max_brightness = fileio.valueToInt(fileio.readValue(base_path + "max_brightness")); //replace with a backlightinfo class later
     int brightness = (int)(max_brightness * factor);
-    writer.writeValue(base_path + "brightness", ""+brightness);
+    fileio.writeValue(base_path + "brightness", ""+brightness);
     return true;
   }
   

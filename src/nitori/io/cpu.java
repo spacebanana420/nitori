@@ -19,7 +19,7 @@ public class cpu {
       
       for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_min_freq";
-        writer.writeValue(path, ""+min_speed);
+        fileio.writeValue(path, ""+min_speed);
       }
     }
     
@@ -31,7 +31,7 @@ public class cpu {
       
       for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_max_freq";
-        writer.writeValue(path, ""+max_speed);
+        fileio.writeValue(path, ""+max_speed);
       }
     }
     return setMinimum || setMaximum;
@@ -46,7 +46,7 @@ public class cpu {
     final String cpu_base_path = getBasePath();
     for (String core : cpu_info.cores) {
       String path = cpu_base_path + core + "/cpufreq/scaling_governor";
-      writer.writeValue(path, governor);
+      fileio.writeValue(path, governor);
     }
     return true;
   }
@@ -64,7 +64,7 @@ public class cpu {
     final String cpu_base_path = getBasePath();
     for (String core : cpu_info.cores) {
       String path = cpu_base_path + core + "/cpufreq/energy_performance_preference";
-      writer.writeValue(path, energy_mode);
+      fileio.writeValue(path, energy_mode);
     }
     return true;
   }
@@ -77,31 +77,31 @@ public class cpu {
     CPUInfo cpu_info = new CPUInfo(core_count, cpu_paths);
     for (int i = 0; i < core_count; i++) { //Get CPU information and current configuration
       String full_path = base_path + cpu_paths[i];
-      String min_freq = writer.readValue(full_path+"/cpufreq/scaling_min_freq");
-      String max_freq = writer.readValue(full_path+"/cpufreq/scaling_max_freq");
-      String governor = writer.readValue(full_path+"/cpufreq/scaling_governor");
-      String energy_pref = writer.readValue(full_path+"/cpufreq/energy_performance_preference");
-      cpu_info.min_frequency[i] = writer.valueToInt(min_freq);
-      cpu_info.max_frequency[i] = writer.valueToInt(max_freq);
+      String min_freq = fileio.readValue(full_path+"/cpufreq/scaling_min_freq");
+      String max_freq = fileio.readValue(full_path+"/cpufreq/scaling_max_freq");
+      String governor = fileio.readValue(full_path+"/cpufreq/scaling_governor");
+      String energy_pref = fileio.readValue(full_path+"/cpufreq/energy_performance_preference");
+      cpu_info.min_frequency[i] = fileio.valueToInt(min_freq);
+      cpu_info.max_frequency[i] = fileio.valueToInt(max_freq);
       cpu_info.governor[i] = governor;
       cpu_info.energy_pref[i] = energy_pref;
     }
     //Base frequency information if available
     if (new File("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency").isFile()) {
-      cpu_info.hardware_base_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency"));
+      cpu_info.hardware_base_frequency = fileio.valueToInt(fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency"));
     }
     else {cpu_info.hardware_base_frequency = -1;}
     
     //CPU clock speed limits
-    cpu_info.hardware_min_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"));
-    cpu_info.hardware_max_frequency = writer.valueToInt(writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
+    cpu_info.hardware_min_frequency = fileio.valueToInt(fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"));
+    cpu_info.hardware_max_frequency = fileio.valueToInt(fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
     
     //Available governors and available energy modes if available
-    String governors_file = writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors");
+    String governors_file = fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors");
     cpu_info.governor_raw = governors_file;
     cpu_info.available_governors = extractWords(governors_file);
     if (new File("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences").isFile()) {
-      String preferences_file = writer.readValue("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences");
+      String preferences_file = fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences");
       cpu_info.energy_pref_raw = preferences_file;
       cpu_info.energy_preferences = extractWords(preferences_file);
     }

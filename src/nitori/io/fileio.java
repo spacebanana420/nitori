@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.File;
 import java.util.ArrayList;
 
-class writer {  
+
+//Used for reading and writing to the files which serve as an interface for kernel features
+class fileio {  
   static boolean writeValue(String path, String content) {
     byte[] string_data = content.getBytes();
     try {
