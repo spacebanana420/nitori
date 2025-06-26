@@ -1,7 +1,7 @@
 package nitori.cli;
 
 public class help {
-  private static String title() {return "Nitori version 0.4";}
+  private static String title() {return "Nitori version 0.5";}
   
   public static void printHelp() {
     System.out.println(
@@ -26,6 +26,12 @@ public class help {
       + "\n\n[Backlight-related arguments]"
       + "\n  * -l (--backlight-set) <percentage>        Sets the screen backlight brightness percentage"
       + "\n  * -li (--backlight-info)                   Displays the current backlight percentage"
+      
+      + "\n\n[Suspension-related arguments]"
+      +"\n   * -s (--suspend)                           Suspends the system to RAM if available"
+      +"\n   * -s (--suspend) <state>                   Suspends the system according to a supported given state"
+      +"\n   * -sh (--hibernate)                        Suspends the system by hibernating to disk"
+      +"\n   * -ss (--suspend-states)                   Lists the supported and available suspend states"
       
       + "\n\n[Other arguments]"
       + "\n  * -q (--quiet)                             Disables printing to standard output"

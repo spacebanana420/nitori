@@ -16,19 +16,20 @@ public class main {
   private static boolean runTasks(String[] args) {
     if (!supportedOS()) {stdout.print("Unsupported OS! Nitori only works on Linux-based operating systems!"); return true;}
     final boolean root = isRoot();
-    final boolean[] ran_tasks = new boolean[3];
+    final boolean[] ran_tasks = new boolean[4];
     
-    Thread[] t = new Thread[3];
+    Thread[] t = new Thread[4];
     t[0] = new Thread(() -> {ran_tasks[0] = runCPUTasks(args, root);});
     t[1] = new Thread(() -> {ran_tasks[1] = runBatteryTasks(args, root);});
     t[2] = new Thread(() -> {ran_tasks[2] = runBacklightTasks(args, root);});
+    t[3] = new Thread(() -> {ran_tasks[3] = runSuspendTasks(args, root);});
     for (Thread thread : t) {thread.start();}
     for (Thread thread : t) {
       try{thread.join();}
       catch(InterruptedException e) {e.printStackTrace(); return false;}
     }
     
-    return ran_tasks[0] || ran_tasks[1] || ran_tasks[2];
+    return ran_tasks[0] || ran_tasks[1] || ran_tasks[2] || ran_tasks[3];
   }
   
   private static boolean runCPUTasks(String[] args, boolean root) {    
@@ -126,6 +127,42 @@ public class main {
     }
     if (display_info) {
       stdout.print("Current backlight percentage: " + backlight.getBrightness(base_path) + "%");
+    }
+    return true;
+  }
+  
+  private static boolean runSuspendTasks(String[] args, boolean root) {
+    boolean view_states = cli.suspendStates(args);
+    String suspend_mode = cli.suspendSystem(args);
+    boolean hibernate = cli.hibernateSystem(args);
+    
+    boolean root_arguments = hibernate || suspend_mode != null;
+    boolean ran_arguments = view_states || root_arguments;
+    if (!ran_arguments) {return false;}
+    if (!suspend.suspendIsSupported()) {
+      stdout.print("Suspend functionality is not available on your system!");
+      return true;
+    }
+    
+    String[] states = suspend.supportedStates();
+    if (view_states) {
+      String message = "Supported suspend states:";
+      for (String state : states) {
+        message +="\n * " + state;
+      }
+      stdout.print(message);
+    }
+    if (root_arguments && !root) {
+      stdout.error("You must be root to be able to suspend the system!");
+      return true;
+    }
+    if (suspend_mode != null) {
+      stdout.print_verbose("Suspending system with mode " + suspend_mode);
+      suspend.suspendSystem(suspend_mode, states);
+    }
+    else if (hibernate) {
+      stdout.print_verbose("Hibernating system to disk");
+      suspend.suspendSystem("disk", states);
     }
     return true;
   }

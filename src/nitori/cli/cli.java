@@ -20,6 +20,19 @@ public class cli {
   public static byte backlightPercentage(String[] args) {return parser.getArgumentByte(args, "-l", "--backlight-set");}
   public static boolean backlightInfo(String[] args) {return parser.hasArgument(args, "-li", "--backlight-info");}
   
+  public static String suspendSystem(String[] args) {
+    int i = parser.findArgumentIndex(args, "-s");
+    if (i == -1) {parser.findArgumentIndex(args, "--suspend");}
+    if (i == -1) {return null;}
+    
+    if (i == args.length-1) {return "mem";}
+    String value = args[i+1].trim();
+    if (value.length() == 0) {return "mem";}
+    return value;
+  }
+  public static boolean hibernateSystem(String[] args) {return parser.hasArgument(args, "-sh", "--hibernate");}
+  public static boolean suspendStates(String[] args) {return parser.hasArgument(args, "-ss", "--suspend-states");}
+  
   public static boolean quietOutput(String[] args) {return parser.hasArgument(args, "-q", "--quiet");}
   public static boolean verboseOutput(String[] args) {return parser.hasArgument(args, "-v", "--verbose");}
 }

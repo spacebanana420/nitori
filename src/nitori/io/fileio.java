@@ -44,4 +44,21 @@ class fileio {
       return Byte.parseByte(value);
     } catch(NumberFormatException e) {return -1;}
   }
+  
+  //Some files have values separated by words
+  //For example: performance powersave
+  static String[] extractWords(String line) {
+    var words = new ArrayList<String>();
+    String buffer = "";
+    for (int i = 0; i < line.length(); i++) {
+      char c = line.charAt(i);
+      if (c == ' ' && buffer.length() > 0) {
+        words.add(buffer);
+        buffer = "";
+      }
+      else {buffer += c;}
+    }
+    if (buffer.length() > 0) {words.add(buffer);}
+    return words.toArray(new String[0]);
+  }
 }

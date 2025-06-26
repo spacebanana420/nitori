@@ -99,34 +99,17 @@ public class cpu {
     //Available governors and available energy modes if available
     String governors_file = fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors");
     cpu_info.governor_raw = governors_file;
-    cpu_info.available_governors = extractWords(governors_file);
+    cpu_info.available_governors = fileio.extractWords(governors_file);
     if (new File("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences").isFile()) {
       String preferences_file = fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences");
       cpu_info.energy_pref_raw = preferences_file;
-      cpu_info.energy_preferences = extractWords(preferences_file);
+      cpu_info.energy_preferences = fileio.extractWords(preferences_file);
     }
     
     return cpu_info;
   }
   
   public static float speedToMHz(int clock_speed) {return (float)clock_speed / 1000;}
-  
-  //Governor and energy mode files list the available modes separated by spaces
-  //For example: performance powersave
-  private static String[] extractWords(String line) {
-    var words = new ArrayList<String>();
-    String buffer = "";
-    for (int i = 0; i < line.length(); i++) {
-      char c = line.charAt(i);
-      if (c == ' ' && buffer.length() > 0) {
-        words.add(buffer);
-        buffer = "";
-      }
-      else {buffer += c;}
-    }
-    if (buffer.length() > 0) {words.add(buffer);}
-    return words.toArray(new String[0]);
-  }
   
   private static String getBasePath() {return "/sys/devices/system/cpu/";}
   
