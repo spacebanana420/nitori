@@ -25,10 +25,8 @@ public class cli {
     if (i == -1) {parser.findArgumentIndex(args, "--suspend");}
     if (i == -1) {return null;}
     
-    if (i == args.length-1) {return "mem";}
-    String value = args[i+1].trim();
-    if (value.length() == 0) {return "mem";}
-    return value;
+    if (!parser.checkValue(args, i)) {return "mem";}
+    return args[i+1].trim();
   }
   public static boolean hibernateSystem(String[] args) {return parser.hasArgument(args, "-sh", "--hibernate");}
   public static boolean suspendStates(String[] args) {return parser.hasArgument(args, "-ss", "--suspend-states");}
@@ -56,7 +54,7 @@ class parser {
   static String getArgumentValue(String[] args, String... find_arg) {
     for (String arg : find_arg) {
       int i = findArgumentIndex(args, arg);
-      if (i == -1 || i == args.length-1) {return null;}
+      if (i == -1 || !checkValue(args, i)) {return null;}
       String value = args[i+1].trim();
       if (value.length() == 0) {return null;}
       return value;
@@ -77,5 +75,11 @@ class parser {
     if (value == null) {return -1;}
     try {return Byte.parseByte(value);}
     catch(NumberFormatException e) {return -1;}
+  }
+  
+  static boolean checkValue(String[] args, int i) {
+    if (i == args.length-1) {return false;}
+    String value = args[i+1];
+    return value.length() > 0 && value.charAt(0) != '-';
   }
 }
