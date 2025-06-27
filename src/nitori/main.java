@@ -18,6 +18,7 @@ public class main {
     final boolean root = isRoot();
     final boolean[] ran_tasks = new boolean[4];
     
+    //Run the different tasks in parallel, they are not dependant on each other
     Thread[] t = new Thread[4];
     t[0] = new Thread(() -> {ran_tasks[0] = runCPUTasks(args, root);});
     t[1] = new Thread(() -> {ran_tasks[1] = runBatteryTasks(args, root);});
@@ -144,7 +145,7 @@ public class main {
       return true;
     }
     
-    String[] states = suspend.supportedStates();
+    String[] states = suspend.supportedStates(); //Varies depending on system and configuration
     if (view_states) {
       String message = "Supported suspend states:";
       for (String state : states) {

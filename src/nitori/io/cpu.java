@@ -74,8 +74,9 @@ public class cpu {
     String[] cpu_paths = getCPUPaths(getBasePath());
     int core_count = cpu_paths.length;
     
+    //Get CPU information and current configuration
     CPUInfo cpu_info = new CPUInfo(core_count, cpu_paths);
-    for (int i = 0; i < core_count; i++) { //Get CPU information and current configuration
+    for (int i = 0; i < core_count; i++) {
       String full_path = base_path + cpu_paths[i];
       String min_freq = fileio.readValue(full_path+"/cpufreq/scaling_min_freq");
       String max_freq = fileio.readValue(full_path+"/cpufreq/scaling_max_freq");

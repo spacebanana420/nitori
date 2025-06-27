@@ -1,5 +1,6 @@
 package nitori.cli;
 
+//To check if CLI arguments are used and if they are followed by a value
 public class cli {
   public static boolean askedForHelp(String[] args) {return parser.hasArgument(args, "-h", "--help");}
   
@@ -35,6 +36,7 @@ public class cli {
   public static boolean verboseOutput(String[] args) {return parser.hasArgument(args, "-v", "--verbose");}
 }
 
+//Internal CLI parsing
 class parser {
   static int findArgumentIndex(String[] args, String find_arg) {
     for (int i = 0; i < args.length; i++) {
