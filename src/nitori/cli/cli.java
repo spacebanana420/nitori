@@ -1,4 +1,5 @@
 package nitori.cli;
+import nitori.io.stdout;
 
 //To check if CLI arguments are used and if they are followed by a value
 public class cli {
@@ -56,7 +57,11 @@ class parser {
   static String getArgumentValue(String[] args, String... find_arg) {
     for (String arg : find_arg) {
       int i = findArgumentIndex(args, arg);
-      if (i == -1 || !checkValue(args, i)) {return null;}
+      if (i == -1) {return null;}
+      if (!checkValue(args, i)) {
+        stdout.error("The argument " + args[i] + " must be followed by a value!");
+        return null;
+      }
       String value = args[i+1].trim();
       if (value.length() == 0) {return null;}
       return value;
@@ -64,24 +69,39 @@ class parser {
     return null;
   }
   
-  //duplicate code with writer.java
+  //-1 is used to determine the CLI argument was not used or was not followed by a value
+  //-2 is used to determine that it was indeed used but it is incorrect
   static int getArgumentInt(String[] args, String... find_arg) {
     String value = getArgumentValue(args, find_arg);
     if (value == null) {return -1;}
-    try {return Integer.parseInt(value);}
-    catch(NumberFormatException e) {return -1;}
+    if (value.length() > 9) {
+      stdout.error("The value " + value + " passed as a CLI argument is invalid, it is too big to represent a valid number!");
+      return -2;
+    }
+    int num = strToInt(value);
+    if (num >= 0) {return num;} //Negative values are not necessary anywhere
+    stdout.error("The value " + value + " passed as a CLI argument is invalid, it must be positive!");
+    return -2;
   }
   
   static byte getArgumentByte(String[] args, String... find_arg) {
-    String value = getArgumentValue(args, find_arg);
-    if (value == null) {return -1;}
-    try {return Byte.parseByte(value);}
-    catch(NumberFormatException e) {return -1;}
+    int num_i = getArgumentInt(args, find_arg);
+    if (num_i == -1) {return -1;}
+    byte num_b = (byte)(num_i);
+    
+    //Byte.parseByte would have accepted shorts, integers, longs, etc as bytes
+    //Resulting in values above 255 representing valid byte values, leading to incorrect behavior
+    return num_b == num_i ? num_b : -128;
   }
   
   static boolean checkValue(String[] args, int i) {
     if (i == args.length-1) {return false;}
     String value = args[i+1];
     return value.length() > 0 && value.charAt(0) != '-';
+  }
+  
+  private static int strToInt(String num) {
+    try {return Integer.parseInt(num);}
+    catch(NumberFormatException e) {return -1;}
   }
 }
