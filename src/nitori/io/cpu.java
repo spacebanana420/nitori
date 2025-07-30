@@ -92,7 +92,7 @@ public class cpu {
       cpu_info.turbo_enabled = cpu_info.turbo_status_exists && fileio.readValue(turbo_path).equals("1");
     }
     //Base frequency information if available
-    if (new File("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency").isFile()) {
+    if (fileio.fileExists("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency")) {
       cpu_info.hardware_base_frequency = fileio.valueToInt(fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency"));
     }
     else {cpu_info.hardware_base_frequency = -1;}
@@ -105,7 +105,7 @@ public class cpu {
     String governors_file = fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors");
     cpu_info.governor_raw = governors_file;
     cpu_info.available_governors = fileio.extractWords(governors_file);
-    if (new File("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences").isFile()) {
+    if (fileio.fileExists("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences")) {
       String preferences_file = fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences");
       cpu_info.energy_pref_raw = preferences_file;
       cpu_info.energy_preferences = fileio.extractWords(preferences_file);
