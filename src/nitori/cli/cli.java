@@ -63,7 +63,7 @@ class parser {
         return null;
       }
       String value = args[i+1].trim();
-      if (value.length() == 0) {return null;}
+      if (value.isEmpty()) {return null;}
       return value;
     }
     return null;
@@ -97,7 +97,7 @@ class parser {
   static boolean checkValue(String[] args, int i) {
     if (i == args.length-1) {return false;}
     String value = args[i+1];
-    return value.length() > 0 && value.charAt(0) != '-';
+    return !value.isEmpty() && value.charAt(0) != '-';
   }
   
   private static int strToInt(String num) {
