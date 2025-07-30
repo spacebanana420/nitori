@@ -86,6 +86,10 @@ public class cpu {
       cpu_info.max_frequency[i] = fileio.valueToInt(max_freq);
       cpu_info.governor[i] = governor;
       cpu_info.energy_pref[i] = energy_pref;
+
+      String turbo_path = full_path+"/cpufreq/boost";
+      cpu_info.turbo_status_exists = fileio.fileExists(turbo_path);
+      cpu_info.turbo_enabled = cpu_info.turbo_status_exists && fileio.readValue(turbo_path).equals("1");
     }
     //Base frequency information if available
     if (new File("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency").isFile()) {

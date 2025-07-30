@@ -64,6 +64,7 @@ public class main {
         + "\n * Number of threads: " + info.core_count
         + "\n * Available governors: " + info.governor_raw
         + "\n * Available energy preferences: " + info.str_energyPrefs()
+        + "\n * Turbo enabled: " + info.str_turboStatus()
         + "\n"
         + "\n * Current minimum clock speed: " + cpu.speedToMHz(info.min_frequency[0]) + " MHz"
         + "\n * Current maximum clock speed: " + cpu.speedToMHz(info.max_frequency[0]) + " MHz"

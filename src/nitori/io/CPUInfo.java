@@ -12,6 +12,8 @@ public class CPUInfo {
   public int hardware_max_frequency;
   public String[] available_governors;
   public String[] energy_preferences;
+  public boolean turbo_enabled;
+  public boolean turbo_status_exists; //file might not exist
   
   public String[] cores;
   public int core_count;
@@ -40,6 +42,10 @@ public class CPUInfo {
   }
   public String str_currentEnergyPref() {
     return cpuSupportsEnergyControl() ? energy_pref[0] : "N/A";
+  }
+  public String str_turboStatus() {
+    if (!turbo_status_exists) {return "Unknown";}
+    return turbo_enabled ? "Yes" : "No";
   }
   
   private boolean isInList(String keyword, String[] slist) {

@@ -31,6 +31,8 @@ class fileio {
       return null;
     }
   }
+
+  static boolean fileExists(String path) {return new File(path).isFile();}
   
   static int valueToInt(String value) {
     try {
