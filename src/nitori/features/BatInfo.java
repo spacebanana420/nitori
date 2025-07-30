@@ -1,4 +1,4 @@
-package nitori.io;
+package nitori.features;
 
 public class BatInfo {
   public byte charge_percentage;  

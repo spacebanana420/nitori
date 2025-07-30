@@ -1,4 +1,7 @@
-package nitori.io;
+package nitori.features;
+
+import nitori.io.fileio;
+import nitori.io.stdout;
 
 import java.io.File;
 
@@ -44,7 +47,7 @@ public class battery {
     return true;
   }
   
-  public static boolean chargeLimitSupported() {return new File(getBasePath()+"charge_control_end_threshold").isFile();}
+  public static boolean chargeLimitSupported() {return fileio.fileExists(getBasePath()+"charge_control_end_threshold");}
   
   private static String getBasePath() {return "/sys/class/power_supply/BAT0/";}
 }

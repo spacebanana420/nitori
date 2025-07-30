@@ -1,4 +1,6 @@
-package nitori.io;
+package nitori.features;
+
+import nitori.io.fileio;
 
 import java.io.File;
 
@@ -6,7 +8,7 @@ public class backlight {
   public static boolean hasBacklight(String base_path) {return base_path != null;}
   
   public static float getBrightness(String base_path) {
-    float brightness = (float)fileio.valueToInt(fileio.readValue(base_path + "brightness"));
+    float brightness = (float) fileio.valueToInt(fileio.readValue(base_path + "brightness"));
     float max_brightness = (float)fileio.valueToInt(fileio.readValue(base_path + "max_brightness"));
     return brightness/max_brightness*100;
   }

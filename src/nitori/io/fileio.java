@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 
 //Used for reading and writing to the files which serve as an interface for kernel features
-class fileio {  
-  static void writeValue(String path, String content) {
+public class fileio {
+  public static void writeValue(String path, String content) {
     byte[] string_data = content.getBytes();
     try {
       var output = new FileOutputStream(path);
@@ -20,8 +20,8 @@ class fileio {
       stdout.error("Failed to write file at path " + path + " with value " + content);
     }
   }
-  
-  static String readValue(String path) {
+
+  public static String readValue(String path) {
     try {
       byte[] data = Files.readAllBytes(Path.of(path));
       return new String(data).trim();
@@ -32,15 +32,15 @@ class fileio {
     }
   }
 
-  static boolean fileExists(String path) {return new File(path).isFile();}
-  
-  static int valueToInt(String value) {
+  public static boolean fileExists(String path) {return new File(path).isFile();}
+
+  public static int valueToInt(String value) {
     try {
       return Integer.parseInt(value);
     } catch(NumberFormatException e) {return -1;}
   }
-  
-  static byte valueToByte(String value) {
+
+  public static byte valueToByte(String value) {
     try {
       return Byte.parseByte(value);
     } catch(NumberFormatException e) {return -1;}
@@ -48,7 +48,7 @@ class fileio {
   
   //Some files have values separated by words
   //For example: performance powersave
-  static String[] extractWords(String line) {
+  public static String[] extractWords(String line) {
     var words = new ArrayList<String>();
     String buffer = "";
     for (int i = 0; i < line.length(); i++) {

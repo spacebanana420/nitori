@@ -1,4 +1,4 @@
-package nitori.io;
+package nitori.features;
 
 public class CPUInfo {
   //Frequency values are in KHz

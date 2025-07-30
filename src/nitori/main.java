@@ -1,6 +1,7 @@
 package nitori;
 
 import nitori.cli.*;
+import nitori.features.*;
 import nitori.io.*;
 
 public class main {

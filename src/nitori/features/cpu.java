@@ -1,4 +1,7 @@
-package nitori.io;
+package nitori.features;
+
+import nitori.io.fileio;
+import nitori.io.stdout;
 
 import java.io.File;
 import java.util.ArrayList;
