@@ -8,8 +8,8 @@ public class BatInfo {
   public int cycle_count;
   
   boolean uses_power_info;
-  public PowerInfo power; //Some batteries provide power information in watts and watt-hour
-  public CurrentInfo current; //Others provide information in ampere-hour and volts
+  PowerInfo power; //Some batteries provide power information in watts and watt-hour
+  CurrentInfo current; //Others provide information in ampere-hour and volts
   
   public String getCycleCount() {
     if (cycle_count == -1) {return "N/A";}
