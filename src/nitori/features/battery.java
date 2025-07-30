@@ -19,7 +19,7 @@ public class battery {
     bat.charge_percentage = fileio.valueToByte(fileio.readValue(base_path + "capacity"));
     bat.cycle_count = fileio.valueToInt(fileio.readValue(base_path + "cycle_count"));
     
-    bat.uses_power_info = new File("/sys/class/power_supply/BAT0/energy_now").isFile();
+    bat.uses_power_info = fileio.fileExists("/sys/class/power_supply/BAT0/energy_now");
     if (bat.uses_power_info) {
       PowerInfo pinfo = new PowerInfo();
       pinfo.energy_full = fileio.valueToInt(fileio.readValue(base_path + "energy_full"));
