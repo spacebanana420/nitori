@@ -8,10 +8,6 @@ public class suspend {
     return new File("/sys/power/state").isFile();
   }
   
-  //public static void suspendSystem() {
-    //fileio.writeValue("/sys/power/state", "mem");
-  //}
-  
   public static void suspendSystem(String state, String[] available_states) {
     boolean supported_state = false;
     for (String os_state : available_states) {

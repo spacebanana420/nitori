@@ -117,6 +117,10 @@ public class cpu {
   //From the base CPU path, get the paths that follow the pattern of cpu0, cpu1, cpu2, cpu3, etc
   private static String[] getCPUPaths(String base_path) {
     String[] paths = new File(base_path).list();
+    if (paths == null) {
+      stdout.error("Failed to find CPU core information!");
+      return new String[0];
+    }
     var cpu_paths = new ArrayList<String>();
     int ascii_min = (int)'0';
     int ascii_max = (int)'9';
