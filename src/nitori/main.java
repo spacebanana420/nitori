@@ -9,13 +9,16 @@ public class main {
     if (cli.askedForHelp(args)) {help.printHelp(); return;}
     if (args.length == 0) {help.printSmallHelp(); return;}
     stdout.PRINT_LEVEL = stdout.getPrintLevel(args);
-    
+
+    if (!supportedOS()) {
+      stdout.print("Unsupported OS! Nitori only works on Linux-based operating systems!");
+      return;
+    }
     boolean ran_task = runTasks(args);
     if (!ran_task) {help.printSmallHelp();}
   }
   
   private static boolean runTasks(String[] args) {
-    if (!supportedOS()) {stdout.print("Unsupported OS! Nitori only works on Linux-based operating systems!"); return true;}
     final boolean root = isRoot();
     final boolean[] ran_tasks = new boolean[4];
     
