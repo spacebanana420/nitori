@@ -32,6 +32,9 @@ public class cli {
   }
   public static boolean hibernateSystem(String[] args) {return parser.hasArgument(args, "-sh", "--hibernate");}
   public static boolean suspendStates(String[] args) {return parser.hasArgument(args, "-ss", "--suspend-states");}
+
+  public static String runPreset(String[] args) {return parser.getArgumentValue(args, "preset");}
+  public static boolean listPresets(String[] args) {return parser.hasArgument(args, "presets");}
   
   public static boolean quietOutput(String[] args) {return parser.hasArgument(args, "-q", "--quiet");}
   public static boolean verboseOutput(String[] args) {return parser.hasArgument(args, "-v", "--verbose");}

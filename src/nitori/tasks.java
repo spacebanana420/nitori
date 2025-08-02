@@ -3,6 +3,7 @@ package nitori;
 import nitori.io.*;
 import nitori.features.*;
 import nitori.cli.cli;
+import nitori.preset.*;
 
 //Processes the CLI arguments to run the tasks/comands/features nitori supports
 class tasks {
@@ -140,5 +141,16 @@ class tasks {
       suspend.suspendSystem("disk", states);
     }
     return true;
+  }
+
+  //incomplete
+  static boolean runPresetTasks(String[] args, boolean root) {
+    String preset = cli.runPreset(args);
+    if (preset != null) {
+      presetrun.runPreset(preset);
+      return true;
+    }
+    return false;
+    //implement create preset and list presets later
   }
 }

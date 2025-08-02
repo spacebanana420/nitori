@@ -35,7 +35,13 @@ class pcodec {
       """;
     String config_path = fileio.getUserHome() + ".config/nitori/";
     String file_path = config_path + file_name + ".nitori";
+
     if (missingPaths(config_path, file_path, file_name)) {return;}
+    if (fileio.fileExists(file_path)) {
+      stdout.error("Could not create the preset file " + file_name + " because it already exists!");
+      return;
+    }
+
     boolean result = fileio.writeValue(file_path, preset_contents);
     if (result) {
       stdout.print("Preset file has been created at " + file_path + "\nYou can open it with a text editor to start configuring it!");
@@ -45,7 +51,12 @@ class pcodec {
   static NitoriPreset readPreset(String file_name) {
     String config_path = fileio.getUserHome() + ".config/nitori/";
     String file_path = config_path + file_name + ".nitori";
+
     if (missingPaths(config_path, file_path, file_name)) {return null;}
+    if (!fileio.fileExists(file_path)) {
+      stdout.error("Could not create the preset file " + file_name + " because it does not exist!");
+      return null;
+    }
 
     String file = fileio.readValue(file_path);
     return file == null ? null : new NitoriPreset(file);
@@ -53,15 +64,11 @@ class pcodec {
 
   static boolean missingPaths(String config_path, String file_path, String file_name) {
     if (file_name.isEmpty()) {
-      stdout.error("You must provide a file name to create a preset!");
+      stdout.error("You must provide a file name for the preset!");
       return true;
     }
     if (!fileio.directoryExists(config_path)) {
-      stdout.error("Could not create the preset file " + file_name + "! The configuration path " + config_path + " does not exist!");
-      return true;
-    }
-    if (!fileio.fileExists(file_path)) {
-      stdout.error("Could not create the preset file " + file_name + " because it already exists!");
+      stdout.error("Could not manage the preset file " + file_name + "! The configuration path " + config_path + " does not exist!");
       return true;
     }
     return false;
