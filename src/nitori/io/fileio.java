@@ -17,7 +17,10 @@ public class fileio {
       output.write(string_data);
       output.close();
     } catch(IOException e) {
-      stdout.error("Failed to write file at path " + path + " with value " + content);
+      if (content.length() > 10) {
+        stdout.error("Failed to write file at path " + path);
+      }
+      else{stdout.error("Failed to write file at path " + path + " with value " + content);}
     }
   }
 
