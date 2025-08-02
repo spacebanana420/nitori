@@ -10,17 +10,19 @@ import java.util.ArrayList;
 
 //Used for reading and writing to the files which serve as an interface for kernel features
 public class fileio {
-  public static void writeValue(String path, String content) {
+  public static boolean writeValue(String path, String content) {
     byte[] string_data = content.getBytes();
     try {
       var output = new FileOutputStream(path);
       output.write(string_data);
       output.close();
+      return true;
     } catch(IOException e) {
       if (content.length() > 10) {
         stdout.error("Failed to write file at path " + path);
       }
       else{stdout.error("Failed to write file at path " + path + " with value " + content);}
+      return false;
     }
   }
 
@@ -36,6 +38,8 @@ public class fileio {
   }
 
   public static boolean fileExists(String path) {return new File(path).isFile();}
+  public static boolean directoryExists(String path) {return new File(path).isDirectory();}
+  public static String getUserHome() {return System.getProperty("user.home");}
 
   public static int valueToInt(String value) {
     try {
