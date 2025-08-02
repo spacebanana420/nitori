@@ -3,6 +3,7 @@ package nitori.preset;
 import nitori.io.*;
 import java.util.ArrayList;
 
+//Read and write presets
 class pcodec {
   static void createPreset(String file_name) {
     if (file_name.isEmpty()) {
@@ -67,6 +68,7 @@ class pcodec {
   }
 }
 
+//Class to contain the settings of an individual preset file
 class NitoriPreset {
   private String[] keys;
   private String[] values;
