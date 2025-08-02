@@ -3,8 +3,8 @@ package nitori.preset;
 import nitori.io.*;
 import java.util.ArrayList;
 
-public class pcodec {
-  public static void createPreset(String file_name) {
+class pcodec {
+  static void createPreset(String file_name) {
     if (file_name.isEmpty()) {
       stdout.error("You must provide a file name to create a preset!");
       return;
@@ -37,19 +37,33 @@ public class pcodec {
       #backlight_brightness=30
       """;
     String config_path = fileio.getUserHome() + ".config/nitori/";
-    String file_path = config_path + file_name;
-    if (!fileio.directoryExists(config_path)) {
-      stdout.error("Could not create the preset file " + file_name + "! The configuration path " + config_path + " does not exist!");
-      return;
-    }
-    if (!fileio.fileExists(file_path)) {
-      stdout.error("Could not create the preset file " + file_name + " because it already exists!");
-      return;
-    }
+    String file_path = config_path + file_name + ".nitori";
+    if (missingPaths(config_path, file_path, file_name)) {return;}
     boolean result = fileio.writeValue(file_path, preset_contents);
     if (result) {
       stdout.print("Preset file has been created at " + file_path + "\nYou can open it with a text editor to start configuring it!");
     }
+  }
+
+  static NitoriPreset readPreset(String file_name) {
+    String config_path = fileio.getUserHome() + ".config/nitori/";
+    String file_path = config_path + file_name + ".nitori";
+    if (missingPaths(config_path, file_path, file_name)) {return null;}
+
+    String file = fileio.readValue(file_path);
+    return file == null ? null : new NitoriPreset(file);
+  }
+
+  static boolean missingPaths(String config_path, String file_path, String file_name) {
+    if (!fileio.directoryExists(config_path)) {
+      stdout.error("Could not create the preset file " + file_name + "! The configuration path " + config_path + " does not exist!");
+      return true;
+    }
+    if (!fileio.fileExists(file_path)) {
+      stdout.error("Could not create the preset file " + file_name + " because it already exists!");
+      return true;
+    }
+    return false;
   }
 }
 
