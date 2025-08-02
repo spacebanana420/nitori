@@ -7,6 +7,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class cpu {
+  public static boolean resetFrequencies(CPUInfo info) {
+    return setFrequencies(info.hardware_min_frequency/1000, info.hardware_max_frequency/1000, info);
+  }
+
   public static boolean setFrequencies(int min_clock_speed, int max_clock_speed, CPUInfo cpu_info) {
     final String cpu_base_path = getBasePath();
     boolean setMinimum = false;

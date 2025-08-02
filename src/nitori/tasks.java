@@ -25,7 +25,7 @@ class tasks {
   
     CPUInfo info = cpu.getInfo();
     if (set_freqs) {cpu.setFrequencies(cpu_freq[0], cpu_freq[1], info);}
-    else if (reset) {cpu.setFrequencies(info.hardware_min_frequency/1000, info.hardware_max_frequency/1000, info);}
+    else if (reset) {cpu.resetFrequencies(info);}
     if (set_gov) {cpu.setGovernor(gov, info);}
     if (set_energy) {cpu.setEnergyControl(energy_pref, info);}
     if (display_info) {
