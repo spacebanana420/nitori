@@ -143,14 +143,23 @@ class tasks {
     return true;
   }
 
-  //incomplete
-  static boolean runPresetTasks(String[] args, boolean root) {
-    String preset = cli.runPreset(args);
-    boolean run_preset = preset != null;
+  static boolean runPresetTasks(String[] args, boolean is_root) {
+    String run_preset = cli.runPreset(args);
+    String create_preset = cli.createPreset(args);
     boolean list_presets = cli.listPresets(args);
 
-    if (run_preset) {presetrun.runPreset(preset, root);}
-    return run_preset || list_presets;
-    //implement create preset and list presets later
+    if (run_preset != null) {
+      presetrun.runPreset(run_preset, is_root);
+      return true;
+    }
+    if (create_preset != null) {
+      pcodec.createPreset(create_preset, is_root);
+      return true;
+    }
+    if (list_presets) {
+      pcodec.printPresetList();
+      return true;
+    }
+    return false;
   }
 }

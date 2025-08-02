@@ -34,6 +34,7 @@ public class cli {
   public static boolean suspendStates(String[] args) {return parser.hasArgument(args, "-ss", "--suspend-states");}
 
   public static String runPreset(String[] args) {return parser.getArgumentValue(args, "preset");}
+  public static String createPreset(String[] args) {return parser.getArgumentValue(args, "create-preset");}
   public static boolean listPresets(String[] args) {return parser.hasArgument(args, "presets");}
   
   public static boolean quietOutput(String[] args) {return parser.hasArgument(args, "-q", "--quiet");}

@@ -2,10 +2,16 @@ package nitori.preset;
 
 import nitori.io.*;
 import java.util.ArrayList;
+import java.io.File;
 
 //Read and write presets
-class pcodec {
-  static void createPreset(String file_name) {
+public class pcodec {
+  public static void createPreset(String file_name, boolean is_root) {
+    if (!is_root) {
+      stdout.error("You need to run Nitori as root to create a preset!");
+      return;
+    }
+
     String preset_contents =
       """
       # Nitori preset file
@@ -49,6 +55,32 @@ class pcodec {
     if (result) {
       stdout.print("Preset file has been created at " + file_path + "\nYou can open it with a text editor to start configuring it!");
     }
+  }
+
+  public static void printPresetList() {
+    File presets_f = new File("/etc/nitori/");
+    if (!presets_f.isDirectory()) {
+      stdout.print("No presets have been found since the path /etc/nitori/ does not exist yet!");
+      return;
+    }
+    String[] subpaths = presets_f.list();
+    if (subpaths == null) {
+      stdout.print("No presets have been found in /etc/nitori/");
+      return;
+    }
+    boolean found_preset = false;
+    String message = "Avaliable presets in /etc/nitori/:";
+    for (String path : subpaths) {
+      if (path.contains(".nitori") && new File(path).isFile()) {
+        message += "  * " + path;
+        found_preset = true;
+      }
+    }
+    if (!found_preset) {
+      stdout.print("No presets have been found in /etc/nitori/");
+      return;
+    }
+    stdout.print(message);
   }
 
   static NitoriPreset readPreset(String file_name) {
