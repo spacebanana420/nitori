@@ -6,10 +6,6 @@ import java.util.ArrayList;
 //Read and write presets
 class pcodec {
   static void createPreset(String file_name) {
-    if (file_name.isEmpty()) {
-      stdout.error("You must provide a file name to create a preset!");
-      return;
-    }
     String preset_contents =
       """
       # Nitori preset file
@@ -56,6 +52,10 @@ class pcodec {
   }
 
   static boolean missingPaths(String config_path, String file_path, String file_name) {
+    if (file_name.isEmpty()) {
+      stdout.error("You must provide a file name to create a preset!");
+      return true;
+    }
     if (!fileio.directoryExists(config_path)) {
       stdout.error("Could not create the preset file " + file_name + "! The configuration path " + config_path + " does not exist!");
       return true;
@@ -116,6 +116,16 @@ class NitoriPreset {
       if (key.equals(keys[i])) {key_i = i; break;}
     }
     return key_i != -1 ? values[key_i] : null;
+  }
+
+  boolean getValue_bool(String key) {
+    String value = getValue(key);
+    return value != null && value.equalsIgnoreCase("true");
+  }
+
+  int getValue_int(String key) {
+    String value = getValue(key);
+    return value != null ? fileio.valueToInt(value) : -1;
   }
 
   private String[] extractLineContents(String line) { //Array of 2 items, key and value respectively
