@@ -58,7 +58,7 @@ class NitoriPreset {
   private String[] values;
   boolean is_empty;
 
-  public NitoriPreset(String file) {
+  NitoriPreset(String file) {
     var lines = new ArrayList<String>();
     String line = "";
     int len = file.length();
@@ -94,7 +94,7 @@ class NitoriPreset {
     }
   }
 
-  public String getValue(String key) {
+  String getValue(String key) {
     int key_i = -1;
     for (int i = 0; i < keys.length; i++) {
       if (key.equals(keys[i])) {key_i = i; break;}
