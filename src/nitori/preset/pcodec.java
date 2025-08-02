@@ -33,10 +33,13 @@ class pcodec {
       #Set the backlight brightness (in percentage %) if supported
       #backlight_brightness=30
       """;
-    String config_path = fileio.getUserHome() + ".config/nitori/";
-    String file_path = config_path + file_name + ".nitori";
+    String file_path = "/etc/nitori/" + file_name + ".nitori";
+    fileio.createDirectory("/etc/nitori/");
 
-    if (missingPaths(config_path, file_path, file_name)) {return;}
+    if (file_name.isEmpty()) {
+      stdout.error("You must provide a file name for the preset!");
+      return;
+    }
     if (fileio.fileExists(file_path)) {
       stdout.error("Could not create the preset file " + file_name + " because it already exists!");
       return;
@@ -49,10 +52,13 @@ class pcodec {
   }
 
   static NitoriPreset readPreset(String file_name) {
-    String config_path = fileio.getUserHome() + ".config/nitori/";
-    String file_path = config_path + file_name + ".nitori";
+    String file_path = "/etc/nitori/" + file_name + ".nitori";
+    fileio.createDirectory("/etc/nitori/");
 
-    if (missingPaths(config_path, file_path, file_name)) {return null;}
+    if (file_name.isEmpty()) {
+      stdout.error("You must provide a file name for the preset!");
+      return null;
+    }
     if (!fileio.fileExists(file_path)) {
       stdout.error("Could not create the preset file " + file_name + " because it does not exist!");
       return null;
@@ -60,18 +66,6 @@ class pcodec {
 
     String file = fileio.readValue(file_path);
     return file == null ? null : new NitoriPreset(file);
-  }
-
-  static boolean missingPaths(String config_path, String file_path, String file_name) {
-    if (file_name.isEmpty()) {
-      stdout.error("You must provide a file name for the preset!");
-      return true;
-    }
-    if (!fileio.directoryExists(config_path)) {
-      stdout.error("Could not manage the preset file " + file_name + "! The configuration path " + config_path + " does not exist!");
-      return true;
-    }
-    return false;
   }
 }
 

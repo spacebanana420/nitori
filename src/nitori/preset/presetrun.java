@@ -5,7 +5,11 @@ import nitori.features.*;
 
 //Interacts with the preset codec to read preset files and apply the respective settings
 public class presetrun {
-  public static boolean runPreset(String name) {
+  public static boolean runPreset(String name, boolean is_root) {
+    if (!is_root) {
+      stdout.error("You need to run Nitori as root to execute a preset!");
+      return false;
+    }
     NitoriPreset preset = pcodec.readPreset(name);
     if (preset == null) {return false;}
     if (preset.is_empty) {

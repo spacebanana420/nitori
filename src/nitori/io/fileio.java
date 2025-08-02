@@ -38,8 +38,7 @@ public class fileio {
   }
 
   public static boolean fileExists(String path) {return new File(path).isFile();}
-  public static boolean directoryExists(String path) {return new File(path).isDirectory();}
-  public static String getUserHome() {return System.getProperty("user.home");}
+  public static void createDirectory(String path) {new File(path).mkdirs();}
 
   public static int valueToInt(String value) {
     try {

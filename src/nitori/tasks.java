@@ -146,11 +146,11 @@ class tasks {
   //incomplete
   static boolean runPresetTasks(String[] args, boolean root) {
     String preset = cli.runPreset(args);
-    if (preset != null) {
-      presetrun.runPreset(preset);
-      return true;
-    }
-    return false;
+    boolean run_preset = preset != null;
+    boolean list_presets = cli.listPresets(args);
+
+    if (run_preset) {presetrun.runPreset(preset, root);}
+    return run_preset || list_presets;
     //implement create preset and list presets later
   }
 }
