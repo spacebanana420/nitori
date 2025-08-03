@@ -92,7 +92,7 @@ public class pcodec {
       return null;
     }
     if (!fileio.fileExists(file_path)) {
-      stdout.error("Could not create the preset file " + file_name + " because it does not exist!");
+      stdout.error("Could not read the preset file " + file_name + " because it does not exist!");
       return null;
     }
 
