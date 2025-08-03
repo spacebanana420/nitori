@@ -105,7 +105,7 @@ public class pcodec {
 class NitoriPreset {
   private String[] keys;
   private String[] values;
-  boolean is_empty;
+  boolean is_empty = true;
 
   NitoriPreset(String file) {
     var lines = new ArrayList<String>();
@@ -113,20 +113,24 @@ class NitoriPreset {
     int len = file.length();
     for (int i = 0; i < len; i++) { //Separate a whole file by lines, ignoring comments #
       char c = file.charAt(i);
-      if (c == '\n') {
+      if (c == '\n' && !line.isEmpty()) {
         line = removeComments(line); //Skip comments (character #)
-        if (!line.isEmpty()) {lines.add(line);}
+        lines.add(line);
         line = "";
       }
       else {line += c;}
     }
-    if (!line.isEmpty()) {lines.add(line);}
+    if (!line.isEmpty()) {
+      line = removeComments(line);
+      lines.add(line);
+    }
 
     var keys = new ArrayList<String>();
     var values = new ArrayList<String>();
     for (String l : lines) { //Get the keys (settings) and the values set for each key
       String[] setting = extractLineContents(l);
       if (setting != null) {
+        stdout.print_verbose("Found setting in preset\n  * Key: " + setting[0] + "\n  * Value: " + setting[1]);
         keys.add(setting[0]);
         values.add(setting[1]);
       }
