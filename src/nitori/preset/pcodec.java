@@ -114,14 +114,9 @@ class NitoriPreset {
     for (int i = 0; i < len; i++) { //Separate a whole file by lines, ignoring comments #
       char c = file.charAt(i);
       if (c == '\n') {
+        line = removeComments(line); //Skip comments (character #)
         if (!line.isEmpty()) {lines.add(line);}
         line = "";
-      }
-      else if (c == '#') { //Skip all the characters until a new line is found
-        for (int skip_i = i; skip_i < len; skip_i++) {
-          if (file.charAt(i) == '\n') {i = skip_i+1; break;}
-          i = len; //No new line existed so the entire rest of the file had to be skipped
-        }
       }
       else {line += c;}
     }
@@ -159,6 +154,16 @@ class NitoriPreset {
   int getValue_int(String key) {
     String value = getValue(key);
     return value != null ? fileio.valueToInt(value) : -1;
+  }
+
+  private String removeComments(String line) {
+    StringBuilder newline = new StringBuilder();
+    for (int i = 0; i < line.length(); i++) {
+      char c = line.charAt(i);
+      if (c == '#') {break;}
+      newline.append(c);
+    }
+    return newline.toString();
   }
 
   private String[] extractLineContents(String line) { //Array of 2 items, key and value respectively
