@@ -71,8 +71,8 @@ public class pcodec {
     boolean found_preset = false;
     String message = "Avaliable presets in /etc/nitori/:";
     for (String path : subpaths) {
-      if (path.contains(".nitori") && new File(path).isFile()) {
-        message += "  * " + path.replaceFirst(".nitori", ""); //rework later into a proper file extension removal
+      if (path.contains(".nitori") && new File("/etc/nitori/"+path).isFile()) {
+        message += "\n  * " + path.replaceFirst(".nitori", ""); //rework later into a proper file extension removal
         found_preset = true;
       }
     }
