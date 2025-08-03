@@ -111,10 +111,11 @@ class NitoriPreset {
     var lines = new ArrayList<String>();
     String line = "";
     int len = file.length();
-    for (int i = 0; i < len; i++) { //Separate a whole file by lines, ignoring comments #
+
+    for (int i = 0; i < len; i++) { //Separate a whole file by lines and filter out comments
       char c = file.charAt(i);
       if (c == '\n' && !line.isEmpty()) {
-        line = removeComments(line); //Skip comments (character #)
+        line = removeComments(line); //Comments start with the character #)
         lines.add(line);
         line = "";
       }
