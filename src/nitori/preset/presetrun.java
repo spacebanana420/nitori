@@ -19,11 +19,16 @@ public class presetrun {
 
     CPUInfo cpu_info = cpu.getInfo();
     boolean cpu_reset = preset.getValue_bool("cpu_reset");
-    if (cpu_reset) {cpu.resetFrequencies(cpu_info);}
-    else {
+    int cpu_min = preset.getValue_int("cpu_min");
+    int cpu_max = preset.getValue_int("cpu_max");
+
+    if (cpu_reset) {
+      stdout.print("[Preset] resetting CPU clock speeds to current hardware limits");
+      cpu.resetFrequencies(cpu_info);
+    }
+    else if (cpu_min != -1 || cpu_max != -1){
       stdout.print("[Preset] setting CPU clock speeds");
-      int cpu_min = preset.getValue_int("cpu_min");
-      int cpu_max = preset.getValue_int("cpu_max");
+
       cpu.setFrequencies(cpu_min, cpu_max, cpu_info);
     }
     String cpu_gov = preset.getValue("cpu_gov");
