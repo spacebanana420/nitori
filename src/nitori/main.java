@@ -20,7 +20,8 @@ public class main {
   private static boolean runTasks(String[] args) {
     final boolean root = isRoot();
     final boolean[] ran_tasks = new boolean[4];
-    
+    final boolean ran_presets = tasks.runPresetTasks(args, root);
+
     //Run the different tasks in parallel, they are not dependant on each other
     Thread[] t = new Thread[4];
     t[0] = new Thread(() -> {ran_tasks[0] = tasks.runCPUTasks(args, root);});
@@ -33,7 +34,7 @@ public class main {
       catch(InterruptedException e) {e.printStackTrace(); return false;}
     }
     
-    return ran_tasks[0] || ran_tasks[1] || ran_tasks[2] || ran_tasks[3];
+    return ran_presets || ran_tasks[0] || ran_tasks[1] || ran_tasks[2] || ran_tasks[3];
   }
 
   private static boolean supportedOS() {return System.getProperty("os.name").equals("Linux");}
