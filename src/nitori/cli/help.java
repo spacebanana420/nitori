@@ -36,7 +36,7 @@ public class help {
       + "\n\n[Preset-related arguments]"
       + "\n   * -p (--preset) <preset name>             Executes a Nitori preset if available"
       + "\n   * -pc (--create-preset) <preset name>     Creates a new preset file in /etc/nitori/"
-      + "\n   * -pk (--list-presets)                    Lists available presets if any exists"
+      + "\n   * -pl (--list-presets)                    Lists available presets if any exists"
       
       + "\n\n[Other arguments]"
       + "\n  * -q (--quiet)                             Disables printing to standard output"
