@@ -13,32 +13,31 @@ public class pcodec {
     }
 
     String preset_contents =
-      """
-      # Nitori preset file
-      # You can define a set of commands to run and configurations to set by calling this preset
-      # For example, you could make a power-saving preset which lowers the CPU clock speeds and laptop backlight brightness
-      # Lines that start with "#" are comments and so they are ignored, remove this character to enable a setting
-      # The following settings you can use are seen below
+      "# Nitori preset file"
+      + "\n# You can define a set of commands to run and configurations to set by calling this preset"
+      + "\n# For example, you could make a power-saving preset which lowers the CPU clock speeds and laptop backlight brightness"
+      + "\n# Lines that start with \"#\" are comments and so they are ignored, remove this character to enable a setting"
+      + "\n# The following settings you can use are seen below"
       
-      # Set the CPU's minimum and maximum clock speeds in megahertz (MHz)
-      #cpu_min=800
-      #cpu_max=3800
-      
-      #Set the CPU's kernel governor
-      #cpu_gov=powersave
-      
-      #Set the CPU's energy preference if supported
-      #cpu_energy_mode=balance_performance
-      
-      #Reset the CPU's clock speeds to your hardware's limits (overrides cpu_min and cpu_max)
-      #cpu_reset=true
-      
-      #Set the battery charge limit (in percentage %) if supported
-      #battery_limit=60
-      
-      #Set the backlight brightness (in percentage %) if supported
-      #backlight_brightness=30
-      """;
+      + "\n\n# Set the CPU's minimum and maximum clock speeds in megahertz (MHz)"
+      + "\n#cpu_min=800"
+      + "\n#cpu_max=3800"
+
+      + "\n\n#Set the CPU's kernel governor"
+      + "\n#cpu_gov=powersave"
+
+      + "\n\n#Set the CPU's energy preference if supported"
+      + "\n#cpu_energy_mode=balance_performance"
+
+      + "\n\n#Reset the CPU's clock speeds to your hardware's limits (overrides cpu_min and cpu_max)"
+      + "\n#cpu_reset=true"
+
+      + "\n\n#Set the battery charge limit (in percentage %) if supported"
+      + "\n#battery_limit=60"
+
+      + "\n\n#Set the backlight brightness (in percentage %) if supported"
+      + "\n#backlight_brightness=30"
+    ;
     String file_path = "/etc/nitori/" + file_name + ".nitori";
     fileio.createDirectory("/etc/nitori/");
 
