@@ -32,7 +32,7 @@ public class fileio {
       return new String(data).trim();
     }
     catch(IOException e) {
-      stdout.error("Failed to write read file at path " + path);
+      stdout.error("Failed to read file at path " + path);
       return null;
     }
   }
