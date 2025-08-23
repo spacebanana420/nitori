@@ -26,9 +26,11 @@ public class MemoryInfo {
       if (c == '\n') {
         if (line.isEmpty()) {continue;}
         String[] key_value = getInfo(line);
-        if (key_value == null) {continue;}
+        if (key_value == null) {line = ""; continue;}
+        stdout.print_debug("Adding key " + key_value[0] + " and value " + key_value[1]);
         keys.add(key_value[0]);
         values.add(key_value[1]);
+        line = "";
       }
       else {line+=c;}
     }
@@ -38,6 +40,7 @@ public class MemoryInfo {
       stdout.error("Error, no memory information was found and successfully parsed! System memory information is unavailable!");
       return;
     }
+    stdout.print_debug("List of memory keys " + keys + "\n\nList of memory values " + values);
     memory_total = getValue("MemTotal", keys, values);
     memory_cached = getValue("MemTotal", keys, values);
     memory_available = getValue("Cached", keys, values);
@@ -50,6 +53,7 @@ public class MemoryInfo {
     String key = "";
     String value = "";
     int value_start = -1;
+    final String error_base = "Memory info parsing error at line " + line + "\n";
 
     //key
     for (int i = 0; i < line.length(); i++) {
@@ -57,10 +61,13 @@ public class MemoryInfo {
       if (c == ':') {value_start = i+1; break;}
       key += c;
     }
-    if (value_start == -1) {return null;}
+    if (value_start == -1) {
+      stdout.print_debug(error_base + "Start of value was not found");
+      return null;
+    }
 
     //value
-    for (int i = 0; i < line.length(); i++) {value += line.charAt(i);}
+    for (int i = value_start; i < line.length(); i++) {value += line.charAt(i);}
 
     key = key.trim();
     value = value.replace(" kB", "").trim();
@@ -72,7 +79,10 @@ public class MemoryInfo {
     for (int i = 0; i < keys.size(); i++) {
       if (key.equals(keys.get(i))) {value_i = i;}
     }
-    if (value_i == -1) {return -1;}
+    if (value_i == -1) {
+      stdout.error("Memory key " + key + " was not found!");
+      return -1;
+    }
     try {return Long.parseLong(values.get(value_i));}
     catch(NumberFormatException e) {
       stdout.error("Failed to convert value of key " + key + " into a long");

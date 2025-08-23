@@ -9,6 +9,7 @@ public class stdout {
   public static byte getPrintLevel(String[] args) {
     if (cli.quietOutput(args)) {return 0;}
     if (cli.verboseOutput(args)) {return 2;}
+    if (cli.debugOutput(args)) {return 3;}
     return 1;
   }
   

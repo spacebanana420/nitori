@@ -41,6 +41,7 @@ public class cli {
   
   public static boolean quietOutput(String[] args) {return parser.hasArgument(args, "-q", "--quiet");}
   public static boolean verboseOutput(String[] args) {return parser.hasArgument(args, "-v", "--verbose");}
+  public static boolean debugOutput(String[] args) {return parser.hasArgument(args, "--debug");}
 }
 
 //Internal CLI parsing

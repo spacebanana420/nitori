@@ -44,6 +44,7 @@ public class help {
       + "\n\n[Other arguments]"
       + "\n  * -q (--quiet)                             Disables printing to standard output"
       + "\n  * -v (--verbose)                           Displays more status messages on standard output"
+      + "\n  * --debug                                  Displays even more status messages on standard output"
       
       + "\n\n[Symbol definitions]"
       + "\n Hz  Hertz"
