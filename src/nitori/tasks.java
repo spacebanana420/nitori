@@ -174,13 +174,19 @@ class tasks {
 
     String message =
       "[System RAM information]"
-      + "\n Total memory:       " + ((double)meminfo.memory_total / 1000000) + " GB"
-      + "\n Available memory:   " + ((double)meminfo.memory_available / 1000000) + " GB"
-      + "\n Free memory:        " + ((double)meminfo.memory_free / 1000000) + " GB"
-      + "\n Cached memory:      " + ((double)meminfo.memory_cached / 1000000) + " GB"
-      + "\n Used memory:        " + ((double)meminfo.memory_used / 1000000) + " GB"
+      + "\n Total memory:       " + convertUnit(meminfo.memory_total) + " GB"
+      + "\n Available memory:   " + convertUnit(meminfo.memory_available) + " GB"
+      + "\n Free memory:        " + convertUnit(meminfo.memory_free) + " GB"
+      + "\n Cached memory:      " + convertUnit(meminfo.memory_cached) + " GB"
+      + "\n Used memory:        " + convertUnit(meminfo.memory_used) + " GB"
     ;
     stdout.print(message);
     return true;
+  }
+
+  //kB to GB and few decimal cases
+  private static float convertUnit(long number) {
+    number = number / 1000; //MB no decimal cases
+    return (float)number / 1000; //GB decimal cases
   }
 }
