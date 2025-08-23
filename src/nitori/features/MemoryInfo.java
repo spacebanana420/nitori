@@ -42,8 +42,8 @@ public class MemoryInfo {
     }
     stdout.print_debug("List of memory keys " + keys + "\n\nList of memory values " + values);
     memory_total = getValue("MemTotal", keys, values);
-    memory_cached = getValue("MemTotal", keys, values);
-    memory_available = getValue("Cached", keys, values);
+    memory_cached = getValue("Cached", keys, values);
+    memory_available = getValue("MemAvailable", keys, values);
     memory_free = getValue("MemFree", keys, values);
     memory_used = memory_total-memory_available;
   }
