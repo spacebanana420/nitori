@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import nitori.io.stdout;
+import nitori.io.*;
 
 public class MemoryInfo {
   public boolean is_empty = true;
@@ -20,25 +20,22 @@ public class MemoryInfo {
   public MemoryInfo() {
     final ArrayList<String> keys = new ArrayList<String>();
     final ArrayList<String> values = new ArrayList<String>();
-    try {
-      byte[] data = Files.readAllBytes(Path.of("/proc/meminfo"));
-      String info = new String(data);
+    String info = fileio.readValue("/proc/meminfo");
+    if (info == null) {return;}
 
-      //Get keys and values from each line
-      String line = "";
-      for (int i = 0; i < info.length(); i++) {
-        char c = info.charAt(i);
-        if (c == '\n') {
-          if (line.isEmpty()) {continue;}
-          String[] key_value = getInfo(line);
-          if (key_value == null) {continue;}
-          keys.add(key_value[0]);
-          values.add(key_value[1]);
-        }
-        else {line+=c;}
+    //Get keys and values from each line
+    String line = "";
+    for (int i = 0; i < info.length(); i++) {
+      char c = info.charAt(i);
+      if (c == '\n') {
+        if (line.isEmpty()) {continue;}
+        String[] key_value = getInfo(line);
+        if (key_value == null) {continue;}
+        keys.add(key_value[0]);
+        values.add(key_value[1]);
       }
+      else {line+=c;}
     }
-    catch (IOException e) {stdout.error("Failed to read /proc/meminfo to obtain system memory information!");}
 
     is_empty = keys.isEmpty();
     if (is_empty) {
