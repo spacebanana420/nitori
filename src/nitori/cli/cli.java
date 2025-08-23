@@ -33,6 +33,8 @@ public class cli {
   public static boolean hibernateSystem(String[] args) {return parser.hasArgument(args, "-sh", "--hibernate");}
   public static boolean suspendStates(String[] args) {return parser.hasArgument(args, "-ss", "--suspend-states");}
 
+  public static boolean memoryInfo(String[] args) {return parser.hasArgument(args, "-m", "--memory-info");}
+
   public static String runPreset(String[] args) {return parser.getArgumentValue(args, "-p", "--preset");}
   public static String createPreset(String[] args) {return parser.getArgumentValue(args, "-pc", "--create-preset");}
   public static boolean listPresets(String[] args) {return parser.hasArgument(args, "-pl", "--list-presets");}

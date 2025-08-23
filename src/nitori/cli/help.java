@@ -18,6 +18,9 @@ public class help {
       + "\n  * -ce (--cpu-energy-preference) <mode>     Sets the CPU energy balance preference if available"
       + "\n  * -ci (--cpu-info)                         Displays info about the system's CPU and supported speeds and governors"
       + "\n  * -cr (--cpu-reset)                        Sets the minimum and maximum clock speeds"
+
+      + "\n\n[Memory-related arguments]"
+      + "\n  * -m (--memory-info)                       Displays OS memory size, usage and availability"
       
       + "\n\n[Battery-related arguments]"
       + "\n  * -b (--battery-set) <percentage>          Sets the battery charge limit percentage if supported"

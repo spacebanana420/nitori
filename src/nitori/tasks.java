@@ -162,4 +162,25 @@ class tasks {
     }
     return false;
   }
+
+  static boolean runMemoryTask(String[] args) {
+    if (!cli.memoryInfo(args)) {return false;}
+
+    MemoryInfo meminfo = new MemoryInfo();
+    if (meminfo.is_empty) {
+      stdout.print_verbose("Cancelling memory info display");
+      return true;
+    }
+
+    String message =
+      "[System RAM information]"
+      + "\n Total memory: " + (meminfo.memory_total / 1000) + " MB"
+      + "\n Available memory: " + (meminfo.memory_available / 1000) + " MB"
+      + "\n Free memory: " + (meminfo.memory_free / 1000) + " MB"
+      + "\n Cached memory: " + (meminfo.memory_cached / 1000) + " MB"
+      + "\n Used memory: " + (meminfo.memory_used / 1000) + " MB"
+    ;
+    stdout.print(message);
+    return true;
+  }
 }

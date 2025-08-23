@@ -75,7 +75,7 @@ public class MemoryInfo {
     if (value_i == -1) {return -1;}
     try {return Long.parseLong(values.get(value_i));}
     catch(NumberFormatException e) {
-      stdout.error("Failed to convert value of key" + key + " into a long");
+      stdout.error("Failed to convert value of key " + key + " into a long");
       return -1;
     }
   }
