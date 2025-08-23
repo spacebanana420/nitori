@@ -1,10 +1,6 @@
 package nitori.features;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.io.IOException;
 import java.util.ArrayList;
-
 import nitori.io.*;
 
 public class MemoryInfo {
