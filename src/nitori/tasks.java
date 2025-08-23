@@ -174,11 +174,11 @@ class tasks {
 
     String message =
       "[System RAM information]"
-      + "\n Total memory: " + (meminfo.memory_total / 1000) + " MB"
-      + "\n Available memory: " + (meminfo.memory_available / 1000) + " MB"
-      + "\n Free memory: " + (meminfo.memory_free / 1000) + " MB"
-      + "\n Cached memory: " + (meminfo.memory_cached / 1000) + " MB"
-      + "\n Used memory: " + (meminfo.memory_used / 1000) + " MB"
+      + "\n Total memory: " + ((double)meminfo.memory_total / 1000) + " MB"
+      + "\n Available memory: " + ((double)meminfo.memory_available / 1000) + " MB"
+      + "\n Free memory: " + ((double)meminfo.memory_free / 1000) + " MB"
+      + "\n Cached memory: " + ((double)meminfo.memory_cached / 1000) + " MB"
+      + "\n Used memory: " + ((double)meminfo.memory_used / 1000) + " MB"
     ;
     stdout.print(message);
     return true;
