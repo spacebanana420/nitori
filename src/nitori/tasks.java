@@ -180,6 +180,15 @@ class tasks {
       + "\n * Cached memory:      " + convertUnit(meminfo.memory_cached) + " GB"
       + "\n * Used memory:        " + convertUnit(meminfo.memory_used) + " GB"
     ;
+
+    if (meminfo.system_uses_swap) {
+      message +=
+        "\n\n * Total swap:       " + convertUnit(meminfo.swap_total) + " GB"
+        + "\n * Free swap:        " + convertUnit(meminfo.swap_free) + " GB"
+        + "\n * Cached swap:      " + convertUnit(meminfo.swap_cached) + " GB"
+      ;
+    }
+    else {message += "\n\nSwap is unavailable or not used by the system";}
     stdout.print(message);
     return true;
   }

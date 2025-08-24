@@ -13,6 +13,11 @@ public class MemoryInfo {
   public long memory_available;
   public long memory_used;
 
+  public boolean system_uses_swap;
+  public long swap_total;
+  public long swap_free;
+  public long swap_cached;
+
   public MemoryInfo() {
     final ArrayList<String> keys = new ArrayList<String>();
     final ArrayList<String> values = new ArrayList<String>();
@@ -46,6 +51,11 @@ public class MemoryInfo {
     memory_available = getValue("MemAvailable", keys, values);
     memory_free = getValue("MemFree", keys, values);
     memory_used = memory_total-memory_available;
+
+    swap_total = getValue("SwapTotal", keys, values);
+    swap_free = getValue("SwapFree", keys, values);
+    swap_cached = getValue("SwapCached", keys, values);
+    system_uses_swap = swap_total != 0;
   }
 
   //Get the key and value of a line and discard the kB unit at the end
