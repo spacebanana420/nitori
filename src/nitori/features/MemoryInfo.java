@@ -25,19 +25,20 @@ public class MemoryInfo {
     if (info == null) {return;}
 
     //Get keys and values from each line
-    String line = "";
+    StringBuilder line = new StringBuilder();
     for (int i = 0; i < info.length(); i++) {
       char c = info.charAt(i);
       if (c == '\n') {
         if (line.isEmpty()) {continue;}
-        String[] key_value = getInfo(line);
-        if (key_value == null) {line = ""; continue;}
+        String line_str = line.toString();
+        String[] key_value = getInfo(line_str);
+        if (key_value == null) {line = new StringBuilder(); continue;}
         stdout.print_debug("Adding key " + key_value[0] + " and value " + key_value[1]);
         keys.add(key_value[0]);
         values.add(key_value[1]);
-        line = "";
+        line = new StringBuilder();
       }
-      else {line+=c;}
+      else {line.append(c);}
     }
 
     is_empty = keys.isEmpty();
@@ -60,8 +61,8 @@ public class MemoryInfo {
 
   //Get the key and value of a line and discard the kB unit at the end
   private String[] getInfo(String line) {
-    String key = "";
-    String value = "";
+    StringBuilder key = new StringBuilder();
+    StringBuilder value = new StringBuilder();
     int value_start = -1;
     final String error_base = "Memory info parsing error at line " + line + "\n";
 
@@ -69,7 +70,7 @@ public class MemoryInfo {
     for (int i = 0; i < line.length(); i++) {
       char c = line.charAt(i);
       if (c == ':') {value_start = i+1; break;}
-      key += c;
+      key.append(c);
     }
     if (value_start == -1) {
       stdout.print_debug(error_base + "Start of value was not found");
@@ -77,11 +78,11 @@ public class MemoryInfo {
     }
 
     //value
-    for (int i = value_start; i < line.length(); i++) {value += line.charAt(i);}
+    for (int i = value_start; i < line.length(); i++) {value.append(line.charAt(i));}
 
-    key = key.trim();
-    value = value.replace(" kB", "").trim();
-    return key.isEmpty() || value.isEmpty() ? null : new String[]{key, value};
+    String key_final = key.toString().trim();
+    String value_final = value.toString().replace(" kB", "").trim();
+    return (key_final.isEmpty()) || value_final.isEmpty() ? null : new String[]{key_final, value_final};
   }
 
   private long getValue(String key, ArrayList<String> keys, ArrayList<String> values) {
