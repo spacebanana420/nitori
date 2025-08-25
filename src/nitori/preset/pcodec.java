@@ -108,22 +108,19 @@ class NitoriPreset {
 
   NitoriPreset(String file) {
     var lines = new ArrayList<String>();
-    String line = "";
+    StringBuilder line = new StringBuilder();
     int len = file.length();
 
     for (int i = 0; i < len; i++) { //Separate a whole file by lines and filter out comments
       char c = file.charAt(i);
       if (c == '\n' && !line.isEmpty()) {
-        line = removeComments(line); //Comments start with the character #)
-        lines.add(line);
-        line = "";
+        String line_str = removeComments(line.toString()); //Comments start with the character #
+        lines.add(line_str);
+        line = new StringBuilder();;
       }
-      else {line += c;}
+      else {line.append(c);}
     }
-    if (!line.isEmpty()) {
-      line = removeComments(line);
-      lines.add(line);
-    }
+    if (!line.isEmpty()) {lines.add(removeComments(line.toString()));}
 
     var keys = new ArrayList<String>();
     var values = new ArrayList<String>();
@@ -171,22 +168,24 @@ class NitoriPreset {
   }
 
   private String[] extractLineContents(String line) { //Array of 2 items, key and value respectively
-    String key = "";
-    String value = "";
+    StringBuilder key = new StringBuilder();
+    StringBuilder value = new StringBuilder();
     int value_start = -1;
-    for (int i = 0; i < line.length(); i++) { //Get key
+
+    //Get key
+    for (int i = 0; i < line.length(); i++) {
       char c = line.charAt(i);
       if (c == '=') {value_start = i+1; break;}
-      key += c;
+      key.append(c);
     }
     if (value_start == -1 || value_start == line.length()) {return null;}
 
-    for (int i = value_start; i < line.length(); i++) { //Get value
-      value += line.charAt(i);
-    }
-    key = key.trim();
-    value = value.trim();
+    //Get value
+    for (int i = value_start; i < line.length(); i++) {value.append(line.charAt(i));}
+
+    String key_str = key.toString().trim();
+    String value_str = value.toString().trim();
     if (key.isEmpty() || value.isEmpty()) {return null;}
-    return new String[]{key, value};
+    return new String[]{key_str, value_str};
   }
 }
