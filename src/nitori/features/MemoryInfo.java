@@ -29,7 +29,7 @@ public class MemoryInfo {
     for (int i = 0; i < info.length(); i++) {
       char c = info.charAt(i);
       if (c == '\n') {
-        if (line.isEmpty()) {continue;}
+        if (line.length() == 0) {continue;}
         String line_str = line.toString();
         String[] key_value = getInfo(line_str);
         if (key_value == null) {line = new StringBuilder(); continue;}

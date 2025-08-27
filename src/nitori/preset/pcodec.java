@@ -113,14 +113,14 @@ class NitoriPreset {
 
     for (int i = 0; i < len; i++) { //Separate a whole file by lines and filter out comments
       char c = file.charAt(i);
-      if (c == '\n' && !line.isEmpty()) {
+      if (c == '\n' && line.length() != 0) {
         String line_str = removeComments(line.toString()); //Comments start with the character #
         lines.add(line_str);
         line = new StringBuilder();;
       }
       else {line.append(c);}
     }
-    if (!line.isEmpty()) {lines.add(removeComments(line.toString()));}
+    if (line.length() != 0) {lines.add(removeComments(line.toString()));}
 
     var keys = new ArrayList<String>();
     var values = new ArrayList<String>();
@@ -185,7 +185,7 @@ class NitoriPreset {
 
     String key_str = key.toString().trim();
     String value_str = value.toString().trim();
-    if (key.isEmpty() || value.isEmpty()) {return null;}
+    if (key.length() == 0 || value.length() == 0) {return null;}
     return new String[]{key_str, value_str};
   }
 }
