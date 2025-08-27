@@ -127,7 +127,7 @@ class NitoriPreset {
     for (String l : lines) { //Get the keys (settings) and the values set for each key
       String[] setting = extractLineContents(l);
       if (setting != null) {
-        stdout.print_verbose("Found setting in preset\n  * Key: " + setting[0] + "\n  * Value: " + setting[1]);
+        stdout.print_debug("Found setting in preset\n  * Key: " + setting[0] + "\n  * Value: " + setting[1]);
         keys.add(setting[0]);
         values.add(setting[1]);
       }

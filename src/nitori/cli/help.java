@@ -1,7 +1,7 @@
 package nitori.cli;
 
 public class help {
-  private static String title() {return "Nitori version 1.0";}
+  private static String title() {return "Nitori version 1.0.1";}
   
   public static void printHelp() {
     System.out.println(
@@ -47,6 +47,7 @@ public class help {
       + "\n  * --debug                                  Displays even more status messages on standard output"
       
       + "\n\n[Symbol definitions]"
+      + "\n GB  Gigabytes"
       + "\n Hz  Hertz"
       + "\n MHz Megahertz"
       + "\n W   Watt"
