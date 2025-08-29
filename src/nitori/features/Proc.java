@@ -49,8 +49,7 @@ public class Proc {
     }
 
     var procs = new ArrayList<Proc>();
-    for (int i = 0; i < processes.size(); i++) {
-      String p = processes.get(i);
+    for (String p : processes) {
       try {
         long pid = Long.parseLong(p);
         procs.add(new Proc(pid));
