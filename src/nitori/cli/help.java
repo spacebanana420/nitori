@@ -1,7 +1,7 @@
 package nitori.cli;
 
 public class help {
-  private static String title() {return "Nitori version 1.0.1";}
+  private static String title() {return "Nitori version 1.1";}
   
   public static void printHelp() {
     System.out.println(
