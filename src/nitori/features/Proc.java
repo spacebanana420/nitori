@@ -15,6 +15,7 @@ public class Proc {
     String command = fileio.readValue("/proc/"+pid+"/cmdline");
     if (command == null) {return;}
 
+    //In /proc/<pid>/cmdline, a whole command is represented where each arugment ends with the escape character \000
     var cmd = new ArrayList<String>();
     var arg = new StringBuilder();
     for (int i = 0; i < command.length(); i++) {
