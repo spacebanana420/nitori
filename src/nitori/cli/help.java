@@ -40,6 +40,11 @@ public class help {
       + "\n   * -p (--preset) <preset name>             Executes a Nitori preset if available"
       + "\n   * -pc (--create-preset) <preset name>     Creates a new preset file in /etc/nitori/"
       + "\n   * -pl (--list-presets)                    Lists available presets if any exists"
+
+      + "\n\n[Process-related arguments]"
+      + "\n   * -proc (--process-count)                 Counts the amount of system processes and kernel threads"
+      + "\n   * -procl (--process-list)                 Lists the currently-running system processes"
+      + "\n   * -procf (--process-find) <name>          Finds the processes that contain <name> in their filename"
       
       + "\n\n[Other arguments]"
       + "\n  * -q (--quiet)                             Disables printing to standard output"
