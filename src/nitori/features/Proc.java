@@ -68,7 +68,6 @@ public class Proc {
       catch(NumberFormatException e) {stdout.error("Failed to convert process of ID " + p);}
     }
     return procs.toArray(new Proc[0]);
-    //sort(procs);
   }
 
   //Process directories only have digits in their name
@@ -83,20 +82,4 @@ public class Proc {
     }
     return true;
   }
-
-/*  private static void sort(long[] processes) {
-    for (int i = 0; i < processes.length; i++) {
-      int higher_i = -1;
-      for (int p = i+1; p < processes.length; p++) {
-        if (processes[p] <= processes[i]) {continue;}
-        if (higher_i == -1 || processes[p] > processes[higher_i]) {
-          higher_i = p;
-        }
-      }
-      if (higher_i == -1) {continue;}
-      long temp = processes[higher_i];
-      processes[higher_i] = processes[i];
-      processes[i] = temp;
-    }
-  }*/
 }
