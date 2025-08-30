@@ -232,7 +232,19 @@ class tasks {
         + "\nKernel processes: " + (processes.length-user_procs.size())
       );
     }
-    //if (find_process != null) {}
+    if (find_process != null) {
+      var message = new StringBuilder();
+      boolean found_any = false;
+      message.append("Found the following processes including ").append(find_process).append(" in the path:");
+      for (Proc p : user_procs) {
+        if (p.cmd[0].contains(find_process)) {
+          found_any = true;
+          message.append("\n\nProcess ID: ").append(p.pid).append("\nCommand: ").append(p.getCMDstr());
+        }
+      }
+      if (found_any) {stdout.print(message.toString());}
+      else {stdout.print("No running system process was found with " + find_process + " in the path!");}
+    }
     return true;
   }
 
