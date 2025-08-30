@@ -5,6 +5,8 @@ import nitori.features.*;
 import nitori.cli.cli;
 import nitori.preset.*;
 
+import java.util.ArrayList;
+
 //Processes the CLI arguments to run the tasks/comands/features nitori supports
 class tasks {
   static boolean runCPUTasks(String[] args, boolean root) {
@@ -201,10 +203,17 @@ class tasks {
 
     Proc[] processes = Proc.getSystemProcesses();
     if (processes == null) {return true;}
+
+    //Kernel threads do not have a command line, userspace application processes do
+    var user_procs = new ArrayList<Proc>();
+    for (Proc p : processes) {
+      if (p.has_cmd) {user_procs.add(p);}
+    }
+
     if (list_processes) {
       var message = new StringBuilder();
-      message.append("[Full list of running system processes]\n\n");
-      for (Proc p : processes) {
+      message.append("[Full list of running userspace system processes]\n\n");
+      for (Proc p : user_procs) {
         message
           .append("Process ID ")
           .append(p.pid)
@@ -217,8 +226,12 @@ class tasks {
       }
       stdout.print(message.toString());
     }
-    else if (count_processes) {
-      stdout.print("Number of running system processes: " + processes.length);
+    if (count_processes) {
+      stdout.print(
+        "Total number of running system processes: " + processes.length
+        + "\nUserspace processes: " + user_procs.size()
+        + "\nKernel processes: " + (processes.length-user_procs.size())
+      );
     }
     //if (find_process != null) {}
     return true;
