@@ -6,6 +6,7 @@ import nitori.cli.cli;
 import nitori.preset.*;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 //Processes the CLI arguments to run the tasks/comands/features nitori supports
 class tasks {
@@ -236,8 +237,9 @@ class tasks {
       var message = new StringBuilder();
       boolean found_any = false;
       message.append("Found the following processes including ").append(find_process).append(" in the path:");
+      find_process = find_process.toLowerCase();
       for (Proc p : user_procs) {
-        if (p.cmd[0].contains(find_process)) {
+        if (p.cmd[0].toLowerCase().contains(find_process)) {
           found_any = true;
           message.append("\n\nProcess ID: ").append(p.pid).append("\nCommand: ").append(p.getCMDstr());
         }
