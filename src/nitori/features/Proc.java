@@ -6,9 +6,9 @@ import nitori.io.*;
 
 
 public class Proc {
-  long pid;
-  boolean has_cmd = false;
-  String[] cmd = null;
+  public long pid;
+  public boolean has_cmd = false;
+  public String[] cmd = null;
 
   public Proc(long pid) {
     this.pid = pid;
@@ -27,8 +27,17 @@ public class Proc {
       else {arg.append(c);}
     }
     this.cmd = cmd.toArray(new String[0]);
-    this.has_cmd = true;
+    this.has_cmd = this.cmd.length > 0;
   }
+
+  public String getCMDstr() {
+    if (!has_cmd) {return "N/A";}
+    var strbuilder = new StringBuilder();
+    for (String arg : cmd) {strbuilder.append(arg + " ");}
+    return strbuilder.toString().trim();
+  }
+
+  public String getName() {return has_cmd ? cmd[0] : "N/A";}
 
   public static Proc[] getSystemProcesses() {
     String[] paths = new File("/proc/").list();

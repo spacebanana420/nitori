@@ -193,6 +193,37 @@ class tasks {
     return true;
   }
 
+  static boolean runProcessTasks(String[] args) {
+    boolean count_processes = cli.countProcesses(args);
+    boolean list_processes = cli.listProcesses(args);
+    String find_process = cli.findProcess(args);
+    if (find_process == null && !list_processes && !count_processes) {return false;}
+
+    Proc[] processes = Proc.getSystemProcesses();
+    if (processes == null) {return true;}
+    if (list_processes) {
+      var message = new StringBuilder();
+      message.append("[Full list of running system processes]\n\n");
+      for (Proc p : processes) {
+        message
+          .append("Process ID ")
+          .append(p.pid)
+          .append("\n  * Name: ")
+          .append(p.getName())
+          .append("\n  * Command: ")
+          .append(p.getCMDstr())
+          .append("\n\n")
+        ;
+      }
+      stdout.print(message.toString());
+    }
+    else if (count_processes) {
+      stdout.print("Number of running system processes: " + processes.length);
+    }
+    //if (find_process != null) {}
+    return true;
+  }
+
   //kB to GB and few decimal cases
   private static float convertUnit(long number) {
     number = number / 1000; //MB no decimal cases

@@ -19,23 +19,24 @@ public class main {
   
   private static boolean runTasks(String[] args) {
     final boolean root = isRoot();
-    final boolean[] ran_tasks = new boolean[5];
+    final boolean[] ran_tasks = new boolean[6];
     final boolean ran_presets = tasks.runPresetTasks(args, root);
 
     //Run the different tasks in parallel, they are not dependant on each other
-    Thread[] t = new Thread[5];
+    Thread[] t = new Thread[6];
     t[0] = new Thread(() -> {ran_tasks[0] = tasks.runCPUTasks(args, root);});
     t[1] = new Thread(() -> {ran_tasks[1] = tasks.runBatteryTasks(args, root);});
     t[2] = new Thread(() -> {ran_tasks[2] = tasks.runBacklightTasks(args, root);});
     t[3] = new Thread(() -> {ran_tasks[3] = tasks.runSuspendTasks(args, root);});
     t[4] = new Thread(() -> {ran_tasks[4] = tasks.runMemoryTask(args);});
+    t[5] = new Thread(() -> {ran_tasks[5] = tasks.runProcessTasks(args);});
     for (Thread thread : t) {thread.start();}
     for (Thread thread : t) {
       try{thread.join();}
       catch(InterruptedException e) {e.printStackTrace(); return false;}
     }
     
-    return ran_presets || ran_tasks[0] || ran_tasks[1] || ran_tasks[2] || ran_tasks[3] || ran_tasks[4];
+    return ran_presets || ran_tasks[0] || ran_tasks[1] || ran_tasks[2] || ran_tasks[3] || ran_tasks[4] || ran_tasks[5];
   }
 
   private static boolean supportedOS() {return System.getProperty("os.name").equals("Linux");}
