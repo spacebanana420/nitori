@@ -24,7 +24,7 @@ public class cli {
   
   public static String suspendSystem(String[] args) {
     int i = parser.findArgumentIndex(args, "-s");
-    if (i == -1) {parser.findArgumentIndex(args, "--suspend");}
+    if (i == -1) {i = parser.findArgumentIndex(args, "--suspend");}
     if (i == -1) {return null;}
     
     if (!parser.checkValue(args, i)) {return "mem";}
@@ -42,6 +42,10 @@ public class cli {
   public static boolean quietOutput(String[] args) {return parser.hasArgument(args, "-q", "--quiet");}
   public static boolean verboseOutput(String[] args) {return parser.hasArgument(args, "-v", "--verbose");}
   public static boolean debugOutput(String[] args) {return parser.hasArgument(args, "--debug");}
+
+  public static boolean countProcesses(String[] args) {return parser.hasArgument(args, "-proc", "--process-count");}
+  public static boolean listProcesses(String[] args) {return parser.hasArgument(args, "-procl", "--process-list");}
+  public static String findProcess(String[] args) {return parser.getArgumentValue(args, "-procf", "--process-find");}
 }
 
 //Internal CLI parsing
