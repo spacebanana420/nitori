@@ -212,16 +212,15 @@ class tasks {
 
     if (list_processes) {
       var message = new StringBuilder();
-      message.append("[Full list of running userspace system processes]\n\n");
+      message.append("[Full list of running userspace system processes]");
       for (Proc p : user_procs) {
         message
-          .append("Process ID ")
+          .append("\n\nProcess ID ")
           .append(p.pid)
           .append("\n  * Name: ")
           .append(p.getName())
           .append("\n  * Command: ")
           .append(p.getCMDstr())
-          .append("\n\n")
         ;
       }
       stdout.print(message.toString());
