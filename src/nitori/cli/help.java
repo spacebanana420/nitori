@@ -31,10 +31,10 @@ public class help {
       + "\n  * -li (--backlight-info)                   Displays the current backlight percentage"
       
       + "\n\n[Suspension-related arguments]"
-      + "\n   * -s (--suspend)                           Suspends the system to RAM if available"
-      + "\n   * -s (--suspend) <state>                   Suspends the system according to a supported given state"
-      + "\n   * -sh (--hibernate)                        Suspends the system by hibernating to disk"
-      + "\n   * -ss (--suspend-states)                   Lists the supported and available suspend states"
+      + "\n   * -s (--suspend)                          Suspends the system to RAM if available"
+      + "\n   * -s (--suspend) <state>                  Suspends the system according to a supported given state"
+      + "\n   * -sh (--hibernate)                       Suspends the system by hibernating to disk"
+      + "\n   * -ss (--suspend-states)                  Lists the supported and available suspend states"
 
       + "\n\n[Preset-related arguments]"
       + "\n   * -p (--preset) <preset name>             Executes a Nitori preset if available"
@@ -44,7 +44,7 @@ public class help {
       + "\n\n[Process-related arguments]"
       + "\n   * -proc (--process-count)                 Counts the amount of system processes and kernel threads"
       + "\n   * -procl (--process-list)                 Lists the currently-running system processes"
-      + "\n   * -procf (--process-find) <name>          Finds the processes that contain <name> in their filename"
+      + "\n   * -procf (--process-find) <name>          Finds the processes that contain <name> in their path"
       
       + "\n\n[Other arguments]"
       + "\n  * -q (--quiet)                             Disables printing to standard output"
