@@ -6,7 +6,6 @@ import nitori.cli.cli;
 import nitori.preset.*;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 //Processes the CLI arguments to run the tasks/comands/features nitori supports
 class tasks {
