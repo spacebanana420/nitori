@@ -1,5 +1,6 @@
 package nitori.features;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import nitori.io.*;
 
@@ -19,26 +20,18 @@ public class MemoryInfo {
   public long swap_cached;
 
   public MemoryInfo() {
-    final ArrayList<String> keys = new ArrayList<String>();
-    final ArrayList<String> values = new ArrayList<String>();
-    String info = fileio.readValue("/proc/meminfo");
+    final var keys = new ArrayList<String>();
+    final var values = new ArrayList<String>();
+    ArrayList<String> info = fileio.readLines("/proc/meminfo");
     if (info == null) {return;}
 
     //Get keys and values from each line
-    StringBuilder line = new StringBuilder();
-    for (int i = 0; i < info.length(); i++) {
-      char c = info.charAt(i);
-      if (c == '\n') {
-        if (line.length() == 0) {continue;}
-        String line_str = line.toString();
-        String[] key_value = getInfo(line_str);
-        if (key_value == null) {line = new StringBuilder(); continue;}
-        stdout.print_debug("Adding key " + key_value[0] + " and value " + key_value[1]);
-        keys.add(key_value[0]);
-        values.add(key_value[1]);
-        line = new StringBuilder();
-      }
-      else {line.append(c);}
+    for (String line : info) {
+      String[] key_value = getInfo(line);
+      if (key_value == null) {continue;}
+      stdout.print_debug("Adding key " + key_value[0] + " and value " + key_value[1]);
+      keys.add(key_value[0]);
+      values.add(key_value[1]);
     }
 
     is_empty = keys.isEmpty();

@@ -1,6 +1,7 @@
 package nitori.io;
 
 import java.io.FileOutputStream;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.io.IOException;
@@ -37,6 +38,18 @@ public class fileio {
     }
   }
 
+  public static ArrayList<String> readLines(String path) {
+    String file = readValue(path);
+    if (file == null) {return null;}
+    return getStrLines(file, false, '\0');
+  }
+  public static ArrayList<String> readLines(String path, char comment_char) {
+    String file = readValue(path);
+    if (file == null) {return null;}
+    return getStrLines(file, true, comment_char);
+  }
+  public static ArrayList<String> strToLines(String str, char comment_char) {return getStrLines(str, true, comment_char);}
+
   public static boolean fileExists(String path) {return new File(path).isFile();}
   public static void createDirectory(String path) {new File(path).mkdirs();}
 
@@ -67,5 +80,33 @@ public class fileio {
     }
     if (!buffer.isEmpty()) {words.add(buffer);}
     return words.toArray(new String[0]);
+  }
+
+  //Separating a string by lines, optional removal of comments
+  private static ArrayList<String> getStrLines(String str, boolean remove_comments, char comment_char) {
+    var lines = new ArrayList<String>();
+    StringBuilder line = new StringBuilder();
+
+    for (int i = 0; i < str.length(); i++) {
+      char c = str.charAt(i);
+      if (c == '\n' && line.length() != 0) {
+        String line_str = remove_comments ? removeComments(line.toString(), comment_char) : line.toString();
+        lines.add(line_str);
+        line = new StringBuilder();;
+      }
+      else {line.append(c);}
+    }
+    if (line.length() != 0) {lines.add(remove_comments ? removeComments(line.toString(), comment_char) : line.toString());}
+    return lines;
+  }
+
+  private static String removeComments(String line, char comment_char) {
+    StringBuilder newline = new StringBuilder();
+    for (int i = 0; i < line.length(); i++) {
+      char c = line.charAt(i);
+      if (c == comment_char) {break;}
+      newline.append(c);
+    }
+    return newline.toString();
   }
 }

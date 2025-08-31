@@ -107,21 +107,7 @@ class NitoriPreset {
   boolean is_empty = true;
 
   NitoriPreset(String file) {
-    var lines = new ArrayList<String>();
-    StringBuilder line = new StringBuilder();
-    int len = file.length();
-
-    for (int i = 0; i < len; i++) { //Separate a whole file by lines and filter out comments
-      char c = file.charAt(i);
-      if (c == '\n' && line.length() != 0) {
-        String line_str = removeComments(line.toString()); //Comments start with the character #
-        lines.add(line_str);
-        line = new StringBuilder();;
-      }
-      else {line.append(c);}
-    }
-    if (line.length() != 0) {lines.add(removeComments(line.toString()));}
-
+    ArrayList<String> lines = fileio.strToLines(file, '#');
     var keys = new ArrayList<String>();
     var values = new ArrayList<String>();
     for (String l : lines) { //Get the keys (settings) and the values set for each key
