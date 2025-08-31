@@ -1,7 +1,6 @@
 package nitori.io;
 
 import java.io.FileOutputStream;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.io.IOException;
