@@ -26,7 +26,7 @@ public class Proc {
       }
       else {arg.append(c);}
     }
-    if (!arg.isEmpty()) {cmd.add(arg.toString());} //fileio.readValue() trims strings, removing the last \000 character
+    if (arg.length() != 0) {cmd.add(arg.toString());} //fileio.readValue() trims strings, removing the last \000 character
     this.cmd = cmd.toArray(new String[0]);
     this.has_cmd = this.cmd.length > 0;
   }
