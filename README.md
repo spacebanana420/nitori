@@ -7,6 +7,7 @@ Nitori is a CLI tool for controlling and monitoring the system's CPU and hardwar
 * **Backlight**: Set and view the screen backlight brightness for built-in laptop screens
 * **Suspension**: Suspend the system to RAM, freeze userspace or hibernate to disk
 * **Memory**: Monitor the system memory and swap and now much is free, available, used and cached
+* **Process**: List, count and find system processes and kernel threads
 
 ## Requirements
 * Linux-based systems are the only systems that work
