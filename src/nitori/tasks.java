@@ -221,6 +221,10 @@ class tasks {
           .append(p.getName())
           .append("\n  * Command: ")
           .append(p.getCMDstr())
+          .append("\n  * Memory usage (MB): ")
+          .append((float)p.ram_usage/1000)
+          .append("\n  * Swap usage (MB): ")
+          .append((float)p.swap_usage/1000)
         ;
       }
       stdout.print(message.toString());

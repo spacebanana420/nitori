@@ -9,10 +9,13 @@ public class Proc {
   public long pid;
   public boolean has_cmd = false;
   public String[] cmd = null;
+  public long ram_usage = 0; //measured in kB
+  public long swap_usage = 0; //measured in kB
 
   public Proc(long pid) {
     this.pid = pid;
-    String command = fileio.readValue("/proc/"+pid+"/cmdline");
+    String base_path = "/proc/" + pid;
+    String command = fileio.readValue(base_path+"/cmdline");
     if (command == null) {return;}
 
     //Each arugment of the command line ends with the escape character \000
@@ -29,6 +32,12 @@ public class Proc {
     if (arg.length() != 0) {cmd.add(arg.toString());} //fileio.readValue() trims strings, removing the last \000 character
     this.cmd = cmd.toArray(new String[0]);
     this.has_cmd = this.cmd.length > 0;
+
+    if (!this.has_cmd) {return;} //Ignore kernel processes for memory information
+    MemData memory_data = new MemData(base_path+"/status");
+    if (memory_data.is_empty) {return;}
+    this.ram_usage = memory_data.getValue("VmRSS");
+    this.swap_usage = memory_data.getValue("VmSwap");
   }
 
   public String getCMDstr() {
