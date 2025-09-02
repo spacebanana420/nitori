@@ -49,7 +49,8 @@ public class cpu {
       stdout.error("The provided cpu governor \""+governor+"\" is not supported!");
       return false;
     }
-    
+
+    stdout.print("Setting CPU governor " + governor + " for all cores");
     final String cpu_base_path = getBasePath();
     for (String core : cpu_info.cores) {
       String path = cpu_base_path + core + "/cpufreq/scaling_governor";
