@@ -43,7 +43,7 @@ public class help {
 
       + "\n\n[Process-related arguments]"
       + "\n   * -proc (--process-count)                 Counts the amount of system processes and kernel threads"
-      + "\n   * -procl (--process-list)                 Lists the currently-running system processes"
+      + "\n   * -procl (--process-list)                 Lists the currently running system processes"
       + "\n   * -procf (--process-find) <name>          Finds the processes that contain <name> in their path"
       
       + "\n\n[Other arguments]"
