@@ -19,10 +19,10 @@ public class main {
   
   private static boolean runTasks(String[] args) {
     final boolean root = isRoot();
-    final boolean[] ran_tasks = new boolean[6];
     final boolean ran_presets = tasks.runPresetTasks(args, root);
 
     //Run the different tasks in parallel, they are not dependant on each other
+    final boolean[] ran_tasks = new boolean[6];
     Thread[] t = new Thread[6];
     t[0] = new Thread(() -> {ran_tasks[0] = tasks.runCPUTasks(args, root);});
     t[1] = new Thread(() -> {ran_tasks[1] = tasks.runBatteryTasks(args, root);});
@@ -33,7 +33,7 @@ public class main {
     for (Thread thread : t) {thread.start();}
     for (Thread thread : t) {
       try{thread.join();}
-      catch(InterruptedException e) {e.printStackTrace(); return false;}
+      catch(InterruptedException e) {e.printStackTrace(); return true;}
     }
     
     return ran_presets || ran_tasks[0] || ran_tasks[1] || ran_tasks[2] || ran_tasks[3] || ran_tasks[4] || ran_tasks[5];
