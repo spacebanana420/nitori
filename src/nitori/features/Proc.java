@@ -34,7 +34,7 @@ public class Proc {
     this.has_cmd = this.cmd.length > 0;
 
     if (!this.has_cmd) {return;} //Ignore kernel processes for memory information
-    MemData memory_data = new MemData(base_path+"/status");
+    MemData memory_data = new MemData(base_path+"/status", "VmRSS", "VmSwap");
     if (memory_data.is_empty) {return;}
     this.ram_usage = memory_data.getValue("VmRSS");
     this.swap_usage = memory_data.getValue("VmSwap");

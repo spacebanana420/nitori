@@ -1,6 +1,5 @@
 package nitori.features;
 
-import java.util.ArrayList;
 import nitori.io.*;
 
 public class MemoryInfo {
