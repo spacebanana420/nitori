@@ -5,8 +5,8 @@ import nitori.io.*;
 
 public class main {
   public static void main(String[] args) {
-    if (cli.askedForHelp(args)) {help.printHelp(); return;}
     if (args.length == 0) {help.printSmallHelp(); return;}
+    if (cli.askedForHelp(args)) {help.printHelp(); return;}
     stdout.PRINT_LEVEL = stdout.getPrintLevel(args);
 
     if (!supportedOS()) {
