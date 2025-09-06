@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class fileio {
   public static boolean writeValue(String path, String content) {
     byte[] string_data = content.getBytes();
+    stdout.print_debug("[fileio debug] Writing to " + path);
     try {
       var output = new FileOutputStream(path);
       output.write(string_data);
