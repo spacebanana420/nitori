@@ -1,7 +1,7 @@
 package nitori.cli;
 import nitori.io.stdout;
 
-//To check if CLI arguments are used and if they are followed by a value
+//Read the CLI, obtain the presence or values of a CLI argument
 public class cli {
   public static boolean askedForHelp(String[] args) {return parser.hasArgument(args, "-h", "--help");}
   

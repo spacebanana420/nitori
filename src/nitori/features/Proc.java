@@ -12,11 +12,12 @@ public class Proc {
   public long ram_usage = 0; //measured in kB
   public long swap_usage = 0; //measured in kB
 
+  //Read the process pseudo-file and parse its string, containing the process command-line
   public Proc(long pid) {
     this.pid = pid;
     String base_path = "/proc/" + pid;
     String command = fileio.readValue(base_path+"/cmdline");
-    if (command == null) {return;}
+    if (command == null) return;
 
     //Each arugment of the command line ends with the escape character \000
     var cmd = new ArrayList<String>();
