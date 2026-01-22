@@ -13,7 +13,7 @@ public class help {
       
       + "\n\n[CPU-related arguments]"
       + "\n  * -cmin (--cpu-min) <clock speed>          Sets the minimum CPU clock speed in megahertz (MHz)"
-      + "\n  * -cmax (--cpu-min) <clock speed>          Sets the maximum CPU clock speed in megahertz (MHz)"
+      + "\n  * -cmax (--cpu-max) <clock speed>          Sets the maximum CPU clock speed in megahertz (MHz)"
       + "\n  * -cg (--cpu-governor) <governor>          Sets the CPU kernel governor"
       + "\n  * -ce (--cpu-energy-preference) <mode>     Sets the CPU energy balance preference if available"
       + "\n  * -ci (--cpu-info)                         Displays info about the system's CPU and supported speeds and governors"
