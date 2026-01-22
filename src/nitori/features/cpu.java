@@ -21,8 +21,11 @@ public class cpu {
     //set minimum
     if (min_clock_speed > 0) {
       setMinimum = true;
-      if (min_speed < cpu_info.hardware_min_frequency) {min_speed = cpu_info.hardware_min_frequency;}
-      stdout.print("Setting minimum clock speed " + min_clock_speed + "MHz for all cores");
+      if (min_speed < cpu_info.hardware_min_frequency) {
+        min_speed = cpu_info.hardware_min_frequency;
+        stdout.print("The given minimum clock speed "+ min_clock_speed +"MHz is below the CPU's minimum supported value\nSetting minimum clock speed " + min_speed + "KHz for all cores instead");
+      }
+      else stdout.print("Setting minimum clock speed " + min_clock_speed + "MHz for all cores");
       
       for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_min_freq";
@@ -33,8 +36,11 @@ public class cpu {
     //set maxmimum
     if (max_clock_speed > 0) {
       setMaximum = true;
-      if (max_speed > cpu_info.hardware_max_frequency) {max_speed = cpu_info.hardware_max_frequency;}
-      stdout.print("Setting maximum clock speed " + max_clock_speed + "MHz for all cores");
+      if (max_speed > cpu_info.hardware_max_frequency) {
+        max_speed = cpu_info.hardware_max_frequency;
+        stdout.print("The given maximum clock speed "+ max_clock_speed +"MHz is above the CPU's maximum supported value\nSetting maximum clock speed " + max_speed + "KHz for all cores instead");
+      }
+      else stdout.print("Setting maximum clock speed " + max_clock_speed + "MHz for all cores");
       
       for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_max_freq";
