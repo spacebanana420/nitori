@@ -16,25 +16,12 @@ public class Proc {
   public Proc(long pid) {
     this.pid = pid;
     String base_path = "/proc/" + pid;
-    String command = fileio.readValue(base_path+"/cmdline");
-    if (command == null) return;
-
-    //Each arugment of the command line ends with the escape character \000
-    var cmd = new ArrayList<String>();
-    var arg = new StringBuilder();
-    for (int i = 0; i < command.length(); i++) {
-      char c = command.charAt(i);
-      if (c == '\000') {
-        cmd.add(arg.toString());
-        arg = new StringBuilder();
-      }
-      else {arg.append(c);}
-    }
-    if (arg.length() != 0) {cmd.add(arg.toString());} //fileio.readValue() trims strings, removing the last \000 character
-    this.cmd = cmd.toArray(new String[0]);
+    String command_str = fileio.readValue(base_path+"/cmdline");
+    if (command_str == null) return;
+    this.cmd = getProcessCommand(command_str);
     this.has_cmd = this.cmd.length > 0;
 
-    if (!this.has_cmd) {return;} //Ignore kernel processes for memory information
+    if (!this.has_cmd) return; //Kernel processes do not have a command, ignore them
     MemData memory_data = new MemData(base_path+"/status", "VmRSS", "VmSwap");
     if (memory_data.is_empty) {return;}
     this.ram_usage = memory_data.getValue("VmRSS");
@@ -78,6 +65,21 @@ public class Proc {
       catch(NumberFormatException e) {stdout.error("Failed to convert process of ID " + p);}
     }
     return procs.toArray(new Proc[0]);
+  }
+
+  private static String[] getProcessCommand(String command_str) {
+    var command = new ArrayList<String>();
+    var arg = new StringBuilder();
+    for (int i = 0; i < command_str.length(); i++) {
+      char c = command_str.charAt(i);
+      if (c == '\000') {//Each arugment ends with the escape character \000
+        command.add(arg.toString());
+        arg = new StringBuilder();
+      }
+      else {arg.append(c);}
+    }
+    if (arg.length() != 0) {command.add(arg.toString());} //fileio.readValue() trims strings, removing the last \000 character
+    return command.toArray(new String[0]);
   }
 
   //Process directories only have digits in their name
