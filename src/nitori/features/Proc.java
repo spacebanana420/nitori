@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.io.File;
 import nitori.io.*;
 
-
+//Class that stores process information, such as the executed command-line, the process ID and RAM/swap usage
 public class Proc {
   public long pid;
   public boolean has_cmd = false;
@@ -12,16 +12,16 @@ public class Proc {
   public long ram_usage = 0; //measured in kB
   public long swap_usage = 0; //measured in kB
 
-  //Read the process pseudo-file and parse its string, containing the process command-line
+  //Read the process pseudo-file and parse its string
   public Proc(long pid) {
     this.pid = pid;
     String base_path = "/proc/" + pid;
-    String command_str = fileio.readValue(base_path+"/cmdline");
+    String command_str = fileio.readValue(base_path+"/cmdline"); //CLI as string from pseudo-file
     if (command_str == null) return;
-    this.cmd = getProcessCommand(command_str);
+    this.cmd = getProcessCommand(command_str); //CLI string into array
     this.has_cmd = this.cmd.length > 0;
-
     if (!this.has_cmd) return; //Kernel processes do not have a command, ignore them
+    
     MemData memory_data = new MemData(base_path+"/status", "VmRSS", "VmSwap");
     if (memory_data.is_empty) {return;}
     this.ram_usage = memory_data.getValue("VmRSS");
@@ -47,8 +47,8 @@ public class Proc {
     ArrayList<String> processes = new ArrayList<String>();
     for (String path : paths) {
       File f = new File("/proc/"+path);
-      if (!f.isDirectory()) {continue;}
-      if (!isProcess(path)) {continue;}
+      if (!f.isDirectory()) continue;
+      if (!isProcess(path)) continue;
       processes.add(path);
     }
     if (processes.size() == 0) {
@@ -67,12 +67,13 @@ public class Proc {
     return procs.toArray(new Proc[0]);
   }
 
+  //Parses the command string into an array separating the arguments
   private static String[] getProcessCommand(String command_str) {
     var command = new ArrayList<String>();
     var arg = new StringBuilder();
     for (int i = 0; i < command_str.length(); i++) {
       char c = command_str.charAt(i);
-      if (c == '\000') {//Each arugment ends with the escape character \000
+      if (c == '\000') { //Each arugment ends with the escape character \000
         command.add(arg.toString());
         arg = new StringBuilder();
       }
