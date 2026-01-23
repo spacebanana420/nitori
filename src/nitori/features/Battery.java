@@ -5,6 +5,7 @@ import nitori.io.stdout;
 
 import java.io.File;
 
+//Class for obtaining battery info as well as setting battery charge limits if the battery supports it
 public class Battery {
   public static boolean hasBattery = new File(getBasePath()).isDirectory();
   
@@ -48,7 +49,7 @@ public class Battery {
   }
 
   public static boolean setChargeLimit(byte limit) {
-    if (limit < 1 || limit > 100) {return false;}
+    if (limit < 1 || limit > 100) return false;
     String base_path = getBasePath();
     stdout.print("Setting battery charge limit to "+ limit + "%");
     fileio.writeValue(base_path+"charge_control_end_threshold", ""+limit);

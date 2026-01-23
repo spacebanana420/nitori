@@ -4,6 +4,7 @@ import nitori.io.fileio;
 
 import java.io.File;
 
+//Handles laptop screen backlight, can set and get the backlight brightness
 public class backlight {
   public static boolean hasBacklight(String base_path) {return base_path != null;}
   
