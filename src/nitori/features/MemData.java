@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import nitori.io.*;
 
 //Generic class used for parsing /proc/meminfo as well as /proc/<PID>/status
+//Used by Proc.java as well as MemoryInfo.java
 class MemData {
   String[] keys = null;
   String[] values = null;
@@ -13,16 +14,14 @@ class MemData {
     var keys = new ArrayList<String>();
     var values = new ArrayList<String>();
     ArrayList<String> info = fileio.readLines(path);
-    if (info == null) {return;}
+    if (info == null) return;
 
     //Get keys and values from each line
     for (String line : info) {
-      String[] key_value = getInfo(line);
-      if (key_value == null) {continue;}
-      if (invalidKey(key_value[0], valid_keys)) {
-        stdout.print_debug("Skipping key " + key_value[0] + " for not being in the list of accepted keys");
-        continue;
-      }
+      String[] key_value = getInfo(line); //Contains both a setting and its value
+      if (key_value == null) continue;
+      if (invalidKey(key_value[0], valid_keys)) continue;
+      
       stdout.print_debug("Adding key " + key_value[0] + " and value " + key_value[1]);
       keys.add(key_value[0]);
       values.add(key_value[1]);
@@ -81,6 +80,7 @@ class MemData {
   private static boolean invalidKey(String key, String... valid_keys) {
     if (valid_keys.length == 0) {return false;}
     for (String vkey : valid_keys) {if (key.equals(vkey)) {return false;}}
+    stdout.print_debug("Skipping key " + key + " for not being in the list of accepted keys");
     return true;
   }
 }

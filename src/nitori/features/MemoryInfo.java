@@ -2,6 +2,7 @@ package nitori.features;
 
 import nitori.io.*;
 
+//Operating system memory statistics class
 public class MemoryInfo {
   public boolean is_empty = true;
 
