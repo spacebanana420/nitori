@@ -47,7 +47,7 @@ public class presetrun {
       byte bat_percentage = toPercentage(bat);
       if (bat_percentage != -1) {
         stdout.print("[Preset] setting battery charge limit percentage");
-        battery.setChargeLimit(bat_percentage);
+        Battery.setChargeLimit(bat_percentage);
       }
       else {stdout.error("Invalid battery charge limit percentage found!");}
     }

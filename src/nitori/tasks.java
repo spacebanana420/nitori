@@ -56,32 +56,32 @@ class tasks {
     boolean display_info = cli.batteryInfo(args);
     boolean set_charge = charge_percentage != -1;
     boolean ran_task = set_charge || display_info;
-    if (!ran_task) {return false;}
-    if (!battery.hasBattery()) {
+    if (!ran_task) return false;
+    if (!Battery.hasBattery) {
       stdout.error("No hardware battery was found!");
       return true;
     }
   
     if (set_charge) {
-      if (!battery.chargeLimitSupported()) {stdout.error("Your system's battery does not support setting charge limits at the OS level!\nMaybe it's available in BIOS/UEFI?"); return true;}
+      if (!Battery.chargeLimitSupported()) {stdout.error("Your system's battery does not support setting charge limits at the OS level!\nMaybe it's available in BIOS/UEFI?"); return true;}
       if (!root) {stdout.error("You must be root to be able to modify battery charge limits!"); return true;}
-      boolean result = battery.setChargeLimit(charge_percentage);
+      boolean result = Battery.setChargeLimit(charge_percentage);
       if (!result) {stdout.error("The battery charge limit must be a percentage value between 1% and 100%!");}
     }
     if (display_info) {
-      BatInfo info = battery.getInfo();
+      Battery battery = new Battery();
       stdout.print(
         "[Battery Specifications]"
-        + "\n * Technology: " + info.technology
-        + "\n * Manufacturer: " + info.manufacturer
-        + "\n * Model: " + info.model
-        + "\n * Energy capacity: " + info.getFullEnergy()
-        + "\n * Original energy capacity: " + info.getFullEnergyDesign()
-        + "\n * Battery health: " + info.getBatteryHealth()
-        + "\n * Current charge: " + info.getEnergyNow()
-        + "\n * Current charge percentage: " + info.charge_percentage + "%"
-        + "\n * Charge cycle count: " + info.getCycleCount()
-        + "\n * Power usage: " + info.getPowerUsage()
+        + "\n * Technology: " + battery.technology
+        + "\n * Manufacturer: " + battery.manufacturer
+        + "\n * Model: " + battery.model
+        + "\n * Energy capacity: " + battery.getFullEnergy()
+        + "\n * Original energy capacity: " + battery.getFullEnergyDesign()
+        + "\n * Battery health: " + battery.getBatteryHealth()
+        + "\n * Current charge: " + battery.getEnergyNow()
+        + "\n * Current charge percentage: " + battery.charge_percentage + "%"
+        + "\n * Charge cycle count: " + battery.getCycleCount()
+        + "\n * Power usage: " + battery.getPowerUsage()
       );
     }
     return true;
