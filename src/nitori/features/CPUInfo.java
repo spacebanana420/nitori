@@ -1,5 +1,6 @@
 package nitori.features;
 
+//Stores CPU information and status, for both viewing and modifying
 public class CPUInfo {
   //Frequency values are in KHz
   public int[] min_frequency;

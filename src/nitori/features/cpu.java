@@ -6,6 +6,7 @@ import nitori.io.stdout;
 import java.io.File;
 import java.util.ArrayList;
 
+//CPU-related functionality, makes use of CPUInfo class
 public class cpu {
   public static boolean canControlCPU() {return new File("/sys/devices/system/cpu/cpu0/cpufreq/").isDirectory();}
   

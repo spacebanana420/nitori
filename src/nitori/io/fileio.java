@@ -8,7 +8,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-//Used for reading and writing to the files which serve as an interface for kernel features
+//General file I/O functions
+//Used for creating, reading and writing files of any kind
 public class fileio {
   public static String homeDirectory() {return System.getProperty("user.home");}
   

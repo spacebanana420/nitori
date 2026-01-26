@@ -3,8 +3,9 @@ package nitori.io;
 import nitori.cli.cli;
 import java.util.ArrayList;
 
+//Class for printing messages and errors to standard output
 public class stdout {
-  public static byte PRINT_LEVEL = 1;
+  public static byte PRINT_LEVEL = 1; //Value is assigned in main.java using getPrintLevel()
   
   public static byte getPrintLevel(String[] args) {
     if (cli.quietOutput(args)) {return 0;}
