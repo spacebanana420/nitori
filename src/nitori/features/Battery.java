@@ -26,24 +26,24 @@ public class Battery {
     this.technology = fileio.readValue(base_path + "technology");
     this.manufacturer = fileio.readValue(base_path + "manufacturer");
     this.model = fileio.readValue(base_path + "model_name");
-    this.charge_percentage = fileio.valueToByte(fileio.readValue(base_path + "capacity"));
-    this.cycle_count = fileio.valueToInt(fileio.readValue(base_path + "cycle_count"));
+    this.charge_percentage = fileio.readByte(base_path + "capacity");
+    this.cycle_count = fileio.readInt(base_path + "cycle_count");
     
     this.uses_power_info = fileio.fileExists("/sys/class/power_supply/BAT0/energy_now");
     if (this.uses_power_info) {
       PowerInfo pinfo = new PowerInfo();
-      pinfo.energy_full = fileio.valueToInt(fileio.readValue(base_path + "energy_full"));
-      pinfo.energy_full_design = fileio.valueToInt(fileio.readValue(base_path + "energy_full_design"));
-      pinfo.energy_now = fileio.valueToInt(fileio.readValue(base_path + "energy_now"));
-      pinfo.power_usage = fileio.valueToInt(fileio.readValue(base_path + "power_now"));
+      pinfo.energy_full = fileio.readInt(base_path + "energy_full");
+      pinfo.energy_full_design = fileio.readInt(base_path + "energy_full_design");
+      pinfo.energy_now = fileio.readInt(base_path + "energy_now");
+      pinfo.power_usage = fileio.readInt(base_path + "power_now");
       this.power = pinfo;
     }
     else {
       CurrentInfo cinfo = new CurrentInfo();
-      cinfo.charge_full = fileio.valueToInt(fileio.readValue(base_path + "charge_full"));
-      cinfo.charge_full_design = fileio.valueToInt(fileio.readValue(base_path + "charge_full_design"));
-      cinfo.charge_now = fileio.valueToInt(fileio.readValue(base_path + "charge_now"));
-      cinfo.voltage_now = fileio.valueToInt(fileio.readValue(base_path + "voltage_now"));
+      cinfo.charge_full = fileio.readInt(base_path + "charge_full");
+      cinfo.charge_full_design = fileio.readInt(base_path + "charge_full_design");
+      cinfo.charge_now = fileio.readInt(base_path + "charge_now");
+      cinfo.voltage_now = fileio.readInt(base_path + "voltage_now");
       this.current = cinfo;
     }
   }
@@ -52,7 +52,7 @@ public class Battery {
     if (limit < 1 || limit > 100) return false;
     String base_path = getBasePath();
     stdout.print("Setting battery charge limit to "+ limit + "%");
-    fileio.writeValue(base_path+"charge_control_end_threshold", ""+limit);
+    fileio.writeValue(base_path+"charge_control_end_threshold", limit);
     return true;
   }
   

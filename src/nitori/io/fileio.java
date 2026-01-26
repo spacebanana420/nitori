@@ -28,6 +28,7 @@ public class fileio {
       return false;
     }
   }
+  public static boolean writeValue(String path, int content) {return writeValue(path, ""+content);}
 
   public static String readValue(String path) {
     try {
@@ -37,6 +38,28 @@ public class fileio {
     catch(IOException e) {
       stdout.error("Failed to read file at path " + path);
       return null;
+    }
+  }
+  
+  public static int readInt(String path) {
+    String value = readValue(path);
+    if (value == null) return -1;
+    
+    try {return Integer.parseInt(value);}
+    catch(NumberFormatException e) {
+      stdout.error("Failed to read file as 32bit signed integer");
+      return -1;
+    }
+  }
+
+  public static byte readByte(String path) {
+    String value = readValue(path);
+    if (value == null) return -1;
+    
+    try {return Byte.parseByte(value);}
+    catch(NumberFormatException e) {
+      stdout.error("Failed to read file as 8bit signed integer");
+      return -1;
     }
   }
 
@@ -54,18 +77,6 @@ public class fileio {
 
   public static boolean fileExists(String path) {return new File(path).isFile();}
   public static void createDirectory(String path) {new File(path).mkdirs();}
-
-  public static int valueToInt(String value) {
-    try {
-      return Integer.parseInt(value);
-    } catch(NumberFormatException e) {return -1;}
-  }
-
-  public static byte valueToByte(String value) {
-    try {
-      return Byte.parseByte(value);
-    } catch(NumberFormatException e) {return -1;}
-  }
   
   //Some files have values separated by words
   //For example: performance powersave

@@ -9,8 +9,8 @@ public class backlight {
   public static boolean hasBacklight(String base_path) {return base_path != null;}
   
   public static float getBrightness(String base_path) {
-    float brightness = (float) fileio.valueToInt(fileio.readValue(base_path + "brightness"));
-    float max_brightness = (float)fileio.valueToInt(fileio.readValue(base_path + "max_brightness"));
+    float brightness = (float) fileio.readInt(base_path + "brightness");
+    float max_brightness = (float)fileio.readInt(base_path + "max_brightness");
     return brightness/max_brightness*100;
   }
   
@@ -18,9 +18,9 @@ public class backlight {
     if (percentage < 1 || percentage > 100) {return false;}
     
     float factor = (float)percentage/100;
-    int max_brightness = fileio.valueToInt(fileio.readValue(base_path + "max_brightness")); //replace with a backlightinfo class later
+    int max_brightness = fileio.readInt(base_path + "max_brightness"); //replace with a backlightinfo class later
     int brightness = (int)(max_brightness * factor);
-    fileio.writeValue(base_path + "brightness", ""+brightness);
+    fileio.writeValue(base_path + "brightness", brightness);
     return true;
   }
   
@@ -39,9 +39,9 @@ public class backlight {
     String brightnessFile = "/sys/class/backlight/brightness";
     String configPath = fileio.homeDirectory()+"/.config/nitori/";
 
-    int brightness = fileio.valueToInt(fileio.readValue(brightnessFile));
+    int brightness = fileio.readInt(brightnessFile);
     fileio.createDirectory(configPath);
-    fileio.writeValue(configPath + "saved_brightness", ""+brightness);
+    fileio.writeValue(configPath + "saved_brightness", brightness);
   }
 
   //Sets screen brightness based on a previously-saved value
@@ -50,8 +50,8 @@ public class backlight {
     String configFile = fileio.homeDirectory()+"/.config/nitori/saved_brightness";
     if (!fileio.fileExists(configFile)) return false;
 
-    int brightness = fileio.valueToInt(fileio.readValue(configFile));
-    fileio.writeValue(brightnessFile, ""+brightness);
+    int brightness = fileio.readInt(configFile);
+    fileio.writeValue(brightnessFile, brightness);
     return true;
   }
 }

@@ -31,7 +31,7 @@ public class cpu {
       
       for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_min_freq";
-        fileio.writeValue(path, ""+min_speed);
+        fileio.writeValue(path, min_speed);
       }
     }
     
@@ -46,7 +46,7 @@ public class cpu {
       
       for (String core : cpu_info.cores) {
         String path = cpu_base_path + core + "/cpufreq/scaling_max_freq";
-        fileio.writeValue(path, ""+max_speed);
+        fileio.writeValue(path, max_speed);
       }
     }
     return setMinimum || setMaximum;
@@ -94,14 +94,11 @@ public class cpu {
     CPUInfo cpu_info = new CPUInfo(core_count, cpu_paths);
     for (int i = 0; i < core_count; i++) {
       String full_path = base_path + cpu_paths[i];
-      String min_freq = fileio.readValue(full_path+"/cpufreq/scaling_min_freq");
-      String max_freq = fileio.readValue(full_path+"/cpufreq/scaling_max_freq");
-      String governor = fileio.readValue(full_path+"/cpufreq/scaling_governor");
-      String energy_pref = fileio.readValue(full_path+"/cpufreq/energy_performance_preference");
-      cpu_info.min_frequency[i] = fileio.valueToInt(min_freq);
-      cpu_info.max_frequency[i] = fileio.valueToInt(max_freq);
-      cpu_info.governor[i] = governor;
-      cpu_info.energy_pref[i] = energy_pref;
+      
+      cpu_info.min_frequency[i] = fileio.readInt(full_path+"/cpufreq/scaling_min_freq");
+      cpu_info.max_frequency[i] = fileio.readInt(full_path+"/cpufreq/scaling_max_freq");
+      cpu_info.governor[i] = fileio.readValue(full_path+"/cpufreq/scaling_governor");
+      cpu_info.energy_pref[i] = fileio.readValue(full_path+"/cpufreq/energy_performance_preference");
 
       String turbo_path = full_path+"/cpufreq/boost";
       cpu_info.turbo_status_exists = fileio.fileExists(turbo_path);
@@ -109,13 +106,13 @@ public class cpu {
     }
     //Base frequency information if available
     if (fileio.fileExists("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency")) {
-      cpu_info.hardware_base_frequency = fileio.valueToInt(fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency"));
+      cpu_info.hardware_base_frequency = fileio.readInt("/sys/devices/system/cpu/cpu0/cpufreq/base_frequency");
     }
     else {cpu_info.hardware_base_frequency = -1;}
     
     //CPU clock speed limits
-    cpu_info.hardware_min_frequency = fileio.valueToInt(fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq"));
-    cpu_info.hardware_max_frequency = fileio.valueToInt(fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
+    cpu_info.hardware_min_frequency = fileio.readInt("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq");
+    cpu_info.hardware_max_frequency = fileio.readInt("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq");
     
     //Available governors and available energy modes if available
     String governors_file = fileio.readValue("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors");

@@ -140,7 +140,10 @@ class NitoriPreset {
 
   int getValue_int(String key) {
     String value = getValue(key);
-    return value != null ? fileio.valueToInt(value) : -1;
+    if (value == null) return -1;
+
+    try {return Integer.parseInt(value);}
+    catch (NumberFormatException e) {return -1;}
   }
 
   private String removeComments(String line) {
