@@ -1,10 +1,9 @@
 package nitori.features;
 
 //Stores CPU information and status, for both viewing and modifying
+//All frequency values are in KHz
+//Arrays store the respective information to each CPU core
 public class CPUInfo {
-  //All frequency values are in KHz
-  //Arrays store the respective information to each CPU core
-
   //Current CPU configuration
   public int[] min_frequency;
   public int[] max_frequency;
