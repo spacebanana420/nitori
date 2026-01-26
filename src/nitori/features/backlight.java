@@ -1,7 +1,6 @@
 package nitori.features;
 
-import nitori.io.fileio;
-
+import nitori.io.*;
 import java.io.File;
 
 //Handles laptop screen backlight, can set and get the backlight brightness
@@ -48,7 +47,10 @@ public class backlight {
   public static boolean restoreBrightness() {
     String brightnessFile = "/sys/class/backlight/brightness";
     String configFile = fileio.homeDirectory()+"/.config/nitori/saved_brightness";
-    if (!fileio.fileExists(configFile)) return false;
+    if (!fileio.fileExists(configFile)) {
+      stdout.print_verbose("No backlight brightness has been previously saved, skipping task");
+      return false;
+    }
 
     int brightness = fileio.readInt(configFile);
     fileio.writeValue(brightnessFile, brightness);
