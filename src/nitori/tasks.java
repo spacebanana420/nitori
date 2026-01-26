@@ -93,24 +93,39 @@ class tasks {
   }
   
   static boolean runBacklightTasks(String[] args, boolean root) {
-    String base_path = backlight.getBasePath();
     byte percentage = cli.backlightPercentage(args);
     boolean display_info = cli.backlightInfo(args);
+    
     boolean set_percentage = percentage != -1;
-    if (!display_info && !set_percentage) {return false;}
-    if (!backlight.hasBacklight(base_path)) {
+    boolean saveBacklight = cli.saveBacklight(args);
+    boolean restoreBacklight = !saveBacklight && cli.restoreBacklight(args);
+
+    boolean runRootTasks = set_percentage || saveBacklight || restoreBacklight;
+    
+    if (!display_info && !runRootTasks) return false; //No tasks to execute
+    if (!backlight.hasBacklight()) {
       stdout.error("No built-in screen was found with available backlight control!");
       return true;
     }
-  
+
+    //The only task that doesn't require root
+    if (display_info) {
+      stdout.print("Current backlight percentage: " + backlight.getBrightness() + "%");
+    }
+    
+    if (!runRootTasks) return true;
+    if (!root) {
+      stdout.error("You must be root to be able to save, restore or modify the screen's backlight brightness!");
+      return true;
+    }
+    
+    //Below this point, all tasks require root
     if (set_percentage) {
-      if (!root) {stdout.error("You must be root to be able to modify the screen's backlight brightness!"); return true;}
-      boolean result = backlight.setBrightness(base_path, percentage);
+      boolean result = backlight.setBrightness(percentage);
       if (!result) {stdout.error("The screen brightness must be a percentage value between 1% and 100%!");}
     }
-    if (display_info) {
-      stdout.print("Current backlight percentage: " + backlight.getBrightness(base_path) + "%");
-    }
+    if (saveBacklight) {backlight.saveBrightness();}
+    else if (restoreBacklight) {backlight.restoreBrightness();}
     return true;
   }
   

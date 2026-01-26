@@ -21,6 +21,8 @@ public class cli {
   
   public static byte backlightPercentage(String[] args) {return parser.getArgumentByte(args, "-l", "--backlight-set");}
   public static boolean backlightInfo(String[] args) {return parser.hasArgument(args, "-li", "--backlight-info");}
+  public static boolean saveBacklight(String[] args) {return parser.hasArgument(args, "-ls", "--backlight-save");}
+  public static boolean restoreBacklight(String[] args) {return parser.hasArgument(args, "-lr", "--backlight-restore");}
   
   public static String suspendSystem(String[] args) {
     int i = parser.findArgumentIndex(args, "-s");

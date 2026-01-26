@@ -1,7 +1,7 @@
 package nitori.cli;
 
 public class help {
-  private static String title() {return "Nitori version 1.2.2";}
+  private static String title() {return "Nitori version 1.3";}
   
   public static void printHelp() {
     System.out.println(
@@ -29,6 +29,8 @@ public class help {
       + "\n\n[Backlight-related arguments]"
       + "\n  * -l (--backlight-set) <percentage>        Sets the screen backlight brightness percentage"
       + "\n  * -li (--backlight-info)                   Displays the current backlight percentage"
+      + "\n  * -ls (--backlight-save)                   Saves the current backlight brightness so it can be restored later"
+      + "\n  * -lr (--backlight-restore)                Restores the last saved backlight brightness if available"
       
       + "\n\n[Suspension-related arguments]"
       + "\n   * -s (--suspend)                          Suspends the system to RAM if available"

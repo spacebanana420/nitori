@@ -57,7 +57,7 @@ public class presetrun {
       byte light_percentage = toPercentage(light);
       if (light_percentage == -1) {
         stdout.print("[Preset] setting backlight brightness percentage");
-        backlight.setBrightness(backlight.getBasePath(), light_percentage);
+        backlight.setBrightness(light_percentage);
       }
       else {stdout.error("Invalid backlight brightness percentage found!");}
     }
