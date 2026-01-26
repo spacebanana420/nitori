@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 //Used for reading and writing to the files which serve as an interface for kernel features
 public class fileio {
+  public static String homeDirectory() {return System.getProperty("user.home");}
+  
   public static boolean writeValue(String path, String content) {
     byte[] string_data = content.getBytes();
     stdout.print_debug("[fileio debug] Writing to " + path);

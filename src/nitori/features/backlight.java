@@ -27,10 +27,31 @@ public class backlight {
   public static String getBasePath() {
     String base_path = "/sys/class/backlight/";
     File f = new File(base_path);
-    if (!f.isDirectory()) {return null;}
+    if (!f.isDirectory()) return null;
     
     String[] vendor_paths = f.list();
-    if (vendor_paths == null || vendor_paths.length == 0) {return null;}
+    if (vendor_paths == null || vendor_paths.length == 0) return null;
     return base_path+vendor_paths[0]+"/";
+  }
+  
+  //Saves the current screen brightness into a file for restoring later on
+  public static void saveBrightness() {
+    String brightnessFile = "/sys/class/backlight/brightness";
+    String configPath = fileio.homeDirectory()+"/.config/nitori/";
+
+    int brightness = fileio.valueToInt(fileio.readValue(brightnessFile));
+    fileio.createDirectory(configPath);
+    fileio.writeValue(configPath + "saved_brightness", ""+brightness);
+  }
+
+  //Sets screen brightness based on a previously-saved value
+  public static boolean restoreBrightness() {
+    String brightnessFile = "/sys/class/backlight/brightness";
+    String configFile = fileio.homeDirectory()+"/.config/nitori/saved_brightness";
+    if (!fileio.fileExists(configFile)) return false;
+
+    int brightness = fileio.valueToInt(fileio.readValue(configFile));
+    fileio.writeValue(brightnessFile, ""+brightness);
+    return true;
   }
 }
