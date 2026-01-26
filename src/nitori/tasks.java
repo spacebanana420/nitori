@@ -7,7 +7,7 @@ import nitori.preset.*;
 
 import java.util.ArrayList;
 
-//Processes the CLI arguments to run the tasks/comands/features nitori supports
+//Processes the CLI arguments to run the Nitori functionality
 class tasks {
   static boolean runCPUTasks(String[] args, boolean root) {
     int[] cpu_freq = cli.cpuFrequencies(args);
@@ -19,10 +19,15 @@ class tasks {
     boolean set_freqs = cpu_freq[0] != -1 || cpu_freq[1] != -1;
     boolean set_gov = gov != null;
     boolean set_energy = energy_pref != null;
-    if (!set_freqs && !set_gov && !display_info && !reset && !set_energy) {return false;}
+    if (!set_freqs && !set_gov && !display_info && !reset && !set_energy) return false;
   
     if ((set_gov || set_freqs || reset || set_energy) && !root) {
       stdout.error("You must be root to be able to modify CPU configurations!");
+      return true;
+    }
+
+    if (!cpu.canControlCPU()) {
+      stdout.error("CPU monitor and control is currently unavailable!\nThis is often caused by disabling CPU clock scaling funtionality in BIOS/UEFI\nIf this is your case, you must enable whatever functionality your motherboard provides for scaling/changing the CPU frequencies (e.g Intel SpeedShift)");
       return true;
     }
   

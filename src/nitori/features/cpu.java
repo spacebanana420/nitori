@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class cpu {
+  public static boolean canControlCPU() {return new File("/sys/devices/system/cpu/cpu0/cpufreq/").isDirectory();}
+  
   public static boolean resetFrequencies(CPUInfo info) {
     return setFrequencies(info.hardware_min_frequency/1000, info.hardware_max_frequency/1000, info);
   }
