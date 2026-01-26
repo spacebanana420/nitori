@@ -2,12 +2,16 @@ package nitori.features;
 
 //Stores CPU information and status, for both viewing and modifying
 public class CPUInfo {
-  //Frequency values are in KHz
+  //All frequency values are in KHz
+  //Arrays store the respective information to each CPU core
+
+  //Current CPU configuration
   public int[] min_frequency;
   public int[] max_frequency;
   public String[] governor;
   public String[] energy_pref;
-  
+
+  //Hardware CPU specifications and limitations
   public int hardware_base_frequency;
   public int hardware_min_frequency;
   public int hardware_max_frequency;
@@ -16,7 +20,7 @@ public class CPUInfo {
   public boolean turbo_enabled;
   public boolean turbo_status_exists; //file might not exist
   
-  public String[] cores;
+  public String[] cores; //The name of the directory of each core, for convenience
   public int core_count;
   
   //Unfiltered text as it's seen in the source files
