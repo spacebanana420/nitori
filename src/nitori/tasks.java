@@ -39,16 +39,16 @@ class tasks {
     if (display_info) {
       stdout.print(
         "[CPU Specifications]"
-        + "\n * Minimum supported clock speed: " + cpu.speedToMHz(info.hardware_min_frequency) + " MHz"
-        + "\n * Maximum supported clock speed: " + cpu.speedToMHz(info.hardware_max_frequency) + " MHz"
-        + "\n * Base clock speed: " +  (info.hardware_base_frequency != -1 ? cpu.speedToMHz(info.hardware_base_frequency) + " MHz" : "N/A")
+        + "\n * Minimum supported clock speed: " + info.mhz_hardwareMinFreq() + " MHz"
+        + "\n * Maximum supported clock speed: " + info.mhz_hardwareMaxFreq() + " MHz"
+        + "\n * Base clock speed: " +  (info.hardware_base_frequency != -1 ? info.mhz_baseFreq() + " MHz" : "N/A")
         + "\n * Number of threads: " + info.core_count
         + "\n * Available governors: " + info.governor_raw
         + "\n * Available energy preferences: " + info.str_energyPrefs()
         + "\n * Turbo enabled: " + info.str_turboStatus()
         + "\n"
-        + "\n * Current minimum clock speed: " + cpu.speedToMHz(info.min_frequency[0]) + " MHz"
-        + "\n * Current maximum clock speed: " + cpu.speedToMHz(info.max_frequency[0]) + " MHz"
+        + "\n * Current minimum clock speed: " + info.mhz_currentMinFreq() + " MHz"
+        + "\n * Current maximum clock speed: " + info.mhz_currentMaxFreq() + " MHz"
         + "\n * Current governor: " + info.governor[0]
         + "\n * Current energy mode: " + info.str_currentEnergyPref()
       );

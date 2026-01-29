@@ -51,6 +51,15 @@ public class CPUInfo {
     if (!turbo_status_exists) {return "Unknown";}
     return turbo_enabled ? "Yes" : "No";
   }
+
+  //Convenience functions for getting the CPU frequencies in MHz
+  public float mhz_hardwareMinFreq() {return toMHz(this.hardware_min_frequency);}
+  public float mhz_hardwareMaxFreq() {return toMHz(this.hardware_max_frequency);}
+  public float mhz_currentMinFreq() {return toMHz(this.min_frequency[0]);}
+  public float mhz_currentMaxFreq() {return toMHz(this.max_frequency[0]);}
+  public float mhz_baseFreq() {return toMHz(this.hardware_base_frequency);}
+
+  private float toMHz(int clock_speed) {return (float)clock_speed / 1000;}
   
   private boolean isInList(String keyword, String[] slist) {
     for (String element : slist) {

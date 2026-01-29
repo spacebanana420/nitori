@@ -128,8 +128,6 @@ public class cpu {
     return cpu_info;
   }
   
-  public static float speedToMHz(int clock_speed) {return (float)clock_speed / 1000;}
-  
   private static String getBasePath() {return "/sys/devices/system/cpu/";}
   
   //From the base CPU path, get the paths that follow the pattern of cpu0, cpu1, cpu2, cpu3, etc
