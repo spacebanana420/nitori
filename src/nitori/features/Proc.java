@@ -24,13 +24,13 @@ public class Proc {
     if (!this.has_cmd) return; //Kernel processes do not have a command, ignore them
     
     MemData memory_data = new MemData(base_path+"/status", "VmRSS", "VmSwap");
-    if (memory_data.is_empty) {return;}
+    if (memory_data.is_empty) return;
     this.ram_usage = memory_data.getValue("VmRSS");
     this.swap_usage = memory_data.getValue("VmSwap");
   }
 
   public String getCMDstr() {
-    if (!has_cmd) {return "N/A";}
+    if (!has_cmd) return "N/A";
     var strbuilder = new StringBuilder();
     for (String arg : cmd) {strbuilder.append(arg + " ");}
     return strbuilder.toString().trim();
@@ -104,13 +104,14 @@ public class Proc {
     return message.toString();
   }
 
-  //Parses the command string into an array separating the arguments
+  //Parses the command-line string into an array separating the arguments
+  //Each argument ends with the escape character \000, including the last one
   private static String[] getProcessCommand(String command_str) {
     var command = new ArrayList<String>();
     var arg = new StringBuilder();
     for (int i = 0; i < command_str.length(); i++) {
       char c = command_str.charAt(i);
-      if (c == '\000') { //Each arugment ends with the escape character \000
+      if (c == '\000') {
         command.add(arg.toString());
         arg = new StringBuilder();
       }

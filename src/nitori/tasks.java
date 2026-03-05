@@ -7,8 +7,10 @@ import nitori.preset.*;
 
 import java.util.ArrayList;
 
-//Processes the CLI arguments to run the Nitori functionality
+//The main class that controls Nitori functionality, this is the "overview" control of the program
+//It reads the prompted CLI arguments and then runs the respective functionality
 class tasks {
+  //CPU control and monitoring
   static boolean runCPUTasks(String[] args, boolean root) {
     int[] cpu_freq = cli.cpuFrequencies(args);
     String gov = cli.cpuGovernor(args);
@@ -55,7 +57,9 @@ class tasks {
     }
     return true;
   }
-  
+
+  //Laptop lithium battery control
+  //Not all batteries support controlling charge limits at OS-level
   static boolean runBatteryTasks(String[] args, boolean root) {
     byte charge_percentage = cli.batteryPercentage(args);
     boolean display_info = cli.batteryInfo(args);
@@ -91,7 +95,8 @@ class tasks {
     }
     return true;
   }
-  
+
+  //Laptop backlight brightness control
   static boolean runBacklightTasks(String[] args, boolean root) {
     byte percentage = cli.backlightPercentage(args);
     boolean display_info = cli.backlightInfo(args);
