@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.io.File;
 import nitori.io.*;
 
-//Class that stores process information, such as the executed command-line, the process ID and RAM/swap usage
+//Class that stores system process information, such as the command-line, process ID and memory usage
+//It also has static functions for getting system processes and process information for printing
 public class Proc {
   public long pid;
   public boolean has_cmd = false;
@@ -65,6 +66,42 @@ public class Proc {
       catch(NumberFormatException e) {stdout.error("Failed to convert process of ID " + p);}
     }
     return procs.toArray(new Proc[0]);
+  }
+
+  public static String getProcessDetails(ArrayList<Proc> processes, String title) {
+    var message = new StringBuilder();
+    message.append(title);
+    for (Proc process : processes) {
+      message.append("\n\n");
+      message.append(getProcessDetails(process));
+    }
+    return message.toString();
+  }
+
+  //Combine the details of a process into a nice string for printing  
+  public static String getProcessDetails(Proc process) {
+    var message = new StringBuilder();
+    String name = process.getName();
+    String command = process.getCMDstr();
+    
+    message
+      .append("Process ID ")
+      .append(process.pid);
+    if (name.equals(command)) { //Sometimes the name of a process is the exact same as the command
+      message.append("\n  * Name and Command: ").append(name);
+    }
+    else {
+      message.append("\n  * Name: ")
+        .append(name)
+        .append("\n  * Command: ")
+        .append(command);
+    }
+    message.append("\n  * Memory usage (MB): ")
+      .append((float)process.ram_usage/1000)
+      .append("\n  * Swap usage (MB): ")
+      .append((float)process.swap_usage/1000)
+      ;
+    return message.toString();
   }
 
   //Parses the command string into an array separating the arguments

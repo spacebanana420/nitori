@@ -231,23 +231,8 @@ class tasks {
     }
 
     if (list_processes) {
-      var message = new StringBuilder();
-      message.append("[Full list of running userspace system processes]");
-      for (Proc p : user_procs) {
-        message
-          .append("\n\nProcess ID ")
-          .append(p.pid)
-          .append("\n  * Name: ")
-          .append(p.getName())
-          .append("\n  * Command: ")
-          .append(p.getCMDstr())
-          .append("\n  * Memory usage (MB): ")
-          .append((float)p.ram_usage/1000)
-          .append("\n  * Swap usage (MB): ")
-          .append((float)p.swap_usage/1000)
-        ;
-      }
-      stdout.print(message.toString());
+      String title = "[Full list of running userspace system processes]";
+      stdout.print(Proc.getProcessDetails(user_procs, title));
     }
     if (count_processes) {
       stdout.print(
@@ -264,7 +249,8 @@ class tasks {
       for (Proc p : user_procs) {
         if (p.cmd[0].toLowerCase().contains(find_process)) {
           found_any = true;
-          message.append("\n\nProcess ID: ").append(p.pid).append("\nCommand: ").append(p.getCMDstr());
+          message.append("\n\n");
+          message.append(Proc.getProcessDetails(p));
         }
       }
       if (found_any) {stdout.print(message.toString());}
