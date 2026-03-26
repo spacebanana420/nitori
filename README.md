@@ -13,7 +13,7 @@ Nitori is a CLI tool for controlling and monitoring the system's CPU and hardwar
 * Linux-based operating system
 * Java 11 or newer
 
-Nitori is only tested on x86_64 CPUs, but it might also work on other CPU architectures. Battery support is made with laptop lithium-ion batteries in mind.
+Nitori is only tested on x86_64 CPUs, but it should also work on other CPU architectures. Battery support and features might vary with different models. Nitori is currently Linux-only because it interacts with features specifically from the Linux kernel.
 
 ## Download
 
