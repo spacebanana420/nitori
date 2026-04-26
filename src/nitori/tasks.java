@@ -228,7 +228,7 @@ class tasks {
         return true;
       }
       var message = new StringBuilder();
-      message.append("[GPU memory information]");
+      message.append("[GPU memory information]\n");
       for (GPUMemory gpu : gpus) {
         message.append("Showing memory info for GPU " + gpu.name + ":");
         message.append("\n * Total VRAM: " + gpu.getVramTotal());

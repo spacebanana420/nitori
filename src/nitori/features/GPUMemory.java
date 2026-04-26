@@ -48,7 +48,7 @@ public class GPUMemory {
     this.name = cardLabel;
     String basePath = "/sys/class/drm/"+cardLabel+"/device/";
     if (!fileio.directoryExists(basePath)) {
-      stdout.error("Error retrieving GPU memory information, the card label " + cardLabel + "does not exist\nValid card labels include card0, card1, card2, etc");
+      stdout.error("Error retrieving GPU memory information, the card label " + cardLabel + " does not exist\nValid card labels include card0, card1, card2, etc");
       return;
     }
 
