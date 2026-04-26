@@ -191,32 +191,54 @@ class tasks {
   }
 
   static boolean runMemoryTask(String[] args) {
-    if (!cli.memoryInfo(args)) {return false;}
+    boolean displayMemoryInfo = cli.memoryInfo(args);
+    boolean displayGPUInfo = cli.GPUMemoryInfo(args);
+    if (!displayMemoryInfo && !displayGPUInfo) return false;
 
-    MemoryInfo meminfo = new MemoryInfo();
-    if (meminfo.is_empty) {
-      stdout.print_verbose("Cancelling memory info display");
-      return true;
+    if (displayMemoryInfo) {
+      MemoryInfo meminfo = new MemoryInfo();
+      if (meminfo.is_empty) {
+        stdout.print_verbose("Cancelling system memory info display");
+        return true;
+      }
+
+      String message =
+        "[System RAM information]"
+        + "\n * Total memory:       " + convertUnit(meminfo.memory_total) + " GB"
+        + "\n * Available memory:   " + convertUnit(meminfo.memory_available) + " GB"
+        + "\n * Free memory:        " + convertUnit(meminfo.memory_free) + " GB"
+        + "\n * Cached memory:      " + convertUnit(meminfo.memory_cached) + " GB"
+        + "\n * Used memory:        " + convertUnit(meminfo.memory_used) + " GB"
+        ;
+
+      if (meminfo.system_uses_swap) {
+        message +=
+          "\n\n * Total swap:       " + convertUnit(meminfo.swap_total) + " GB"
+          + "\n * Free swap:        " + convertUnit(meminfo.swap_free) + " GB"
+          + "\n * Cached swap:      " + convertUnit(meminfo.swap_cached) + " GB"
+          ;
+      }
+      else {message += "\n\nSwap is unavailable or not used by the system";}
+      stdout.print(message);
     }
-
-    String message =
-      "[System RAM information]"
-      + "\n * Total memory:       " + convertUnit(meminfo.memory_total) + " GB"
-      + "\n * Available memory:   " + convertUnit(meminfo.memory_available) + " GB"
-      + "\n * Free memory:        " + convertUnit(meminfo.memory_free) + " GB"
-      + "\n * Cached memory:      " + convertUnit(meminfo.memory_cached) + " GB"
-      + "\n * Used memory:        " + convertUnit(meminfo.memory_used) + " GB"
-    ;
-
-    if (meminfo.system_uses_swap) {
-      message +=
-        "\n\n * Total swap:       " + convertUnit(meminfo.swap_total) + " GB"
-        + "\n * Free swap:        " + convertUnit(meminfo.swap_free) + " GB"
-        + "\n * Cached swap:      " + convertUnit(meminfo.swap_cached) + " GB"
-      ;
+    if (displayGPUInfo) {
+      GPUMemory[] gpus = GPUMemory.getGraphicsMemory();
+      if (gpus.length == 0) {
+        stdout.error("No GPU devices were found");
+        return true;
+      }
+      var message = new StringBuilder();
+      message.append("[GPU memory information]");
+      for (GPUMemory gpu : gpus) {
+        message.append("Showing memory info for GPU " + gpu.name + ":");
+        message.append("\n * Total VRAM: " + gpu.getVramTotal());
+        message.append("\n * Used VRAM: " + gpu.getVramUsed());
+        message.append("\n * Total GTT: " + gpu.getGttTotal());
+        message.append("\n * Used GTT: " + gpu.getGttUsed());
+        message.append("\n");
+      }
+      stdout.print(message.toString());
     }
-    else {message += "\n\nSwap is unavailable or not used by the system";}
-    stdout.print(message);
     return true;
   }
 

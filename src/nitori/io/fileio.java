@@ -41,6 +41,17 @@ public class fileio {
       return null;
     }
   }
+
+  public static long readLong(String path) {
+    String value = readValue(path);
+    if (value == null) return -1;
+    
+    try {return Long.parseLong(value);}
+    catch(NumberFormatException e) {
+      stdout.error("Failed to read file as 64bit signed integer");
+      return -1;
+    }
+  }
   
   public static int readInt(String path) {
     String value = readValue(path);
@@ -77,6 +88,8 @@ public class fileio {
   public static ArrayList<String> strToLines(String str, char comment_char) {return getStrLines(str, true, comment_char);}
 
   public static boolean fileExists(String path) {return new File(path).isFile();}
+  public static boolean directoryExists(String path) {return new File(path).isDirectory();}
+  public static String[] getPaths(String path) {return new File(path).list();}
   public static void createDirectory(String path) {new File(path).mkdirs();}
   
   //Some files have values separated by words

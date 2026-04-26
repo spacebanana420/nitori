@@ -1,7 +1,7 @@
 package nitori.cli;
 
 public class help {
-  private static String title() {return "Nitori version 1.3.2";}
+  private static String title() {return "Nitori version 1.4";}
   
   public static void printHelp() {
     System.out.println(
@@ -21,6 +21,7 @@ public class help {
 
       + "\n\n[Memory-related arguments]"
       + "\n  * -m (--memory-info)                       Displays OS memory size, usage and availability"
+      + "\n  * -gm (--gpu-memory)                       Displays VRAM and GTT usage of all connected GPUs"
       
       + "\n\n[Battery-related arguments]"
       + "\n  * -b (--battery-set) <percentage>          Sets the battery charge limit percentage if supported"
