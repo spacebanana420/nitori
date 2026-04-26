@@ -1,7 +1,7 @@
 package nitori.cli;
 
 public class help {
-  private static String title() {return "Nitori version 1.3.1";}
+  private static String title() {return "Nitori version 1.3.2";}
   
   public static void printHelp() {
     System.out.println(
@@ -33,20 +33,20 @@ public class help {
       + "\n  * -lr (--backlight-restore)                Restores the last saved backlight brightness if available"
       
       + "\n\n[Suspension-related arguments]"
-      + "\n   * -s (--suspend)                          Suspends the system to RAM if available"
-      + "\n   * -s (--suspend) <state>                  Suspends the system according to a supported given state"
-      + "\n   * -sh (--hibernate)                       Suspends the system by hibernating to disk"
-      + "\n   * -ss (--suspend-states)                  Lists the supported and available suspend states"
+      + "\n  * -s (--suspend)                           Suspends the system to RAM if available"
+      + "\n  * -s (--suspend) <state>                   Suspends the system according to a supported given state"
+      + "\n  * -sh (--hibernate)                        Suspends the system by hibernating to disk"
+      + "\n  * -ss (--suspend-states)                   Lists the supported and available suspend states"
 
       + "\n\n[Preset-related arguments]"
-      + "\n   * -p (--preset) <preset name>             Executes a Nitori preset if available"
-      + "\n   * -pc (--create-preset) <preset name>     Creates a new preset file in /etc/nitori/"
-      + "\n   * -pl (--list-presets)                    Lists available presets if any exists"
+      + "\n  * -p (--preset) <preset name>              Executes a Nitori preset if available"
+      + "\n  * -pc (--create-preset) <preset name>      Creates a new preset file in /etc/nitori/"
+      + "\n  * -pl (--list-presets)                     Lists available presets if any exists"
 
       + "\n\n[Process-related arguments]"
-      + "\n   * -proc (--process-count)                 Counts the amount of system processes and kernel threads"
-      + "\n   * -procl (--process-list)                 Lists the currently running system processes"
-      + "\n   * -procf (--process-find) <name>          Finds the processes that contain <name> in their path"
+      + "\n  * -proc (--process-count)                  Counts the amount of system processes and kernel threads"
+      + "\n  * -procl (--process-list)                  Lists the currently running system processes"
+      + "\n  * -procf (--process-find) <name>           Finds the processes that contain <name> in their path"
       
       + "\n\n[Other arguments]"
       + "\n  * -q (--quiet)                             Disables printing to standard output"
