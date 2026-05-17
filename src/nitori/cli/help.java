@@ -1,7 +1,7 @@
 package nitori.cli;
 
 public class help {
-  private static String title() {return "Nitori version 1.4";}
+  private static String title() {return "Nitori version 1.5";}
   
   public static void printHelp() {
     System.out.println(
@@ -48,6 +48,10 @@ public class help {
       + "\n  * -proc (--process-count)                  Counts the amount of system processes and kernel threads"
       + "\n  * -procl (--process-list)                  Lists the currently running system processes"
       + "\n  * -procf (--process-find) <name>           Finds the processes that contain <name> in their path"
+
+      + "\n\n[Temperature-related arguments]"
+      + "\n  * -t (--temperature)                       Displays temperature values in degrees Celsius of known hardware sensors"
+      + "\n  * -ts (--temperature-simple)               Displays temperatures values just like -t/--temperature, but only showing the numerical value"
       
       + "\n\n[Other arguments]"
       + "\n  * -q (--quiet)                             Disables printing to standard output"

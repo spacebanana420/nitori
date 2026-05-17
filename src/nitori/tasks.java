@@ -286,6 +286,25 @@ class tasks {
     return true;
   }
 
+  public static boolean runTemperatureTasks(String[] args) {
+    boolean showTemps = cli.showTemps(args); //With Celsius display
+    boolean showTemps_simple = cli.showTemps_simple(args); //Without Celsius display, only number
+    if (!showTemps && !showTemps_simple) return false;
+    
+    Temperature[] temps = Temperature.getAllTemperatures();
+    if (temps.length == 0) {
+      stdout.print("No hardware temperature sensors have been found!");
+      return true;
+    }
+    var text = new StringBuilder();
+    text.append("[Temperature Sensors]");
+    for (Temperature t : temps) {
+      text.append("\nTemperature for sensor "+t.getType()+": "+t.getTemperature(showTemps_simple));
+    }
+    stdout.print(text.toString());
+    return true;
+  }
+
   //kB to GB and few decimal cases
   private static float convertUnit(long number) {
     number = number / 1000; //MB no decimal cases

@@ -41,6 +41,9 @@ public class cli {
   public static String runPreset(String[] args) {return parser.getArgumentValue(args, "-p", "--preset");}
   public static String createPreset(String[] args) {return parser.getArgumentValue(args, "-pc", "--create-preset");}
   public static boolean listPresets(String[] args) {return parser.hasArgument(args, "-pl", "--list-presets");}
+
+  public static boolean showTemps(String[] args) {return parser.hasArgument(args, "-t", "--temperature");}
+  public static boolean showTemps_simple(String[] args) {return parser.hasArgument(args, "-ts", "--temperature-simple");}
   
   public static boolean quietOutput(String[] args) {return parser.hasArgument(args, "-q", "--quiet");}
   public static boolean verboseOutput(String[] args) {return parser.hasArgument(args, "-v", "--verbose");}

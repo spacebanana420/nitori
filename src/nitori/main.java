@@ -22,21 +22,25 @@ public class main {
     final boolean ran_presets = tasks.runPresetTasks(args, root);
 
     //Run the different tasks in parallel, they are not dependant on each other
-    final boolean[] ran_tasks = new boolean[6];
-    Thread[] t = new Thread[6];
+    //Each task function returns a boolean telling whether the user tried to run it
+    final boolean[] ran_tasks = new boolean[7];
+    Thread[] t = new Thread[7];
     t[0] = new Thread(() -> {ran_tasks[0] = tasks.runCPUTasks(args, root);});
     t[1] = new Thread(() -> {ran_tasks[1] = tasks.runBatteryTasks(args, root);});
     t[2] = new Thread(() -> {ran_tasks[2] = tasks.runBacklightTasks(args, root);});
     t[3] = new Thread(() -> {ran_tasks[3] = tasks.runSuspendTasks(args, root);});
     t[4] = new Thread(() -> {ran_tasks[4] = tasks.runMemoryTask(args);});
     t[5] = new Thread(() -> {ran_tasks[5] = tasks.runProcessTasks(args);});
+    t[6] = new Thread(() -> {ran_tasks[6] = tasks.runTemperatureTasks(args);});
     for (Thread thread : t) {thread.start();}
     for (Thread thread : t) {
       try{thread.join();}
       catch(InterruptedException e) {e.printStackTrace(); return true;}
     }
-    
-    return ran_presets || ran_tasks[0] || ran_tasks[1] || ran_tasks[2] || ran_tasks[3] || ran_tasks[4] || ran_tasks[5];
+
+    //If no task was run at all, this function returns false, so that main() knows it has to print the help screen
+    for (boolean status : ran_tasks) {if (status) return true;}
+    return false;
   }
 
   private static boolean supportedOS() {return System.getProperty("os.name").equals("Linux");}
