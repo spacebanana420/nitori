@@ -7,8 +7,10 @@ import nitori.preset.*;
 
 import java.util.ArrayList;
 
-//The main class that controls Nitori functionality, this is the "overview" control of the program
+//The main class that controls Nitori functionality, this is the high-level "overview" control of the program
 //It reads the prompted CLI arguments and then runs the respective functionality
+//Each function returns true if the user tried to run its respective task
+//If all functions return false, then the user didn't try to do anything, and in that case main() prints a help screen
 class tasks {
   //CPU control and monitoring
   static boolean runCPUTasks(String[] args, boolean root) {
@@ -133,7 +135,8 @@ class tasks {
     else if (restoreBacklight) {backlight.restoreBrightness();}
     return true;
   }
-  
+
+  //OS suspension control: freeze, memory sleep, hibernate, etc
   static boolean runSuspendTasks(String[] args, boolean root) {
     boolean view_states = cli.suspendStates(args);
     String suspend_mode = cli.suspendSystem(args);
@@ -170,6 +173,7 @@ class tasks {
     return true;
   }
 
+  //Run preset files, convenient for running a bunch of repetitive tasks all at once
   static boolean runPresetTasks(String[] args, boolean is_root) {
     String run_preset = cli.runPreset(args);
     String create_preset = cli.createPreset(args);
@@ -190,6 +194,7 @@ class tasks {
     return false;
   }
 
+  //Read and display RAM and GPU VRAM+GTT information
   static boolean runMemoryTask(String[] args) {
     boolean displayMemoryInfo = cli.memoryInfo(args);
     boolean displayGPUInfo = cli.GPUMemoryInfo(args);
@@ -241,6 +246,7 @@ class tasks {
     return true;
   }
 
+  //List, find and count system processes
   static boolean runProcessTasks(String[] args) {
     boolean count_processes = cli.countProcesses(args);
     boolean list_processes = cli.listProcesses(args);
@@ -285,6 +291,7 @@ class tasks {
     return true;
   }
 
+  //Check the temperature of known hardware sensors
   public static boolean runTemperatureTasks(String[] args) {
     boolean showTemps = cli.showTemps(args); //With Celsius display
     boolean showTemps_simple = cli.showTemps_simple(args); //Without Celsius display, only number
