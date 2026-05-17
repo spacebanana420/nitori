@@ -1,8 +1,11 @@
 ## Nitori
-Nitori is a CLI tool for controlling and monitoring the system's CPU and hardware on Linux-based operating systems.
-<div align="center">
-    <img src="doc/nitori.webp" width="400" />
-</div>
+Nitori is a CLI program that can control and monitor the system's hardware on Linux-based operating systems:
+```sh
+space@Wakasagi ~> doas nitori -cmax 2300
+Setting maximum clock speed 2300MHz for all cores
+```
+You can find more examples on how to use Nitori [here](doc/examples.md).
+
 
 ### Supported features
 * **CPU**: Montior hardware specifications and current configuration, set clock speeds, set kernel governor
@@ -32,6 +35,7 @@ yuuka install nitori.jar
 
 ## Documentation
 
+* [Nitori Examples](doc/examples.md)
 * [Build Nitori from source](doc/build.md)
 * [Setting up presets](doc/presets.md)
 * [Source code overview](doc/overview.md)
