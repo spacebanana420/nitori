@@ -228,14 +228,13 @@ class tasks {
         return true;
       }
       var message = new StringBuilder();
-      message.append("[GPU memory information]\n");
+      message.append("[GPU memory information]");
       for (GPUMemory gpu : gpus) {
-        message.append("Showing memory info for GPU " + gpu.name + ":");
+        message.append("\nShowing memory info for GPU " + gpu.name + ":");
         message.append("\n * Total VRAM: " + gpu.getVramTotal());
         message.append("\n * Used VRAM: " + gpu.getVramUsed());
         message.append("\n * Total GTT: " + gpu.getGttTotal());
         message.append("\n * Used GTT: " + gpu.getGttUsed());
-        message.append("\n");
       }
       stdout.print(message.toString());
     }
