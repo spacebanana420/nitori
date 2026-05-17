@@ -17,10 +17,8 @@ public class Proc {
   public Proc(long pid) {
     this.pid = pid;
     String base_path = "/proc/" + pid;
-    String command_str = fileio.readValue(base_path+"/cmdline"); //CLI as string from pseudo-file
-    if (command_str == null) return;
-    this.cmd = getProcessCommand(command_str); //CLI string into array
-    if (this.cmd.length == 0) return; //Kernel processes do not have a command, ignore them
+    this.cmd = getProcessCommand(base_path); //CLI string into array
+    if (this.cmd == null || this.cmd.length == 0) return; //Kernel processes do not have a command, ignore them
 
     this.has_cmd = true;
     MemData memory_data = new MemData(base_path+"/status", "VmRSS", "VmSwap");
@@ -98,8 +96,11 @@ public class Proc {
   }
 
   //Parses the command-line string into an array separating the arguments
-  //Each argument ends with the escape character \000, including the last one
-  private static String[] getProcessCommand(String command_str) {
+  //Each argument ends with the escape character \000
+  private static String[] getProcessCommand(String base_path) {
+    String command_str = fileio.readValue(base_path+"/cmdline");
+    if (command_str == null) return null;
+    
     var command = new ArrayList<String>();
     var arg = new StringBuilder();
     for (int i = 0; i < command_str.length(); i++) {
