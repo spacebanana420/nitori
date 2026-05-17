@@ -8,6 +8,7 @@ Nitori is a CLI tool for controlling and monitoring the system's CPU and hardwar
 * **Suspension**: Suspend the system to RAM, freeze userspace or hibernate to disk
 * **Memory**: Monitor the system memory and swap and now much is free, available, used and cached
 * **Process**: List, count and find system processes and kernel threads
+* **Temperature**: Montior the temperature of known hardware sensors
 
 ## Requirements
 * Linux-based operating system
