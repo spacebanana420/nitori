@@ -298,7 +298,12 @@ class tasks {
     var text = new StringBuilder();
     text.append("[Temperature Sensors]");
     for (Temperature t : temps) {
-      text.append("\nTemperature for sensor "+t.getType()+": "+t.getTemperature(showTemps_simple));
+      String line;
+      if (showTemps_simple) {
+        line = "\n"+t.getType()+" "+t.getTemperature(showTemps_simple);
+      }
+      else line = "\nTemperature for sensor "+t.getType()+": "+t.getTemperature(showTemps_simple);
+      text.append(line);
     }
     stdout.print(text.toString());
     return true;
