@@ -20,9 +20,9 @@ public class Proc {
     String command_str = fileio.readValue(base_path+"/cmdline"); //CLI as string from pseudo-file
     if (command_str == null) return;
     this.cmd = getProcessCommand(command_str); //CLI string into array
-    this.has_cmd = this.cmd.length > 0;
-    if (!this.has_cmd) return; //Kernel processes do not have a command, ignore them
-    
+    if (this.cmd.length == 0) return; //Kernel processes do not have a command, ignore them
+
+    this.has_cmd = true;
     MemData memory_data = new MemData(base_path+"/status", "VmRSS", "VmSwap");
     if (memory_data.is_empty) return;
     this.ram_usage = memory_data.getValue("VmRSS");
@@ -84,23 +84,16 @@ public class Proc {
     String name = process.getName();
     String command = process.getCMDstr();
     
-    message
-      .append("Process ID ")
-      .append(process.pid);
+    message.append("Process ID ").append(process.pid);
     if (name.equals(command)) { //Sometimes the name of a process is the exact same as the command
       message.append("\n  * Name and Command: ").append(name);
     }
     else {
-      message.append("\n  * Name: ")
-        .append(name)
-        .append("\n  * Command: ")
-        .append(command);
+      message.append("\n  * Name: ").append(name);
+      message.append("\n  * Command: ").append(command);
     }
-    message.append("\n  * Memory usage (MB): ")
-      .append((float)process.ram_usage/1000)
-      .append("\n  * Swap usage (MB): ")
-      .append((float)process.swap_usage/1000)
-      ;
+    message.append("\n  * Memory usage (MB): ").append((float)process.ram_usage/1000);
+    message.append("\n  * Swap usage (MB): ").append((float)process.swap_usage/1000);
     return message.toString();
   }
 
@@ -115,9 +108,10 @@ public class Proc {
         command.add(arg.toString());
         arg = new StringBuilder();
       }
-      else {arg.append(c);}
+      else arg.append(c);
     }
-    if (arg.length() != 0) {command.add(arg.toString());} //fileio.readValue() trims strings, removing the last \000 character
+    //fileio.readValue() trims strings, removing the last \000 character, and so a final check is not needed
+    if (arg.length() != 0) command.add(arg.toString());
     return command.toArray(new String[0]);
   }
 
