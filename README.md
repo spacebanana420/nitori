@@ -1,6 +1,8 @@
 ## Nitori
 Nitori is a CLI tool for controlling and monitoring the system's CPU and hardware on Linux-based operating systems.
 
+<img src="doc/nitori.webp" width="300" />
+
 ### Supported features
 * **CPU**: Montior hardware specifications and current configuration, set clock speeds, set kernel governor
 * **Battery**: Set battery charge limit and monitor specifications, manufacturer, power usage and charge capabilities
