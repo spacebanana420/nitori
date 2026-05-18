@@ -14,7 +14,7 @@ You can find more examples on how to use Nitori [here](doc/examples.md).
 * **Suspension**: Suspend the system to RAM, freeze userspace or hibernate to disk
 * **Memory**: Monitor the system memory and swap and now much is free, available, used and cached
 * **Process**: List, count and find system processes and kernel threads
-* **Temperature**: Montior the temperature of known hardware sensors
+* **Temperature**: Monitor the temperature of known hardware sensors
 
 ## Requirements
 * Linux-based operating system
