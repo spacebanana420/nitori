@@ -12,7 +12,13 @@ import java.util.ArrayList;
 //Used for creating, reading and writing files of any kind
 public class fileio {
   public static String homeDirectory() {return System.getProperty("user.home");}
-  
+
+  public static boolean fileExists(String path) {return new File(path).isFile();}
+  public static boolean directoryExists(String path) {return new File(path).isDirectory();}
+  public static void createDirectory(String path) {new File(path).mkdirs();}
+  public static String[] getPaths(String path) {return new File(path).list();}
+
+  public static boolean writeValue(String path, int content) {return writeValue(path, ""+content);}
   public static boolean writeValue(String path, String content) {
     byte[] string_data = content.getBytes();
     stdout.print_debug("[fileio debug] Writing to " + path);
@@ -21,13 +27,13 @@ public class fileio {
       output.write(string_data);
       output.close();
       return true;
-    } catch(IOException e) {
+    }
+    catch(IOException e) {
       if (content.length() > 10) stdout.error("Failed to write file at path " + path);
       else stdout.error("Failed to write file at path " + path + " with value " + content);
       return false;
     }
   }
-  public static boolean writeValue(String path, int content) {return writeValue(path, ""+content);}
 
   public static String readValue(String path) {
     try {
@@ -84,11 +90,6 @@ public class fileio {
     return getStrLines(file, true, comment_char);
   }
   public static ArrayList<String> strToLines(String str, char comment_char) {return getStrLines(str, true, comment_char);}
-
-  public static boolean fileExists(String path) {return new File(path).isFile();}
-  public static boolean directoryExists(String path) {return new File(path).isDirectory();}
-  public static String[] getPaths(String path) {return new File(path).list();}
-  public static void createDirectory(String path) {new File(path).mkdirs();}
   
   //Some files have values separated by words
   //For example: performance powersave
