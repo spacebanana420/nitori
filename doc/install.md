@@ -24,7 +24,7 @@ or
 pacman -S jdk-openjdk
 ```
 
-### Debian/Devuan
+### Debian/Devuan/Ubuntu/Linux Mint
 ```sh
 apt install default-jre
 ```
