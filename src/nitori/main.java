@@ -40,7 +40,7 @@ public class main {
 
     //If no task was run at all, this function returns false, so that main() knows it has to print the help screen
     for (boolean status : ran_tasks) {if (status) return true;}
-    return false;
+    return ran_presets;
   }
 
   private static boolean supportedOS() {return System.getProperty("os.name").equals("Linux");}
