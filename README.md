@@ -36,6 +36,7 @@ yuuka install nitori.jar
 
 ## Documentation
 
+* [Downloading and Installing Nitori](doc/install.md)
 * [Nitori Examples](doc/examples.md)
 * [Build Nitori from source](doc/build.md)
 * [Setting up presets](doc/presets.md)
