@@ -7,9 +7,7 @@ import java.io.File;
 
 //Linux kernel suspension, supports userspace freeze, suspend to RAM, hibernation, etc
 public class suspend {
-  public static boolean suspendIsSupported() {
-    return new File("/sys/power/state").isFile();
-  }
+  public static boolean suspendIsSupported() {return new File("/sys/power/state").isFile();}
   
   public static void suspendSystem(String state, String[] available_states) {
     boolean supported_state = false;

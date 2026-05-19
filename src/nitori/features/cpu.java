@@ -142,14 +142,14 @@ public class cpu {
     int ascii_max = (int)'9';
     
     for (String dir : paths) {
-      if (dir.length() < 4) {continue;}
-      if (dir.charAt(0) != 'c' || dir.charAt(1) != 'p' || dir.charAt(2) != 'u') {continue;}
+      if (dir.length() < 4) continue;
+      if (dir.charAt(0) != 'c' || dir.charAt(1) != 'p' || dir.charAt(2) != 'u') continue;
       boolean has_only_digits = true;
       for (int i = 3; i < dir.length(); i++) {
         char c = dir.charAt(i);
         if (c < ascii_min || c > ascii_max) {has_only_digits = false; break;}
       }
-      if (has_only_digits) {cpu_paths.add(dir);}
+      if (has_only_digits) cpu_paths.add(dir);
     }
     return cpu_paths.toArray(new String[0]);
   }

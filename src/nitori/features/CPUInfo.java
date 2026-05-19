@@ -27,7 +27,7 @@ public class CPUInfo {
   public String energy_pref_raw;
   
   public CPUInfo(int core_count, String[] cpu_dirs) {
-    if (core_count < 1) {return;}
+    if (core_count < 1) return;
     this.min_frequency = new int[core_count];
     this.max_frequency = new int[core_count];
     this.governor = new String[core_count];
@@ -48,7 +48,7 @@ public class CPUInfo {
     return cpuSupportsEnergyControl() ? energy_pref[0] : "N/A";
   }
   public String str_turboStatus() {
-    if (!turbo_status_exists) {return "Unknown";}
+    if (!turbo_status_exists) return "Unknown";
     return turbo_enabled ? "Yes" : "No";
   }
 
@@ -63,7 +63,7 @@ public class CPUInfo {
   
   private boolean isInList(String keyword, String[] slist) {
     for (String element : slist) {
-      if (keyword.equals(element)) {return true;}
+      if (keyword.equals(element)) return true;
     }
     return false;
   }

@@ -7,7 +7,7 @@ import java.io.File;
 //Can set and retrieve the screen brightness and can save it and restore it for later use
 public class backlight {
   private static String basePath = getBasePath(); //The directory with the brightness pseudo-files
-  private static String saveFile = "/etc/nitori/saved_brightness"; //Used for saving and restoring screen brightness
+  private static final String saveFile = "/etc/nitori/saved_brightness"; //Used for saving and restoring screen brightness
   
   public static boolean hasBacklight() {return basePath != null;}
 
@@ -20,7 +20,7 @@ public class backlight {
   
   //Sets the current laptop screen brightness as a percentage
   public static boolean setBrightness(byte percentage) {
-    if (percentage < 1 || percentage > 100) {return false;}
+    if (percentage < 1 || percentage > 100) return false;
     
     float factor = (float)percentage/100;
     int max_brightness = fileio.readInt(basePath + "max_brightness"); //replace with a backlightinfo class later

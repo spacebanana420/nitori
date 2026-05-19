@@ -12,7 +12,8 @@ You can find more examples on how to use Nitori [here](doc/examples.md).
 * **Battery**: Set battery charge limit and monitor specifications, manufacturer, power usage and charge capabilities
 * **Backlight**: Set and view the screen backlight brightness for built-in laptop screens
 * **Suspension**: Suspend the system to RAM, freeze userspace or hibernate to disk
-* **Memory**: Monitor the system memory and swap and now much is free, available, used and cached
+* **Memory**: Monitor the system RAM and swap and now much is free, available, used and cached
+* **GPU memory**: Monitor the VRAM and GTT of one or multiple connected graphics chips
 * **Process**: List, count and find system processes and kernel threads
 * **Temperature**: Monitor the temperature of known hardware sensors
 
