@@ -115,12 +115,13 @@ public class fileio {
 
     for (int i = 0; i < str.length(); i++) {
       char c = str.charAt(i);
-      if (c == '\n' && line.length() != 0) {
+      if (c == '\n') {
+        if (line.length() == 0) continue;
         String line_str = remove_comments ? removeComments(line.toString(), comment_char) : line.toString();
         lines.add(line_str);
-        line = new StringBuilder();;
+        line = new StringBuilder();
       }
-      else {line.append(c);}
+      else line.append(c);
     }
     if (line.length() != 0) {lines.add(remove_comments ? removeComments(line.toString(), comment_char) : line.toString());}
     return lines;
@@ -130,7 +131,7 @@ public class fileio {
     StringBuilder newline = new StringBuilder();
     for (int i = 0; i < line.length(); i++) {
       char c = line.charAt(i);
-      if (c == comment_char) {break;}
+      if (c == comment_char) break;
       newline.append(c);
     }
     return newline.toString();
