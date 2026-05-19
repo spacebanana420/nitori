@@ -22,10 +22,8 @@ public class fileio {
       output.close();
       return true;
     } catch(IOException e) {
-      if (content.length() > 10) {
-        stdout.error("Failed to write file at path " + path);
-      }
-      else{stdout.error("Failed to write file at path " + path + " with value " + content);}
+      if (content.length() > 10) stdout.error("Failed to write file at path " + path);
+      else stdout.error("Failed to write file at path " + path + " with value " + content);
       return false;
     }
   }
@@ -77,12 +75,12 @@ public class fileio {
 
   public static ArrayList<String> readLines(String path) {
     String file = readValue(path);
-    if (file == null) {return null;}
+    if (file == null) return null;
     return getStrLines(file, false, '\0');
   }
   public static ArrayList<String> readLines(String path, char comment_char) {
     String file = readValue(path);
-    if (file == null) {return null;}
+    if (file == null) return null;
     return getStrLines(file, true, comment_char);
   }
   public static ArrayList<String> strToLines(String str, char comment_char) {return getStrLines(str, true, comment_char);}
@@ -96,16 +94,17 @@ public class fileio {
   //For example: performance powersave
   public static String[] extractWords(String line) {
     var words = new ArrayList<String>();
-    String buffer = "";
+    var str = new StringBuilder();
     for (int i = 0; i < line.length(); i++) {
       char c = line.charAt(i);
-      if (c == ' ' && !buffer.isEmpty()) {
-        words.add(buffer);
-        buffer = "";
+      if (c == ' ') {
+        if (str.length() == 0) continue;
+        words.add(str.toString());
+        str = new StringBuilder();
       }
-      else {buffer += c;}
+      else str.append(c);
     }
-    if (!buffer.isEmpty()) {words.add(buffer);}
+    if (str.length() != 0) words.add(str.toString());
     return words.toArray(new String[0]);
   }
 
