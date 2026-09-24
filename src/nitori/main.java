@@ -9,8 +9,11 @@ public class main {
     if (cli.askedForHelp(args)) {help.printHelp(); return;}
     stdout.PRINT_LEVEL = stdout.getPrintLevel(args);
 
-    if (!supportedOS()) {
-      stdout.print("Unsupported OS! Nitori only works on Linux-based operating systems!");
+    String os = System.getProperty("os.name");
+    boolean isLinux = os.equals("Linux");
+    boolean isFreeBSD = !isLinux && os.equals("FreeBSD");
+    if (!isLinux && !isFreeBSD) {
+      stdout.print("Unsupported OS! Nitori only works on a Linux-based systems or FreeBSD!");
       return;
     }
     boolean ran_task = runTasks(args);
@@ -43,6 +46,5 @@ public class main {
     return ran_presets;
   }
 
-  private static boolean supportedOS() {return System.getProperty("os.name").equals("Linux");}
   private static boolean isRoot() {return System.getProperty("user.home").equals("/root");}
 }

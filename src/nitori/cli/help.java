@@ -14,6 +14,7 @@ public class help {
       + "\n\n[CPU-related arguments]"
       + "\n  * -cmin (--cpu-min) <clock speed>          Sets the minimum CPU clock speed in megahertz (MHz)"
       + "\n  * -cmax (--cpu-max) <clock speed>          Sets the maximum CPU clock speed in megahertz (MHz)"
+      + "\n  * -cfreq (--cpu-freq) <clock speed>        Sets both the minimum and maximum clock speed in megahertz (MHz)"
       + "\n  * -cg (--cpu-governor) <governor>          Sets the CPU kernel governor"
       + "\n  * -ce (--cpu-energy-preference) <mode>     Sets the CPU energy balance preference if available"
       + "\n  * -ci (--cpu-info)                         Displays info about the system's CPU and supported speeds and governors"
@@ -51,7 +52,7 @@ public class help {
 
       + "\n\n[Temperature-related arguments]"
       + "\n  * -t (--temperature)                       Displays temperature values in degrees Celsius of known hardware sensors"
-      + "\n  * -ts (--temperature-simple)               Displays temperatures values just like -t/--temperature, but only showing the numerical value"
+      + "\n  * -ts (--temperature-simple)               Displays temperatures values just like -t/--temperature, but in a machine-readable format"
       
       + "\n\n[Other arguments]"
       + "\n  * -q (--quiet)                             Disables printing to standard output"
