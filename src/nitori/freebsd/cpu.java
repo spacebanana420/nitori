@@ -1,5 +1,6 @@
 package nitori.freebsd;
 
+import nitori.numops;
 import nitori.io.stdout;
 import nitori.io.process;
 
@@ -10,8 +11,9 @@ public class cpu {
       return;
     }
     Process p = process.exec("sysctl", "dev.cpu.0.freq="+speed);
-    String resultFrequency = getResultFrequency(new String(process.readOutput(p)));
-    stdout.print("CPU clock speed was set to "+resultFrequency+" MHz");
+    int resultFreq = numops.toInt(getResultFrequency(new String(process.readOutput(p))));
+    if (resultFreq == speed) stdout.print("CPU clock speed was set to "+resultFreq+" MHz.");
+    else stdout.print("Provided clock speed of "+speed+" MHz is not supported\nSupported frequencies:"+availableFrequencies+"\nCPU clock speed was set to "+resultFreq+" MHz instead.");
   }
 
   //Sets clock speed to highest supported value

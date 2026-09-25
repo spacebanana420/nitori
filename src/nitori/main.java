@@ -2,6 +2,7 @@ package nitori;
 
 import nitori.cli.*;
 import nitori.io.*;
+import nitori.freebsd.SystemInfo;
 
 public class main {
   public static void main(String[] args) {
@@ -16,7 +17,7 @@ public class main {
       stdout.print("Unsupported OS! Nitori only works on a Linux-based systems or FreeBSD!");
       return;
     }
-    boolean ran_task = runTasks(args);
+    boolean ran_task = isLinux ? runTasks(args) : runTasks_freebsd(args);
     if (!ran_task) {help.printSmallHelp();}
   }
   
@@ -35,6 +36,27 @@ public class main {
     t[4] = new Thread(() -> {ran_tasks[4] = tasks.runMemoryTask(args);});
     t[5] = new Thread(() -> {ran_tasks[5] = tasks.runProcessTasks(args);});
     t[6] = new Thread(() -> {ran_tasks[6] = tasks.runTemperatureTasks(args);});
+    for (Thread thread : t) {thread.start();}
+    for (Thread thread : t) {
+      try{thread.join();}
+      catch(InterruptedException e) {e.printStackTrace(); return true;}
+    }
+
+    //If no task was run at all, this function returns false, so that main() knows it has to print the help screen
+    for (boolean status : ran_tasks) {if (status) return true;}
+    return ran_presets;
+  }
+
+  private static boolean runTasks_freebsd(String[] args) {
+    final boolean root = isRoot();
+    final SystemInfo info = new SystemInfo();
+    final boolean ran_presets = tasks.runPresetTasks(args, root);
+
+    //Run the different tasks in parallel, they are not dependant on each other
+    //Each task function returns a boolean telling whether the user tried to run it
+    final boolean[] ran_tasks = new boolean[7];
+    Thread[] t = new Thread[1];
+    t[0] = new Thread(() -> {ran_tasks[0] = tasks_freebsd.runCPUTasks(args, info, root);});
     for (Thread thread : t) {thread.start();}
     for (Thread thread : t) {
       try{thread.join();}

@@ -1,5 +1,6 @@
 package nitori.freebsd;
 
+import nitori.numops;
 import nitori.io.process;
 import java.util.ArrayList;
 
@@ -153,7 +154,6 @@ public class SystemInfo {
 
   private static int retrieveInt(ArrayList<String> lines, String name) {
     String value = retrieveValue(lines, name);
-    try {return Integer.parseInt(value);}
-    catch (NumberFormatException e) {return -1;}
+    return numops.toInt(value);
   }
 }
