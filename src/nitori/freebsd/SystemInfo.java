@@ -24,7 +24,6 @@ public class SystemInfo {
   //System RAM
   private int totalMemory = -1;
   private int freeMemory = -1;
-  private int usedMemory = -1;
   private int wireMemory = -1;
   private int cachedMemory = -1;
 
@@ -114,6 +113,13 @@ public class SystemInfo {
   public int getCachedMemory() {
     if (this.cachedMemory == -1) this.cachedMemory = retrieveInt(this.osInfo, "vm.stats.vm.v_cache_count");
     return this.cachedMemory;
+  }
+
+  public int getUsedMemory() {
+    int total = getTotalMemory();
+    int free = getFreeMemory();
+    if (total == -1 || free == -1) return -1;
+    return total-free;
   }
   
   public int getBatteryPercentage() {

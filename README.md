@@ -18,10 +18,10 @@ You can find more examples on how to use Nitori [here](doc/examples.md).
 * **Temperature**: Monitor the temperature of known hardware sensors
 
 ## Requirements
-* Linux-based operating system
+* Linux-based operating system (or FreeBSD as of Nitori 1.6)
 * Java 11 or newer
 
-Nitori is only tested on x86_64 CPUs, but it should also work on other CPU architectures. Battery support and features might vary with different models. Nitori is currently Linux-only because it interacts with features specifically from the Linux kernel.
+Feature support varies between platforms and hardware!
 
 ## Download
 

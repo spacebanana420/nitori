@@ -39,4 +39,19 @@ class tasks_freebsd {
     }
     return true;
   }
+
+  //Unfinished, unit needs to be converted or checked if it's correct
+  static boolean runMemoryTasks(String[] args, SystemInfo info) {
+    if (!cli.memoryInfo(args)) return false;
+    String message = 
+      "[System RAM information]"
+        + "\n * Total memory: " + info.getTotalMemory() + " GB"
+        + "\n * Free memory: " + info.getFreeMemory() + " GB"
+        + "\n * Used memory: " + info.getUsedMemory() + " GB"
+        + "\n * Wire memory: " + info.getWireMemory() + " GB"
+        + "\n * Cached memory: " + info.getCachedMemory() + " GB"
+    ;
+    stdout.print(message);
+    return true;
+  }
 }
