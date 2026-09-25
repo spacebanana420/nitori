@@ -30,10 +30,10 @@ public class cli {
   
   public static String suspendSystem(String[] args) {
     int i = parser.findArgumentIndex(args, "-s");
-    if (i == -1) {i = parser.findArgumentIndex(args, "--suspend");}
-    if (i == -1) {return null;}
+    if (i == -1) i = parser.findArgumentIndex(args, "--suspend");
+    if (i == -1) return null;
     
-    if (!parser.checkValue(args, i)) {return "mem";}
+    if (!parser.checkValue(args, i)) return "mem";
     return args[i+1].trim();
   }
   public static boolean hibernateSystem(String[] args) {return parser.hasArgument(args, "-sh", "--hibernate");}
@@ -100,7 +100,7 @@ class parser {
       return -2;
     }
     int num = numops.toInt(value);
-    if (num >= 0) {return num;} //Negative values are not necessary anywhere
+    if (num >= 0) return num; //Negative values are not necessary anywhere
     stdout.error("The value " + value + " passed as a CLI argument is invalid, it must be positive!");
     return -2;
   }
@@ -116,7 +116,7 @@ class parser {
   }
   
   static boolean checkValue(String[] args, int i) {
-    if (i == args.length-1) {return false;}
+    if (i == args.length-1) return false;
     String value = args[i+1];
     return !value.isEmpty() && value.charAt(0) != '-';
   }
