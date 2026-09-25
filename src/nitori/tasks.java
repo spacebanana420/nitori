@@ -14,18 +14,20 @@ import java.util.ArrayList;
 class tasks {
   //CPU control and monitoring
   static boolean runCPUTasks(String[] args, boolean root) {
-    int[] cpu_freq = cli.cpuFrequencies(args);
+    int[] cpu_freqs = cli.cpuFrequencies(args); //Minimum and maximum clock speeds specified
+    int cpu_freq = cli.cpuFrequency(args); //One clock speed for both minimum and maximum
     String gov = cli.cpuGovernor(args);
     String energy_pref = cli.cpuEnergy(args);
     boolean display_info = cli.cpuInfo(args);
     boolean reset = cli.cpuReset(args);
   
-    boolean set_freqs = cpu_freq[0] != -1 || cpu_freq[1] != -1;
+    boolean set_freqs = cpu_freqs[0] != -1 || cpu_freqs[1] != -1;
+    boolean set_single_freq = cpu_freq != -1;
     boolean set_gov = gov != null;
     boolean set_energy = energy_pref != null;
-    if (!set_freqs && !set_gov && !display_info && !reset && !set_energy) return false;
+    if (!set_freqs && !set_single_freq && !set_gov && !display_info && !reset && !set_energy) return false;
   
-    if ((set_gov || set_freqs || reset || set_energy) && !root) {
+    if ((set_gov || set_freqs || set_single_freq || reset || set_energy) && !root) {
       stdout.error("You must be root to be able to modify CPU configurations!");
       return true;
     }
@@ -36,10 +38,11 @@ class tasks {
     }
   
     CPUInfo info = cpu.getInfo();
-    if (set_freqs) {cpu.setFrequencies(cpu_freq[0], cpu_freq[1], info);}
-    else if (reset) {cpu.resetFrequencies(info);}
-    if (set_gov) {cpu.setGovernor(gov, info);}
-    if (set_energy) {cpu.setEnergyControl(energy_pref, info);}
+    if (set_freqs) cpu.setFrequencies(cpu_freqs[0], cpu_freqs[1], info);
+    else if (set_single_freq) cpu.setFrequencies(cpu_freq, cpu_freq, info);
+    else if (reset) cpu.resetFrequencies(info);
+    if (set_gov) cpu.setGovernor(gov, info);
+    if (set_energy) cpu.setEnergyControl(energy_pref, info);
     if (display_info) {
       stdout.print(
         "[CPU Specifications]"
