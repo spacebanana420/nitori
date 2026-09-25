@@ -1,4 +1,6 @@
 package nitori.cli;
+
+import nitori.numops;
 import nitori.io.stdout;
 
 //Read the CLI, obtain the presence or values of a CLI argument
@@ -92,12 +94,12 @@ class parser {
   //-2 is used to determine that it was indeed used but it is incorrect
   static int getArgumentInt(String[] args, String... find_arg) {
     String value = getArgumentValue(args, find_arg);
-    if (value == null) {return -1;}
+    if (value == null) return -1;
     if (value.length() > 9) {
       stdout.error("The value " + value + " passed as a CLI argument is invalid, it is too big to represent a valid number!");
       return -2;
     }
-    int num = strToInt(value);
+    int num = numops.toInt(value);
     if (num >= 0) {return num;} //Negative values are not necessary anywhere
     stdout.error("The value " + value + " passed as a CLI argument is invalid, it must be positive!");
     return -2;
@@ -105,7 +107,7 @@ class parser {
   
   static byte getArgumentByte(String[] args, String... find_arg) {
     int num_i = getArgumentInt(args, find_arg);
-    if (num_i == -1) {return -1;}
+    if (num_i == -1) return -1;
     byte num_b = (byte)(num_i);
     
     //Byte.parseByte would have accepted shorts, integers, longs, etc as bytes
@@ -117,10 +119,5 @@ class parser {
     if (i == args.length-1) {return false;}
     String value = args[i+1];
     return !value.isEmpty() && value.charAt(0) != '-';
-  }
-  
-  private static int strToInt(String num) {
-    try {return Integer.parseInt(num);}
-    catch(NumberFormatException e) {return -1;}
   }
 }
