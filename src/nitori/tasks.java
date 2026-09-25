@@ -13,7 +13,7 @@ import java.util.ArrayList;
 //If all functions return false, then the user didn't try to do anything, and in that case main() prints a help screen
 class tasks {
   //CPU control and monitoring
-  static boolean runCPUTasks(String[] args, boolean root) {
+  static boolean runCPUTasks(String[] args) {
     int[] cpu_freqs = cli.cpuFrequencies(args); //Minimum and maximum clock speeds specified
     int cpu_freq = cli.cpuFrequency(args); //One clock speed for both minimum and maximum
     String gov = cli.cpuGovernor(args);
@@ -26,11 +26,6 @@ class tasks {
     boolean set_gov = gov != null;
     boolean set_energy = energy_pref != null;
     if (!set_freqs && !set_single_freq && !set_gov && !display_info && !reset && !set_energy) return false;
-  
-    if ((set_gov || set_freqs || set_single_freq || reset || set_energy) && !root) {
-      stdout.error("You must be root to be able to modify CPU configurations!");
-      return true;
-    }
 
     if (!cpu.canControlCPU()) {
       stdout.error("CPU monitor and control is currently unavailable!\nThis is often caused by disabling CPU clock scaling funtionality in BIOS/UEFI\nIf this is your case, you must enable whatever functionality your motherboard provides for scaling/changing the CPU frequencies (e.g Intel SpeedShift)");
@@ -65,7 +60,7 @@ class tasks {
 
   //Laptop lithium battery control
   //Not all batteries support controlling charge limits at OS-level
-  static boolean runBatteryTasks(String[] args, boolean root) {
+  static boolean runBatteryTasks(String[] args) {
     byte charge_percentage = cli.batteryPercentage(args);
     boolean display_info = cli.batteryInfo(args);
     boolean set_charge = charge_percentage != -1;
@@ -78,7 +73,6 @@ class tasks {
   
     if (set_charge) {
       if (!Battery.chargeLimitSupported()) {stdout.error("Your system's battery does not support setting charge limits at the OS level!\nMaybe it's available in BIOS/UEFI?"); return true;}
-      if (!root) {stdout.error("You must be root to be able to modify battery charge limits!"); return true;}
       boolean result = Battery.setChargeLimit(charge_percentage);
       if (!result) {stdout.error("The battery charge limit must be a percentage value between 1% and 100%!");}
     }
@@ -102,7 +96,7 @@ class tasks {
   }
 
   //Laptop backlight brightness control
-  static boolean runBacklightTasks(String[] args, boolean root) {
+  static boolean runBacklightTasks(String[] args) {
     byte percentage = cli.backlightPercentage(args);
     boolean display_info = cli.backlightInfo(args);
     
@@ -124,8 +118,8 @@ class tasks {
     }
     
     if (!runRootTasks) return true;
-    if (!root) {
-      stdout.error("You must be root to be able to save, restore or modify the screen's backlight brightness!");
+    if (!platform.isRoot()) {
+      platform.printRootError_backlight();
       return true;
     }
     
@@ -140,7 +134,7 @@ class tasks {
   }
 
   //OS suspension control: freeze, memory sleep, hibernate, etc
-  static boolean runSuspendTasks(String[] args, boolean root) {
+  static boolean runSuspendTasks(String[] args) {
     boolean view_states = cli.suspendStates(args);
     String suspend_mode = cli.suspendSystem(args);
     boolean hibernate = cli.hibernateSystem(args);
@@ -161,8 +155,8 @@ class tasks {
       }
       stdout.print(message);
     }
-    if (root_arguments && !root) {
-      stdout.error("You must be root to be able to suspend the system!");
+    if (root_arguments && !platform.isRoot()) {
+      platform.printRootError_suspend();
       return true;
     }
     if (suspend_mode != null) {
@@ -177,9 +171,10 @@ class tasks {
   }
 
   //Run preset files, convenient for running a bunch of repetitive tasks all at once
-  static boolean runPresetTasks(String[] args, boolean is_root) {
+  static boolean runPresetTasks(String[] args) {
     String run_preset = cli.runPreset(args);
     String create_preset = cli.createPreset(args);
+    boolean is_root = platform.isRoot();
     boolean list_presets = cli.listPresets(args);
 
     if (run_preset != null) {

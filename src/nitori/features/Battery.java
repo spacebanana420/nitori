@@ -1,5 +1,6 @@
 package nitori.features;
 
+import nitori.platform;
 import nitori.io.fileio;
 import nitori.io.stdout;
 
@@ -49,6 +50,7 @@ public class Battery {
   }
 
   public static boolean setChargeLimit(byte limit) {
+    if (!platform.isRoot()) {platform.printRootError_battery(); return true;}
     if (limit < 1 || limit > 100) return false;
     String base_path = getBasePath();
     stdout.print("Setting battery charge limit to "+ limit + "%");

@@ -1,5 +1,6 @@
 package nitori.features;
 
+import nitori.platform;
 import nitori.io.fileio;
 import nitori.io.stdout;
 
@@ -10,11 +11,13 @@ import java.util.ArrayList;
 public class cpu {
   public static boolean canControlCPU() {return new File("/sys/devices/system/cpu/cpu0/cpufreq/").isDirectory();}
   
-  public static boolean resetFrequencies(CPUInfo info) {
-    return setFrequencies(info.hardware_min_frequency/1000, info.hardware_max_frequency/1000, info);
+  public static void resetFrequencies(CPUInfo info) {
+    if (!platform.isRoot()) {platform.printRootError_cpu(); return;}
+    setFrequencies(info.hardware_min_frequency/1000, info.hardware_max_frequency/1000, info);
   }
 
-  public static boolean setFrequencies(int min_clock_speed, int max_clock_speed, CPUInfo cpu_info) {
+  public static void setFrequencies(int min_clock_speed, int max_clock_speed, CPUInfo cpu_info) {
+    if (!platform.isRoot()) {platform.printRootError_cpu(); return;}
     final String cpu_base_path = getBasePath();
     boolean setMinimum = false;
     boolean setMaximum = false;
@@ -50,13 +53,13 @@ public class cpu {
         fileio.writeValue(path, max_speed);
       }
     }
-    return setMinimum || setMaximum;
   }
   
-  public static boolean setGovernor(String governor, CPUInfo cpu_info) {
+  public static void setGovernor(String governor, CPUInfo cpu_info) {
+    if (!platform.isRoot()) {platform.printRootError_cpu(); return;}
     if (!cpu_info.supportedGovernor(governor)) {
       stdout.error("The provided cpu governor \""+governor+"\" is not supported!");
-      return false;
+      return;
     }
 
     stdout.print("Setting CPU governor " + governor + " for all cores");
@@ -65,17 +68,17 @@ public class cpu {
       String path = cpu_base_path + core + "/cpufreq/scaling_governor";
       fileio.writeValue(path, governor);
     }
-    return true;
   }
   
-  public static boolean setEnergyControl(String energy_mode, CPUInfo cpu_info) {
+  public static void setEnergyControl(String energy_mode, CPUInfo cpu_info) {
+    if (!platform.isRoot()) {platform.printRootError_cpu(); return;}
     if (!cpu_info.cpuSupportsEnergyControl()) {
       stdout.error("Energy preference control is not available for this CPU!");
-      return false;
+      return;
     }
     if (!cpu_info.supportedEnergyControl(energy_mode)) {
       stdout.error("The provided energy control mode \""+energy_mode+"\" is not supported!");
-      return false;
+      return;
     }
     
     final String cpu_base_path = getBasePath();
@@ -83,7 +86,6 @@ public class cpu {
       String path = cpu_base_path + core + "/cpufreq/energy_performance_preference";
       fileio.writeValue(path, energy_mode);
     }
-    return true;
   }
   
   public static CPUInfo getInfo() {

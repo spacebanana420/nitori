@@ -10,9 +10,8 @@ public class main {
     if (cli.askedForHelp(args)) {help.printHelp(); return;}
     stdout.PRINT_LEVEL = stdout.getPrintLevel(args);
 
-    String os = System.getProperty("os.name");
-    boolean isLinux = os.equals("Linux");
-    boolean isFreeBSD = !isLinux && os.equals("FreeBSD");
+    boolean isLinux = platform.isLinux();
+    boolean isFreeBSD = !isLinux && platform.isFreeBSD();
     if (!isLinux && !isFreeBSD) {
       stdout.print("Unsupported OS! Nitori only works on a Linux-based systems or FreeBSD!");
       return;
@@ -22,17 +21,16 @@ public class main {
   }
   
   private static boolean runTasks(String[] args) {
-    final boolean root = isRoot();
-    final boolean ran_presets = tasks.runPresetTasks(args, root);
+    final boolean ran_presets = tasks.runPresetTasks(args);
 
     //Run the different tasks in parallel, they are not dependant on each other
     //Each task function returns a boolean telling whether the user tried to run it
     final boolean[] ran_tasks = new boolean[7];
     Thread[] t = new Thread[7];
-    t[0] = new Thread(() -> {ran_tasks[0] = tasks.runCPUTasks(args, root);});
-    t[1] = new Thread(() -> {ran_tasks[1] = tasks.runBatteryTasks(args, root);});
-    t[2] = new Thread(() -> {ran_tasks[2] = tasks.runBacklightTasks(args, root);});
-    t[3] = new Thread(() -> {ran_tasks[3] = tasks.runSuspendTasks(args, root);});
+    t[0] = new Thread(() -> {ran_tasks[0] = tasks.runCPUTasks(args);});
+    t[1] = new Thread(() -> {ran_tasks[1] = tasks.runBatteryTasks(args);});
+    t[2] = new Thread(() -> {ran_tasks[2] = tasks.runBacklightTasks(args);});
+    t[3] = new Thread(() -> {ran_tasks[3] = tasks.runSuspendTasks(args);});
     t[4] = new Thread(() -> {ran_tasks[4] = tasks.runMemoryTask(args);});
     t[5] = new Thread(() -> {ran_tasks[5] = tasks.runProcessTasks(args);});
     t[6] = new Thread(() -> {ran_tasks[6] = tasks.runTemperatureTasks(args);});
@@ -48,15 +46,13 @@ public class main {
   }
 
   private static boolean runTasks_freebsd(String[] args) {
-    final boolean root = isRoot();
     final SystemInfo info = new SystemInfo();
-    final boolean ran_presets = tasks.runPresetTasks(args, root);
 
     //Run the different tasks in parallel, they are not dependant on each other
     //Each task function returns a boolean telling whether the user tried to run it
     final boolean[] ran_tasks = new boolean[7];
     Thread[] t = new Thread[1];
-    t[0] = new Thread(() -> {ran_tasks[0] = tasks_freebsd.runCPUTasks(args, info, root);});
+    t[0] = new Thread(() -> {ran_tasks[0] = tasks_freebsd.runCPUTasks(args, info);});
     for (Thread thread : t) {thread.start();}
     for (Thread thread : t) {
       try{thread.join();}
@@ -65,8 +61,6 @@ public class main {
 
     //If no task was run at all, this function returns false, so that main() knows it has to print the help screen
     for (boolean status : ran_tasks) {if (status) return true;}
-    return ran_presets;
+    return false;
   }
-
-  private static boolean isRoot() {return System.getProperty("user.home").equals("/root");}
 }
