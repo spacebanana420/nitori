@@ -7,13 +7,17 @@ import nitori.io.process;
 public class cpu {
   public static void setClockSpeed(int speed, int currentSpeed, String availableFrequencies) {
     if (speed == currentSpeed) {
-      stdout.print("Specified clock speed of "+speed+" MHz is the same as the current CPU speed, skipping.");
+      stdout.print("The specified clock speed of "+speed+" MHz is the same as the current CPU speed, skipping.");
+      return;
+    }
+    if (speed < 0) {
+      stdout.error("The specified clock speed of "+speed+" MHz is an invalid number, skipping.");
       return;
     }
     Process p = process.exec("sysctl", "dev.cpu.0.freq="+speed);
     int resultFreq = numops.toInt(getResultFrequency(new String(process.readOutput(p))));
     if (resultFreq == speed) stdout.print("CPU clock speed was set to "+resultFreq+" MHz.");
-    else stdout.print("Provided clock speed of "+speed+" MHz is not supported\nSupported frequencies:"+availableFrequencies+"\nCPU clock speed was set to "+resultFreq+" MHz instead.");
+    else stdout.print("The specified clock speed of "+speed+" MHz is not supported\nSupported frequencies:"+availableFrequencies+"\nCPU clock speed was set to "+resultFreq+" MHz instead.");
   }
 
   //Sets clock speed to highest supported value
