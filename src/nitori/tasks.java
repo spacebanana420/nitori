@@ -7,7 +7,7 @@ import nitori.preset.*;
 
 import java.util.ArrayList;
 
-//The main class that controls Nitori functionality, this is the high-level "overview" control of the program
+//The main class that controls Linux functionality, this is the high-level "overview" control of the program
 //It reads the prompted CLI arguments and then runs the respective functionality
 //Each function returns true if the user tried to run its respective task
 //If all functions return false, then the user didn't try to do anything, and in that case main() prints a help screen

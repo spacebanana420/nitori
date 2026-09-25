@@ -13,14 +13,14 @@ public class main {
     boolean isLinux = platform.isLinux();
     boolean isFreeBSD = !isLinux && platform.isFreeBSD();
     if (!isLinux && !isFreeBSD) {
-      stdout.print("Unsupported OS! Nitori only works on a Linux-based systems or FreeBSD!");
+      platform.printPlatformError();
       return;
     }
-    boolean ran_task = isLinux ? runTasks(args) : runTasks_freebsd(args);
-    if (!ran_task) {help.printSmallHelp();}
+    boolean ranAnyTask = isLinux ? runTasks_linux(args) : runTasks_freebsd(args);
+    if (!ranAnyTask) help.printSmallHelp();
   }
   
-  private static boolean runTasks(String[] args) {
+  private static boolean runTasks_linux(String[] args) {
     final boolean ran_presets = tasks.runPresetTasks(args);
 
     //Run the different tasks in parallel, they are not dependant on each other
