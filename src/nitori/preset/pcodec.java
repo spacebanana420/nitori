@@ -1,6 +1,8 @@
 package nitori.preset;
 
+import nitori.numops;
 import nitori.io.*;
+
 import java.util.ArrayList;
 import java.io.File;
 
@@ -140,10 +142,7 @@ class NitoriPreset {
 
   int getValue_int(String key) {
     String value = getValue(key);
-    if (value == null) return -1;
-
-    try {return Integer.parseInt(value);}
-    catch (NumberFormatException e) {return -1;}
+    return numops.toInt(value);
   }
 
   private String removeComments(String line) {

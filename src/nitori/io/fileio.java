@@ -1,5 +1,7 @@
 package nitori.io;
 
+import nitori.numops;
+
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,35 +50,17 @@ public class fileio {
 
   public static long readLong(String path) {
     String value = readValue(path);
-    if (value == null) return -1;
-    
-    try {return Long.parseLong(value);}
-    catch(NumberFormatException e) {
-      stdout.error("Failed to read file as 64bit signed integer");
-      return -1;
-    }
+    return numops.toLong(value);
   }
   
   public static int readInt(String path) {
     String value = readValue(path);
-    if (value == null) return -1;
-    
-    try {return Integer.parseInt(value);}
-    catch(NumberFormatException e) {
-      stdout.error("Failed to read file as 32bit signed integer");
-      return -1;
-    }
+    return numops.toInt(value);
   }
 
   public static byte readByte(String path) {
     String value = readValue(path);
-    if (value == null) return -1;
-    
-    try {return Byte.parseByte(value);}
-    catch(NumberFormatException e) {
-      stdout.error("Failed to read file as 8bit signed integer");
-      return -1;
-    }
+    return numops.toByte(value);
   }
 
   public static ArrayList<String> readLines(String path) {
