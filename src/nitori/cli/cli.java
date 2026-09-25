@@ -78,13 +78,13 @@ class parser {
   static String getArgumentValue(String[] args, String... find_arg) {
     for (String arg : find_arg) {
       int i = findArgumentIndex(args, arg);
-      if (i == -1) {return null;}
+      if (i == -1) continue;
       if (!checkValue(args, i)) {
         stdout.error("The argument " + args[i] + " must be followed by a value!");
-        return null;
+        continue;
       }
       String value = args[i+1].trim();
-      if (value.isEmpty()) {return null;}
+      if (value.isEmpty()) continue;
       return value;
     }
     return null;
