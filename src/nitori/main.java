@@ -50,9 +50,11 @@ public class main {
 
     //Run the different tasks in parallel, they are not dependant on each other
     //Each task function returns a boolean telling whether the user tried to run it
-    final boolean[] ran_tasks = new boolean[7];
-    Thread[] t = new Thread[1];
+    final boolean[] ran_tasks = new boolean[3];
+    Thread[] t = new Thread[3];
     t[0] = new Thread(() -> {ran_tasks[0] = tasks_freebsd.runCPUTasks(args, info);});
+    t[1] = new Thread(() -> {ran_tasks[1] = tasks_freebsd.runBatteryTasks(args, info);});
+    t[2] = new Thread(() -> {ran_tasks[2] = tasks_freebsd.runMemoryTasks(args, info);});
     for (Thread thread : t) {thread.start();}
     for (Thread thread : t) {
       try{thread.join();}
