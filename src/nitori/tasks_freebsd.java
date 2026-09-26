@@ -23,11 +23,8 @@ class tasks_freebsd {
 
     int currentFreq = info.getCPUFrequency();
     String availableFreqs = info.getAvailableFrequencies();
-    if (currentFreq != -1) {
-      if (set_freq) cpu.setClockSpeed(cpu_freq, currentFreq, availableFreqs);
-      else if (reset) cpu.resetClockSpeed(info);
-    }
-    else stdout.error("CPU frequency control is not available on this system!");
+    if (set_freq) cpu.setClockSpeed(cpu_freq, currentFreq, availableFreqs);
+    else if (reset) cpu.resetClockSpeed(info, currentFreq);
     
     if (display_info) {
       stdout.print(

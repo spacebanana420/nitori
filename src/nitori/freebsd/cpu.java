@@ -8,6 +8,7 @@ import nitori.io.process;
 public class cpu {
   public static void setClockSpeed(int speed, int currentSpeed, String availableFrequencies) {
     if (!platform.isRoot()) {platform.printRootError_cpu(); return;}
+    if (currentSpeed == -1) {stdout.error("CPU frequency control is not available on this system!"); return;}
     if (speed == currentSpeed) {
       stdout.print("The specified clock speed of "+speed+" MHz is the same as the current CPU speed, skipping.");
       return;
@@ -23,7 +24,8 @@ public class cpu {
   }
 
   //Sets clock speed to highest supported value
-  public static void resetClockSpeed(SystemInfo info) {
+  public static void resetClockSpeed(SystemInfo info, int currentSpeed) {
+    if (currentSpeed == -1) {stdout.error("CPU frequency control is not available on this system!"); return;}
     if (!platform.isRoot()) {platform.printRootError_cpu(); return;}
     String speed = info.getHighestFrequency();
     Process p = process.exec("sysctl", "dev.cpu.0.freq="+speed);
