@@ -15,7 +15,7 @@ public class cli {
     return new int[]{min, max};
   }
 
-  public static int cpuFrequency(String[] args) {return parser.getArgumentInt(args, "-cfreq", "--cpu-freq");}
+  public static int cpuFrequency(String[] args) {return parser.getArgumentInt(args, "-cf", "--cpu-freq");}
   
   public static String cpuGovernor(String[] args) {return parser.getArgumentValue(args, "-cg", "--cpu-governor");}
   public static String cpuEnergy(String[] args) {return parser.getArgumentValue(args, "-ce", "--cpu-energy-preference");}
