@@ -5,6 +5,8 @@ import nitori.io.stdout;
 
 //Read the CLI, obtain the presence or values of a CLI argument
 public class cli {
+  public static boolean usedAnyArgument = false; //If Nitori parsed any valid argument, this will let main() know so it doesn't print the help screen
+  
   public static boolean askedForHelp(String[] args) {return parser.hasArgument(args, "-h", "--help");}
   
   public static int[] cpuFrequencies(String[] args) {
@@ -62,7 +64,7 @@ public class cli {
 class parser {
   static int findArgumentIndex(String[] args, String find_arg) {
     for (int i = 0; i < args.length; i++) {
-      if (args[i].equals(find_arg)) {return i;}
+      if (args[i].equals(find_arg)) {cli.usedAnyArgument = true; return i;}
     }
     return -1;
   }
@@ -70,7 +72,7 @@ class parser {
   static boolean hasArgument(String[] args, String... find_arg) {
     for (String arg : find_arg) {
       int i = findArgumentIndex(args, arg);
-      if (i != -1) {return true;}
+      if (i != -1) return true;
     }
     return false;
   }

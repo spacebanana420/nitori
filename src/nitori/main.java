@@ -16,8 +16,9 @@ public class main {
       platform.printPlatformError();
       return;
     }
-    boolean ranAnyTask = isLinux ? runTasks_linux(args) : runTasks_freebsd(args);
-    if (!ranAnyTask) help.printSmallHelp();
+    if (isLinux) runTasks_linux(args);
+    else runTasks_freebsd(args);
+    if (!cli.usedAnyArgument) help.printSmallHelp();
   }
   
   private static boolean runTasks_linux(String[] args) {
