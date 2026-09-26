@@ -40,6 +40,29 @@ class tasks_freebsd {
     return true;
   }
 
+  static boolean runBatteryTasks(String[] args, SystemInfo info) {
+    boolean displayInfo = cli.batteryInfo(args);
+    String batteryState = info.getBatteryState();
+    int batteryPercentage = info.getBatteryPercentage();
+    boolean hasBattery = batteryState != null && batteryPercentage != -1;
+
+    
+    if (!displayInfo) return false;
+    if (!hasBattery) {
+      stdout.error("No hardware battery was found!");
+      return true;
+    }
+
+    String percentage_str = batteryPercentage != -1 ? ""+batteryPercentage : "N/A";
+    String state_str = batteryState != null ? batteryState : "N/A";
+    stdout.print(
+      "[Battery Specifications]"
+      + "\n * Charge percentage: " + percentage_str
+      + "\n * Charge state: " + state_str
+    );
+    return true;
+  }
+
   //Unfinished, unit needs to be converted or checked if it's correct
   static boolean runMemoryTasks(String[] args, SystemInfo info) {
     if (!cli.memoryInfo(args)) return false;

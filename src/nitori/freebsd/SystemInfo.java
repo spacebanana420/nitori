@@ -17,7 +17,7 @@ public class SystemInfo {
   //Laptop screen and battery
   private int screenBrightness = -1;
   private int batteryPercentage = -1;
-  private int batteryState = -1;
+  private String batteryState = null;
   //private String[] suspendStates = null;
   //private int processCount = -1;
 
@@ -127,8 +127,8 @@ public class SystemInfo {
     return this.batteryPercentage;
   }
 
-  public int getBatteryState() {
-    if (this.batteryState == -1) this.batteryState = retrieveInt(this.osInfo, "hw.acpi.battery.state");
+  public String getBatteryState() {
+    if (this.batteryState == null) this.batteryState = retrieveValue(this.osInfo, "hw.acpi.battery.state");
     return this.batteryState;
   }
 
